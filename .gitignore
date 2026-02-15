@@ -27,3 +27,20 @@ Thumbs.db
 .aios-core/local/
 .claude/settings.local.json
 .aios/install-log.txt
+.aios/project-status.yaml
+.aios/environment-report.yaml
+.aios/environment-report.json
+
+# Build outputs
+.next/
+out/
+.pnpm-store/
+
+# Testing
+coverage/
+.nyc_output/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
