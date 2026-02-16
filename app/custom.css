@@ -1,10 +1,10 @@
-/* Hide LocaleSwitch from sidebar footer (desktop) */
+/* Hide LocaleSwitch from sidebar footer (desktop and mobile) */
 .nextra-sidebar-footer > :first-child {
   display: none !important;
 }
 
-/* Hide LocaleSwitch from mobile sidebar (bottom of complementary) */
-complementary button[aria-haspopup="listbox"] {
+/* Hide LocaleSwitch from mobile sidebar specifically */
+.nextra-mobile-nav .nextra-sidebar-footer button[aria-haspopup="listbox"] {
   display: none !important;
 }
 
