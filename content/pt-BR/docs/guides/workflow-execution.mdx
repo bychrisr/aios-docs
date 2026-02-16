@@ -1,0 +1,57 @@
+# Execução de Workflows
+
+Como os workflows do AIOS orquestram o desenvolvimento multi-agente.
+
+## Princípio Central
+
+Workflows são compostos por **tarefas conectadas**, e não por agentes. Cada tarefa define entradas, saídas, pré/pós-condições e modos de execução. Os agentes são os executores padrão.
+
+## Workflows Disponíveis
+
+| Workflow | Propósito |
+|----------|-----------|
+| Story Development Cycle | Workflow principal de desenvolvimento |
+| QA Loop | Ciclo iterativo de revisão e correção |
+| Spec Pipeline | Requisitos → especificação executável |
+| Brownfield Discovery | Avaliação de codebase legado |
+
+## Seleção de Workflow
+
+| Situação | Workflow |
+|----------|----------|
+| Nova story a partir de um epic | Story Development Cycle |
+| QA encontrou problemas | QA Loop |
+| Feature complexa precisa de spec | Spec Pipeline → SDC |
+| Entrando em projeto existente | Brownfield Discovery |
+| Correção simples de bug | SDC (modo YOLO) |
+
+## Modos de Execução
+
+### Modo Guiado
+Troca manual de persona entre agentes. O orquestrador indica qual agente ativar em seguida.
+
+### Modo Engine
+Spawn real de subagentes — agentes são despachados automaticamente em sequência.
+
+## Iniciando um Workflow
+
+```
+@aios-master
+> *workflow greenfield-fullstack
+```
+
+Ou para workflows específicos:
+
+```
+> *workflow story-development-cycle
+> *workflow brownfield-discovery
+```
+
+## Configuração de Workflows
+
+Os workflows são definidos como arquivos YAML em `.aios-core/development/workflows/`. Cada workflow especifica:
+
+- **Fases** com etapas sequenciais
+- **Atribuições de agentes** por etapa
+- **Artefatos** produzidos em cada fase
+- **Condições de gate** para progressão

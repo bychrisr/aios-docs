@@ -1,0 +1,64 @@
+# Gestão de Crises (War Room)
+
+Procedimentos para lidar com problemas críticos em produção.
+
+## Condições de Acionamento
+
+- Produção fora do ar ou severamente degradada
+- Perda de dados ou violação de segurança
+- Função crítica de negócio indisponível
+
+## Protocolo de War Room
+
+### 1. Reunir
+
+Ative os agentes-chave:
+```
+@devops  — Infraestrutura e deploy
+@dev     — Investigação de código e correções
+@qa      — Verificação e testes de regressão
+```
+
+### 2. Triagem
+
+1. Identifique o sintoma (o que os usuários veem)
+2. Verifique deploys recentes (`git log --oneline -10`)
+3. Verifique o status da infraestrutura
+4. Verifique o status de serviços externos
+
+### 3. Contenção
+
+Opções (em ordem de preferência):
+1. **Rollback** — Reverter para o último deploy estável conhecido
+2. **Feature Flag** — Desativar a funcionalidade problemática
+3. **Hotfix** — Alteração mínima de código para restaurar o serviço
+
+### 4. Correção
+
+```
+@dev *develop hotfix-{issue}
+```
+
+Use o modo YOLO para velocidade. Pule a criação de story para problemas P0.
+
+### 5. Verificar
+
+```
+@qa *qa-gate
+```
+
+Garanta que a correção resolve o problema sem regressões.
+
+### 6. Deploy
+
+```
+@devops *push --expedite
+```
+
+### 7. Post-Mortem
+
+Após a resolução:
+1. Documente a linha do tempo dos eventos
+2. Identifique a causa raiz
+3. Crie stories preventivas
+4. Atualize monitoramento/alertas

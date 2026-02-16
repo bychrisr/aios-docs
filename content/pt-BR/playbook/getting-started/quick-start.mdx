@@ -1,0 +1,68 @@
+# Guia de Início Rápido
+
+Comece a usar o AIOS em minutos.
+
+## Passo 1: Inicializar o AIOS
+
+Na raiz do seu projeto:
+
+```bash
+npx @synkra/aios-cli init
+```
+
+Isso configura o diretório `.aios-core/` com todos os arquivos do framework.
+
+## Passo 2: Ativar Seu Primeiro Agente
+
+No Claude Code (ou sua IDE de IA), digite:
+
+```
+@dev
+```
+
+Isso ativa o agente Desenvolvedor (Dex) com todas as capacidades de desenvolvimento.
+
+## Passo 3: Executar Seu Primeiro Comando
+
+```
+*help
+```
+
+Mostra todos os comandos disponíveis para o agente ativo.
+
+## Passo 4: Criar Sua Primeira Story
+
+Ative o Scrum Master:
+
+```
+@sm *draft
+```
+
+Siga os prompts interativos para criar sua primeira story de desenvolvimento.
+
+## Passo 5: Começar a Desenvolver
+
+Com uma story criada e validada:
+
+```
+@dev *develop story-1.1
+```
+
+O agente desenvolvedor vai guiá-lo durante a implementação.
+
+## Comandos Essenciais
+
+| Comando | Agente | Descrição |
+|---------|--------|-----------|
+| `*help` | Qualquer | Mostrar comandos disponíveis |
+| `*draft` | @sm | Criar uma nova story |
+| `*validate-story-draft` | @po | Validar uma story |
+| `*develop` | @dev | Começar a implementar uma story |
+| `*qa-gate` | @qa | Executar verificações de qualidade |
+| `*push` | @devops | Enviar alterações para o remoto |
+
+## Próximos Passos
+
+- Complete o [onboarding de 60 minutos](/playbook/getting-started/onboarding-60min)
+- Conheça os [Fluxos de Trabalho](/playbook/workflows)
+- Explore a [Referência de Comandos](/playbook/commands)

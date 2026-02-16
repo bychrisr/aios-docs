@@ -1,0 +1,76 @@
+# Desenvolvimento de Stories
+
+Um guia completo do processo de desenvolvimento orientado a stories no AIOS.
+
+## Ciclo de Vida da Story
+
+As stories seguem uma progressão estrita de status:
+
+```
+Draft → Ready → InProgress → InReview → Done
+```
+
+| Status | Agente | Gatilho |
+|--------|--------|---------|
+| Draft | @sm | Story criada |
+| Ready | @po | Validação aprovada (GO) |
+| InProgress | @dev | Implementação iniciada |
+| InReview | @qa | Revisão no QA gate |
+| Done | @devops | Push para o remoto |
+
+## Fase 1: Criar (@sm)
+
+O Scrum Master rascunha stories a partir de epics usando o comando `*draft`.
+
+**Saída:** `{epicNum}.{storyNum}.story.md`
+
+## Fase 2: Validar (@po)
+
+O Product Owner valida usando um checklist de 10 pontos:
+
+1. Título claro e objetivo
+2. Descrição completa
+3. Critérios de aceitação testáveis
+4. Escopo bem definido (DENTRO/FORA)
+5. Dependências mapeadas
+6. Estimativa de complexidade
+7. Valor de negócio definido
+8. Riscos documentados
+9. Critérios de Done
+10. Alinhamento com PRD/Epic
+
+**Decisão:** GO (>=7/10) ou NO-GO
+
+## Fase 3: Implementar (@dev)
+
+Três modos de execução:
+
+- **YOLO** — Autônomo, prompts mínimos
+- **Interactive** — Padrão, checkpoints educativos
+- **Pre-Flight** — Todas as perguntas antecipadas, depois execução
+
+## Fase 4: QA Gate (@qa)
+
+Sete verificações de qualidade:
+
+1. Revisão de código
+2. Testes unitários
+3. Critérios de aceitação atendidos
+4. Sem regressões
+5. Performance aceitável
+6. Segurança verificada
+7. Documentação atualizada
+
+**Vereditos:** PASS | CONCERNS | FAIL | WAIVED
+
+## Estrutura do Arquivo de Story
+
+```
+docs/stories/
+├── {epicNum}.{storyNum}.story.md
+└── {epicNum}.{storyNum}/
+    ├── spec/
+    │   └── spec.md
+    └── plan/
+        └── implementation.yaml
+```

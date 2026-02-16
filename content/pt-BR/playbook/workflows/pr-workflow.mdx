@@ -1,0 +1,41 @@
+# Fluxo Padrão de PR
+
+O fluxo padrão de pull request em projetos AIOS.
+
+## Criando um PR
+
+Após o desenvolvimento e a aprovação no QA gate:
+
+```
+@devops *push
+```
+
+O agente DevOps cuida de:
+1. Criar a branch de feature (se ainda não estiver em uma)
+2. Enviar para o remoto
+3. Criar o pull request com a descrição adequada
+
+## Checklist do PR
+
+- [ ] Todos os critérios de aceitação atendidos
+- [ ] Testes passando
+- [ ] Lint limpo
+- [ ] QA gate aprovado
+- [ ] Arquivo de story atualizado com a Lista de Arquivos
+- [ ] Nenhum segredo ou credencial commitado
+
+## Code Review
+
+O AIOS integra com o CodeRabbit para revisão automatizada:
+
+- Achados **CRITICAL**: Devem ser corrigidos antes do merge
+- Achados **HIGH**: Corrigir ou documentar como dívida técnica
+- Achados **MEDIUM**: Documentar como dívida técnica
+- Achados **LOW**: Opcional
+
+## Merge
+
+Após a aprovação:
+```
+@devops *merge
+```

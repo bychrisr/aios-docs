@@ -1,0 +1,48 @@
+# Loop de QA
+
+Ciclo automatizado de revisão e correção para melhoria iterativa de qualidade.
+
+## Visão Geral
+
+O QA Loop é executado após o QA gate inicial quando problemas são encontrados. Ele automatiza a troca entre revisão do QA e correções do desenvolvedor.
+
+```
+@qa review → veredito → @dev correções → re-revisão (máximo 5 iterações)
+```
+
+## Comandos
+
+| Comando | Descrição |
+|---------|-----------|
+| `*qa-loop {storyId}` | Iniciar o QA loop |
+| `*qa-loop-review` | Retomar a partir da revisão |
+| `*qa-loop-fix` | Retomar a partir da correção |
+| `*stop-qa-loop` | Pausar e salvar estado |
+| `*resume-qa-loop` | Retomar a partir do estado salvo |
+| `*escalate-qa-loop` | Forçar escalação |
+
+## Vereditos
+
+| Veredito | Ação |
+|----------|------|
+| APPROVE | Concluir, marcar story como Done |
+| REJECT | @dev corrige, depois re-revisão |
+| BLOCKED | Escalar imediatamente |
+
+## Configuração
+
+- **Máximo de iterações:** 5
+- **Rastreamento de status:** `qa/loop-status.json`
+
+## Gatilhos de Escalação
+
+O loop escala automaticamente quando:
+
+- Máximo de iterações atingido (padrão: 5)
+- Veredito é BLOCKED
+- Tentativa de correção falha
+- Escalação manual via `*escalate-qa-loop`
+
+## Integração com CodeRabbit
+
+Durante o QA Loop, o CodeRabbit opera em modo completo com até 3 iterações de self-healing. Problemas de severidade CRITICAL e HIGH disparam correções automáticas antes da análise manual de QA.

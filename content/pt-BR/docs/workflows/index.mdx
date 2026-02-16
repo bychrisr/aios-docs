@@ -1,0 +1,27 @@
+# Fluxos de Trabalho
+
+O AIOS disponibiliza 4 workflows principais que orquestram o desenvolvimento desde os requisitos até o deploy.
+
+## Workflows Principais
+
+### 1. [Story Development Cycle (SDC)](/docs/workflows/story-development-cycle)
+O workflow principal de desenvolvimento: Criar → Validar → Implementar → QA Gate.
+
+### 2. [QA Loop](/docs/workflows/qa-loop)
+Ciclo iterativo de revisão e correção após o QA gate inicial (máximo 5 iterações).
+
+### 3. [Spec Pipeline](/docs/workflows/spec-pipeline)
+Transformar requisitos informais em especificações executáveis.
+
+### 4. Brownfield Discovery
+Avaliação de débito técnico em 10 fases para codebases existentes.
+
+## Guia de Seleção de Workflow
+
+| Situação | Workflow |
+|----------|----------|
+| Nova story a partir de um epic | Story Development Cycle |
+| QA encontrou problemas | QA Loop |
+| Feature complexa precisa de spec | Spec Pipeline → SDC |
+| Entrando em projeto existente | Brownfield Discovery |
+| Correção simples de bug | SDC (modo YOLO) |

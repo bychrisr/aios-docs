@@ -1,0 +1,48 @@
+# Onboarding em 60 Minutos
+
+Um passo a passo estruturado para se tornar produtivo com o AIOS em uma hora.
+
+## Fase 1: Configuração (10 min)
+
+1. Certifique-se de ter Node.js 18+, Git e GitHub CLI instalados
+2. Inicialize o AIOS no seu projeto: `npx @synkra/aios-cli init`
+3. Verifique se o diretório `.aios-core/` foi criado
+4. Abra sua IDE de IA (Claude Code recomendado)
+
+## Fase 2: Exploração dos Agentes (15 min)
+
+1. Ative cada agente principal e execute `*help`:
+   - `@dev *help` — Comandos de desenvolvimento
+   - `@architect *help` — Comandos de arquitetura
+   - `@sm *help` — Comandos de gestão de stories
+   - `@qa *help` — Comandos de garantia de qualidade
+
+2. Entenda os limites dos agentes:
+   - @dev pode fazer commit mas não pode fazer push
+   - @devops cuida de todas as operações de push/deploy
+   - @po valida stories, @sm as cria
+
+## Fase 3: Criar uma Story (15 min)
+
+1. `@sm *draft` — Crie sua primeira story
+2. `@po *validate-story-draft` — Valide a story
+3. Revise o arquivo de story gerado em `docs/stories/`
+
+## Fase 4: Implementar (15 min)
+
+1. `@dev *develop {story-id}` — Inicie a implementação
+2. Siga o fluxo interativo de desenvolvimento
+3. `@qa *qa-gate` — Execute as verificações de qualidade
+
+## Fase 5: Revisar e Entregar (5 min)
+
+1. Revise as alterações com `git diff`
+2. `@devops *push` — Envie para o remoto
+
+## Parabéns!
+
+Você completou o onboarding do AIOS. Continue aprendendo:
+
+- [Fluxos de Trabalho](/playbook/workflows) — Planejamento de sprint, fluxo de PR
+- [Comandos](/playbook/commands) — Referência completa de comandos
+- [Trilhas por Perfil](/playbook/trails) — Caminhos de aprendizado por papel

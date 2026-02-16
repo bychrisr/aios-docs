@@ -7,5 +7,9 @@ const withNextra = nextra({
 })
 
 export default withNextra({
-  reactStrictMode: true
+  reactStrictMode: true,
+  i18n: {
+    locales: ['pt-BR', 'en'],
+    defaultLocale: 'pt-BR'
+  }
 })

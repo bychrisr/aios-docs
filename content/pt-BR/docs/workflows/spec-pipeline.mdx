@@ -1,0 +1,48 @@
+# Pipeline de Especificação
+
+Transforme requisitos informais em especificações executáveis.
+
+## Visão Geral
+
+O Spec Pipeline é um workflow multifásico para features complexas que precisam de especificação formal antes da implementação. Ele produz specs validadas com planos de implementação.
+
+## Fases
+
+| Fase | Agente | Saída | Pular Se |
+|------|--------|-------|----------|
+| 1. Coleta | @pm | `requirements.json` | Nunca |
+| 2. Avaliação | @architect | `complexity.json` | source=simple |
+| 3. Pesquisa | @analyst | `research.json` | Classe SIMPLE |
+| 4. Escrita da Spec | @pm | `spec.md` | Nunca |
+| 5. Crítica | @qa | `critique.json` | Nunca |
+| 6. Planejamento | @architect | `implementation.yaml` | Se APPROVED |
+
+## Classes de Complexidade
+
+| Pontuação | Classe | Fases Utilizadas |
+|-----------|--------|------------------|
+| ≤ 8 | SIMPLE | coleta → spec → crítica (3) |
+| 9-15 | STANDARD | Todas as 6 fases |
+| ≥ 16 | COMPLEX | 6 fases + ciclo de revisão |
+
+## Dimensões de Complexidade
+
+Cinco dimensões pontuadas de 1 a 5:
+
+1. **Escopo** — Arquivos afetados
+2. **Integração** — APIs externas
+3. **Infraestrutura** — Mudanças necessárias
+4. **Conhecimento** — Familiaridade da equipe
+5. **Risco** — Nível de criticidade
+
+## Vereditos da Crítica
+
+| Veredito | Pontuação Média | Próximo Passo |
+|----------|-----------------|---------------|
+| APPROVED | ≥ 4.0 | Planejamento (Fase 6) |
+| NEEDS_REVISION | 3.0-3.9 | Revisão (Fase 5b) |
+| BLOCKED | {'<'} 3.0 | Escalar para @architect |
+
+## Gate Constitucional
+
+**Artigo IV — Proibição de Invenção:** Toda afirmação no `spec.md` DEVE ser rastreável a FR-\*, NFR-\*, CON-\* ou a uma descoberta de pesquisa. Nenhuma feature inventada é permitida.

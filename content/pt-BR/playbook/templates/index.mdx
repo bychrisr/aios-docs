@@ -1,0 +1,24 @@
+# Modelos
+
+Modelos prontos para uso no desenvolvimento com AIOS.
+
+## Modelos Disponíveis
+
+| Modelo | Comando | Agente |
+|--------|---------|--------|
+| Story | `@sm *draft` | @sm |
+| PRD | `@pm *create-doc` | @pm |
+| Arquitetura | `@architect *create-full-stack-architecture` | @architect |
+| Execução de Epic | `@pm *create-epic` | @pm |
+| Relatório de QA Gate | `@qa *qa-gate` | @qa |
+
+## Localização dos Modelos
+
+Os modelos ficam armazenados em `.aios-core/product/templates/` e são carregados automaticamente pelos comandos do agente correspondente.
+
+## Modelos Personalizados
+
+Para criar um modelo personalizado:
+1. Copie um modelo existente de `.aios-core/product/templates/`
+2. Modifique a estrutura YAML e as seções
+3. Referencie-o no comando do agente apropriado
