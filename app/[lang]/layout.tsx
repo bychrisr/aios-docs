@@ -6,6 +6,7 @@ const footer = (
   <Footer>MIT {new Date().getFullYear()} © Synkra AI</Footer>
 )
 
+
 const subtitles: Record<string, string> = {
   'pt-BR': 'Framework Universal de Agentes IA',
   en: 'Universal AI Agent Framework',
@@ -52,9 +53,9 @@ export default async function LangLayout({ children, params }: { children: React
           sidebar={{ defaultMenuCollapseLevel: 1 }}
           toc={{ title: tocTitles[lang] || 'On this page' }}
           i18n={[
-            { locale: 'pt-BR', name: 'Português' },
-            { locale: 'en', name: 'English' },
-            { locale: 'es', name: 'Español' }
+            { locale: 'pt-BR', name: 'PT-BR' },
+            { locale: 'en', name: 'EN' },
+            { locale: 'es', name: 'ES' }
           ]}
         >
           {children}

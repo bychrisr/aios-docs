@@ -1,0 +1,4 @@
+/* Hide LocaleSwitch from sidebar footer (kept in navbar only) */
+.nextra-sidebar-footer > :first-child {
+  display: none !important;
+}

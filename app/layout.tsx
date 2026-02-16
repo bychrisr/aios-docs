@@ -1,4 +1,5 @@
 import 'nextra-theme-docs/style.css'
+import './custom.css'
 
 export const metadata = {
   title: {
