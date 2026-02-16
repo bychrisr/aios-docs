@@ -1,0 +1,69 @@
+# Activación de Agentes
+
+Aprende cómo activar e interactuar con agentes de AIOS.
+
+## Sintaxis de Activación
+
+Los agentes se activan usando el patrón `@agent-name`:
+
+```
+@dev          — Agente Desarrollador (Dex)
+@qa           — Agente QA
+@architect    — Agente Arquitecto (Aria)
+@pm           — Gerente de Proyecto (Morgan)
+@po           — Propietario del Producto (Pax)
+@sm           — Maestro Scrum (River)
+@analyst      — Analista de Negocios (Atlas)
+@devops       — DevOps (Gage)
+@data-engineer — Ingeniero de Datos (Dara)
+@ux-design-expert — Diseñador UX (Uma)
+@aios-master  — Orquestador Maestro (Orion)
+```
+
+## Cómo Funciona
+
+1. Escribe `@agent-name` para activar la persona del agente
+2. El agente carga su configuración y te saluda
+3. Usa la sintaxis `*command` para ejecutar comandos específicos del agente
+4. Escribe `*exit` para desactivar el agente
+
+## Comandos Comunes
+
+Cada agente soporta estos comandos base:
+
+| Comando | Descripción |
+|---------|-------------|
+| `*help` | Mostrar todos los comandos disponibles |
+| `*guide` | Mostrar guía de uso completa |
+| `*session-info` | Detalles de la sesión actual |
+| `*yolo` | Alternar modo de permiso |
+| `*exit` | Salir del modo agente |
+
+## Sesión de Ejemplo
+
+```
+> @dev
+🛠️ Dex (Constructor) listo. ¡Vamos a construir!
+
+> *develop
+Iniciando desarrollo de historia...
+
+> *exit
+Saliendo del modo dev.
+```
+
+## Guía de Selección de Agentes
+
+| Necesidad | Agente |
+|-----------|--------|
+| Escribir código | @dev |
+| Revisar calidad del código | @qa |
+| Diseñar arquitectura | @architect |
+| Crear PRD/epics | @pm |
+| Validar historias | @po |
+| Redactar historias | @sm |
+| Investigación y análisis | @analyst |
+| Git push y lanzamientos | @devops |
+| Diseño de base de datos | @data-engineer |
+| Diseño UI/UX | @ux-design-expert |
+| Operaciones del marco | @aios-master |

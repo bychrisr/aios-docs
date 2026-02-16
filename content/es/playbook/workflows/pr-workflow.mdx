@@ -1,0 +1,41 @@
+# Flujo Estándar de PR
+
+El flujo estándar de pull request en proyectos AIOS.
+
+## Creando un PR
+
+Después del desarrollo y aprobación de QA:
+
+```
+@devops *push
+```
+
+El agente DevOps maneja:
+1. Crear la rama de feature (si no estás en una)
+2. Subir al remoto
+3. Crear el pull request con descripción apropiada
+
+## Lista de Verificación de PR
+
+- [ ] Todos los criterios de aceptación cumplidos
+- [ ] Pruebas pasando
+- [ ] Linting limpio
+- [ ] QA gate pasado
+- [ ] Archivo de historia actualizado con File List
+- [ ] Sin secretos o credenciales comprometidas
+
+## Revisión de Código
+
+AIOS se integra con CodeRabbit para revisión automatizada:
+
+- Hallazgos **CRITICAL**: Deben corregirse antes de merge
+- Hallazgos **HIGH**: Corregir o documentar como deuda técnica
+- Hallazgos **MEDIUM**: Documentar como deuda técnica
+- Hallazgos **LOW**: Opcional
+
+## Mergeando
+
+Después de la aprobación:
+```
+@devops *merge
+```

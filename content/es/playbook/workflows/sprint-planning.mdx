@@ -1,0 +1,44 @@
+# Planificación de Sprint (Semanal)
+
+Guía para planificar y ejecutar sprints semanales con AIOS.
+
+## Antes del Sprint
+
+1. Revisa el backlog: `@po` revisa historias priorizadas
+2. Selecciona historias para el sprint según capacidad
+3. Asegúrate de que todas las historias seleccionadas estén en estado `Ready`
+
+## Inicio de Sprint
+
+```
+@pm *execute-epic {epic-id}
+```
+
+Esto inicia el flujo de ejecución de épica, procesando historias en orden.
+
+## Durante el Sprint
+
+### Flujo Diario
+1. `@dev *develop {story-id}` — Toma la siguiente historia
+2. Implementa siguiendo los criterios de aceptación de la historia
+3. `@qa *qa-gate` — Ejecuta verificaciones de calidad
+4. `@devops *push` — Envía cuando esté aprobada
+
+### Manejo de Bloqueos
+- Si está bloqueada por una dependencia: `@sm` actualiza el estado de la historia
+- Si QA falla: `@qa *qa-loop` inicia ciclo de corrección iterativa
+- Si el alcance cambia: `@po *validate-story-draft` re-valida
+
+## Revisión de Sprint
+
+1. Revisa historias completadas vs. planificadas
+2. Ejecuta `@qa` verificación final en todo el trabajo completado
+3. Documenta aprendizajes en retrospectiva
+
+## Métricas a Rastrear
+
+| Métrica | Objetivo |
+|---------|----------|
+| Historias completadas | ≥ 80% de lo planificado |
+| Tasa de aprobación de QA (primer intento) | ≥ 70% |
+| Tiempo de ciclo por historia | Tendencia decreciente |

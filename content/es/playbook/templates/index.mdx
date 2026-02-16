@@ -1,0 +1,24 @@
+# Plantillas
+
+Plantillas listas para usar para desarrollo AIOS.
+
+## Plantillas Disponibles
+
+| Plantilla | Comando | Agente |
+|-----------|---------|--------|
+| Historia | `@sm *draft` | @sm |
+| PRD | `@pm *create-doc` | @pm |
+| Arquitectura | `@architect *create-full-stack-architecture` | @architect |
+| Ejecución de Épica | `@pm *create-epic` | @pm |
+| Reporte QA Gate | `@qa *qa-gate` | @qa |
+
+## Ubicación de Plantillas
+
+Las plantillas se almacenan en `.aios-core/product/templates/` y se cargan automáticamente por los comandos de agente relevantes.
+
+## Plantillas Personalizadas
+
+Para crear una plantilla personalizada:
+1. Copia una plantilla existente de `.aios-core/product/templates/`
+2. Modifica la estructura YAML y secciones
+3. Referencia en el comando de agente apropiado

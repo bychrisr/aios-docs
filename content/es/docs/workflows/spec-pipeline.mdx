@@ -1,0 +1,48 @@
+# Canalización de Especificaciones
+
+Transforma requisitos informales en especificaciones ejecutables.
+
+## Resumen
+
+La Canalización de Especificaciones es un flujo de trabajo de múltiples fases para características complejas que necesitan especificación formal antes de la implementación. Produce especificaciones validadas con planes de implementación.
+
+## Fases
+
+| Fase | Agente | Salida | Saltar Si |
+|------|--------|--------|-----------|
+| 1. Recopilar | @pm | `requirements.json` | Nunca |
+| 2. Evaluar | @architect | `complexity.json` | source=simple |
+| 3. Investigar | @analyst | `research.json` | clase SIMPLE |
+| 4. Escribir Spec | @pm | `spec.md` | Nunca |
+| 5. Crítica | @qa | `critique.json` | Nunca |
+| 6. Plan | @architect | `implementation.yaml` | Si APROBADO |
+
+## Clases de Complejidad
+
+| Puntuación | Clase | Fases Utilizadas |
+|-----------|-------|-----------------|
+| ≤ 8 | SIMPLE | recopilar → spec → crítica (3) |
+| 9-15 | ESTÁNDAR | Las 6 fases |
+| ≥ 16 | COMPLEJA | 6 fases + ciclo de revisión |
+
+## Dimensiones de Complejidad
+
+Cinco dimensiones puntuadas 1-5:
+
+1. **Alcance** — Archivos afectados
+2. **Integración** — APIs externas
+3. **Infraestructura** — Cambios necesarios
+4. **Conocimiento** — Familiaridad del equipo
+5. **Riesgo** — Nivel de criticidad
+
+## Veredictos de Crítica
+
+| Veredicto | Puntuación Promedio | Próximo Paso |
+|-----------|-------------------|------------|
+| APROBADO | ≥ 4.0 | Plan (Fase 6) |
+| NECESITA_REVISIÓN | 3.0-3.9 | Revisar (Fase 5b) |
+| BLOQUEADO | {'<'} 3.0 | Escalar a @architect |
+
+## Puerta Constitucional
+
+**Artículo IV — Sin Invención:** Toda declaración en `spec.md` DEBE rastrearse a FR-\*, NFR-\*, CON-\*, o a un hallazgo de investigación. No se permiten características inventadas.

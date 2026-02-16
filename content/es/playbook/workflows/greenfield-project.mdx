@@ -1,0 +1,48 @@
+# Proyecto Greenfield
+
+Comenzar un proyecto nuevo desde cero con AIOS.
+
+## Paso 1: Inicializa
+
+```bash
+mkdir my-project && cd my-project
+git init
+npx @synkra/aios-cli init
+```
+
+## Paso 2: Arquitectura
+
+```
+@architect *create-full-stack-architecture
+```
+
+Sigue el flujo de trabajo interactivo para definir:
+- Selección de tech stack
+- Estructura del proyecto
+- Estrategia de despliegue
+- Enfoque de testing
+
+## Paso 3: Planificación de Épicas
+
+```
+@pm *create-epic
+```
+
+Divide la arquitectura en épicas con historias.
+
+## Paso 4: Desarrollo de Historias
+
+Para cada historia en orden de prioridad:
+
+1. `@sm *draft` — Crea la historia
+2. `@po *validate-story-draft` — Valida (GO/NO-GO)
+3. `@dev *develop {story-id}` — Implementa
+4. `@qa *qa-gate` — Verificación de calidad
+5. `@devops *push` — Envía
+
+## Paso 5: Itera
+
+Continúa con historias, usando:
+- `*qa-loop` para correcciones iterativas
+- Planificación de sprint para cadencia semanal
+- Retrospectivas para mejora continua

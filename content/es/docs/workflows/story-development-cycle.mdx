@@ -1,0 +1,52 @@
+# Ciclo de Desarrollo de Historias
+
+El flujo de trabajo principal para todo el trabajo de desarrollo en AIOS.
+
+## Resumen
+
+El Ciclo de Desarrollo de Historias (SDC) es un flujo de trabajo de 4 fases que lleva una historia desde la creación hasta la validación, implementación y aseguramiento de calidad.
+
+```
+@sm Borrador → @po Validar → @dev Implementar → @qa Revisar
+```
+
+## Fase 1: Crear
+
+**Agente:** @sm (Maestro Scrum)
+
+- Crea historia a partir del contexto epic/PRD
+- Aplica plantilla de historia
+- Establece estado inicial en **Borrador**
+
+## Fase 2: Validar
+
+**Agente:** @po (Propietario del Producto)
+
+- Ejecuta lista de verificación de validación de 10 puntos
+- Verifica que los criterios de aceptación sean comprobables
+- Comprueba la alineación con PRD y epic
+- **Decisión:** OK (≥7/10) o NO OK
+- En OK: Estado cambia a **Listo**
+
+## Fase 3: Implementar
+
+**Agente:** @dev (Desarrollador)
+
+- Recoge historias **Listas**
+- Tres modos de ejecución: YOLO, Interactivo, Pre-Vuelo
+- Auto-cicatrización CodeRabbit (máx. 2 iteraciones)
+- Estado: Listo → **EnProgreso**
+- Al completar: Estado → **EnRevisión**
+
+## Fase 4: Puerta QA
+
+**Agente:** @qa (Ingeniero QA)
+
+- 7 controles de calidad (código, pruebas, CA, regresiones, rendim., seguridad, docs)
+- **Veredictos:** APROBADO, OBSERVACIONES, RECHAZO, DISPENSADO
+- APROBADO → @devops hace push, estado → **Completado**
+- RECHAZO → Vuelve a @dev a través del Bucle QA
+
+## Después de QA
+
+Si QA aprueba, la historia se entrega a @devops para git push y creación de PR. Si QA rechaza, el Bucle QA se activa para correcciones iterativas (máx. 5 iteraciones).

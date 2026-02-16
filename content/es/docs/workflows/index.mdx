@@ -1,0 +1,27 @@
+# Flujos de Trabajo
+
+AIOS proporciona 4 flujos de trabajo principales que orquestan el desarrollo desde requisitos hasta despliegue.
+
+## Flujos de Trabajo Principales
+
+### 1. [Ciclo de Desarrollo de Historias (SDC)](/docs/workflows/story-development-cycle)
+El flujo de trabajo de desarrollo principal: Crear → Validar → Implementar → Puerta QA.
+
+### 2. [Bucle QA](/docs/workflows/qa-loop)
+Ciclo iterativo de revisión-corrección después de la puerta QA inicial (máx. 5 iteraciones).
+
+### 3. [Canalización de Especificaciones](/docs/workflows/spec-pipeline)
+Transformar requisitos informales en especificaciones ejecutables.
+
+### 4. Descubrimiento Brownfield
+Evaluación de deuda técnica de 10 fases para codebases existentes.
+
+## Guía de Selección de Flujo de Trabajo
+
+| Situación | Flujo de Trabajo |
+|-----------|-----------------|
+| Nueva historia de epic | Ciclo de Desarrollo de Historias |
+| QA encontró problemas | Bucle QA |
+| Característica compleja necesita spec | Canalización de Especificaciones → SDC |
+| Unirse a proyecto existente | Descubrimiento Brownfield |
+| Corrección de error simple | SDC (modo YOLO) |

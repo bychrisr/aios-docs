@@ -1,0 +1,48 @@
+# Bucle QA
+
+Ciclo automatizado de revisión-corrección para mejora iterativa de calidad.
+
+## Resumen
+
+El Bucle QA se ejecuta después de la puerta QA inicial cuando se encuentran problemas. Automatiza el ir y venir entre la revisión QA y las correcciones del desarrollador.
+
+```
+@qa revisar → veredicto → @dev corregir → re-revisar (máx. 5 iteraciones)
+```
+
+## Comandos
+
+| Comando | Descripción |
+|---------|-------------|
+| `*qa-loop {storyId}` | Iniciar bucle QA |
+| `*qa-loop-review` | Reanudar desde revisión |
+| `*qa-loop-fix` | Reanudar desde corrección |
+| `*stop-qa-loop` | Pausar y guardar estado |
+| `*resume-qa-loop` | Reanudar desde estado guardado |
+| `*escalate-qa-loop` | Forzar escalada |
+
+## Veredictos
+
+| Veredicto | Acción |
+|-----------|--------|
+| APROBAR | Completar, marcar historia como Completada |
+| RECHAZAR | @dev corrige, luego re-revisar |
+| BLOQUEADO | Escalar inmediatamente |
+
+## Configuración
+
+- **Máx. iteraciones:** 5
+- **Seguimiento de estado:** `qa/loop-status.json`
+
+## Disparadores de Escalada
+
+El bucle se escala automáticamente cuando:
+
+- Se alcanza el máximo de iteraciones (por defecto: 5)
+- El veredicto es BLOQUEADO
+- Falla el intento de corrección
+- Escalada manual mediante `*escalate-qa-loop`
+
+## Integración de CodeRabbit
+
+Durante el Bucle QA, CodeRabbit se ejecuta en modo completo con hasta 3 iteraciones de auto-cicatrización. Los problemas de severidad CRÍTICA y ALTA desencadenan correcciones automáticas antes del análisis QA manual.

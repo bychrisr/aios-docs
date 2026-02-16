@@ -1,0 +1,47 @@
+# Primeros Pasos con AIOS
+
+Esta guía te acompaña a través de la configuración de Synkra AIOS en tu proyecto.
+
+## Requisitos Previos
+
+- Node.js 18+
+- Git
+- GitHub CLI (`gh`)
+
+## Instalación
+
+AIOS se inicializa en tu proyecto a través de la CLI de AIOS:
+
+```bash
+npx @synkra/aios-cli init
+```
+
+## Primeros Pasos
+
+1. **Activa un agente:** Usa la sintaxis `@agent-name` (p. ej., `@dev`, `@architect`)
+2. **Ejecuta un comando:** Usa el prefijo `*` (p. ej., `*help`, `*create-story`)
+3. **Sigue el flujo de trabajo:** Las historias se crean, validan, implementan y revisan
+
+## Sistema de Agentes
+
+AIOS proporciona 12 agentes especializados:
+
+| Agente | Rol | Activación |
+|--------|-----|------------|
+| @dev | Desarrollador | `@dev` |
+| @architect | Arquitecto del Sistema | `@architect` |
+| @pm | Gerente de Proyecto | `@pm` |
+| @po | Propietario del Producto | `@po` |
+| @sm | Maestro Scrum | `@sm` |
+| @qa | Aseguramiento de Calidad | `@qa` |
+| @analyst | Analista de Negocios | `@analyst` |
+| @devops | Ingeniero DevOps | `@devops` |
+| @data-engineer | Ingeniero de Datos | `@data-engineer` |
+| @ux-design-expert | Diseñador UX | `@ux-design-expert` |
+| @aios-master | Gobernador del Marco | `@aios-master` |
+
+## Próximos Pasos
+
+- Lee la [Guía de Activación de Agentes](/docs/guides/agent-activation)
+- Aprende sobre [Desarrollo de Historias](/docs/guides/story-development)
+- Explora el [Manual](/playbook) para guías prácticas

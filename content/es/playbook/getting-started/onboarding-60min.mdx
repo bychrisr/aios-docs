@@ -1,0 +1,48 @@
+# Incorporación en 60 Minutos
+
+Un recorrido estructurado para ser productivo con AIOS en una hora.
+
+## Fase 1: Configuración (10 min)
+
+1. Asegúrate de tener Node.js 18+, Git y GitHub CLI instalados
+2. Inicializa AIOS en tu proyecto: `npx @synkra/aios-cli init`
+3. Verifica que el directorio `.aios-core/` se haya creado
+4. Abre tu IDE de IA (Claude Code recomendado)
+
+## Fase 2: Exploración de Agentes (15 min)
+
+1. Activa cada agente clave y ejecuta `*help`:
+   - `@dev *help` — Comandos de Developer
+   - `@architect *help` — Comandos de Arquitectura
+   - `@sm *help` — Comandos de gestión de historias
+   - `@qa *help` — Comandos de aseguramiento de calidad
+
+2. Entiende los límites de los agentes:
+   - @dev puede hacer commit pero no puede hacer push
+   - @devops maneja todas las operaciones de push/deploy
+   - @po valida historias, @sm las crea
+
+## Fase 3: Crea una Historia (15 min)
+
+1. `@sm *draft` — Crea tu primera historia
+2. `@po *validate-story-draft` — Valida la historia
+3. Revisa el archivo de historia generado en `docs/stories/`
+
+## Fase 4: Implementación (15 min)
+
+1. `@dev *develop {story-id}` — Empieza la implementación
+2. Sigue el flujo de desarrollo interactivo
+3. `@qa *qa-gate` — Ejecuta verificaciones de calidad
+
+## Fase 5: Revisión y Entrega (5 min)
+
+1. Revisa cambios con `git diff`
+2. `@devops *push` — Sube al remoto
+
+## ¡Felicidades!
+
+Has completado la incorporación de AIOS. Continúa aprendiendo:
+
+- [Flujos de Trabajo](/playbook/workflows) — Planificación de sprint, flujo de PR
+- [Comandos](/playbook/commands) — Referencia completa de comandos
+- [Rutas por Perfil](/playbook/trails) — Rutas de aprendizaje específicas por rol

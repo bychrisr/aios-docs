@@ -1,0 +1,64 @@
+# Gestión de Crisis (Sala de Guerra)
+
+Procedimientos para manejar problemas críticos en producción.
+
+## Condiciones de Disparo
+
+- Producción caída o severamente degradada
+- Pérdida de datos o brecha de seguridad
+- Función comercial crítica no disponible
+
+## Protocolo de Sala de Guerra
+
+### 1. Asamblea
+
+Activa agentes clave:
+```
+@devops  — Infraestructura y despliegue
+@dev     — Investigación de código y correcciones
+@qa      — Verificación y testing de regresión
+```
+
+### 2. Triaje
+
+1. Identifica el síntoma (qué ven los usuarios)
+2. Revisa deployments recientes (`git log --oneline -10`)
+3. Revisa estado de infraestructura
+4. Revisa estado de servicios externos
+
+### 3. Contención
+
+Opciones (en orden de preferencia):
+1. **Rollback** — Revierte al último deployment conocido como bueno
+2. **Feature Flag** — Desactiva feature problemática
+3. **Hotfix** — Cambio de código mínimo para restaurar servicio
+
+### 4. Corrige
+
+```
+@dev *develop hotfix-{issue}
+```
+
+Usa modo YOLO para velocidad. Salta creación de historia para issues P0.
+
+### 5. Verifica
+
+```
+@qa *qa-gate
+```
+
+Asegúrate de que la corrección resuelve el problema sin regresiones.
+
+### 6. Despliega
+
+```
+@devops *push --expedite
+```
+
+### 7. Post-Mortem
+
+Después de la resolución:
+1. Documenta línea de tiempo de eventos
+2. Identifica causa raíz
+3. Crea historias preventivas
+4. Actualiza monitoreo/alertas
