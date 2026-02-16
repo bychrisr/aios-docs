@@ -2,3 +2,51 @@
 .nextra-sidebar-footer > :first-child {
   display: none !important;
 }
+
+/* Mobile responsive fixes */
+@media (max-width: 767px) {
+  /* Hide sidebar by default on mobile */
+  aside[role="complementary"] {
+    position: fixed !important;
+    left: -100% !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    z-index: 1000 !important;
+    transition: left 0.3s ease !important;
+  }
+
+  /* Show sidebar when menu is open (data-shown attribute added by Nextra) */
+  aside[role="complementary"][data-shown="true"] {
+    left: 0 !important;
+  }
+
+  /* Add overlay when sidebar is open */
+  body:has(aside[role="complementary"][data-shown="true"])::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+
+  /* Ensure main content takes full width on mobile */
+  article {
+    max-width: 100% !important;
+    margin-left: 0 !important;
+  }
+
+  /* Stack footer text vertically on mobile */
+  footer div {
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+    text-align: center !important;
+  }
+
+  footer p {
+    margin: 0.25rem 0 !important;
+    font-size: 0.8rem !important;
+  }
+}
