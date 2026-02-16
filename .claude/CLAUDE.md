@@ -73,7 +73,8 @@ Each locale directory (`content/{locale}/`) mirrors the same structure (29 MDX f
 | `middleware.ts` | `export { proxy as middleware } from 'nextra/locales'` |
 | `next.config.mjs` | Nextra config (`search: true`, `latex: true`) + i18n locales + redirects |
 | `vercel.json` | Vercel deployment config with security headers and Pagefind buildCommand |
-| `app/custom.css` | Mobile responsive fixes: icon-only buttons, hidden subtitle, sidebar LocaleSwitch removal, footer stacking |
+| `app/custom.css` | Mobile responsive fixes + Design system tokens (typography, gold accent, spacing) |
+| `docs/design/design-council-alan-ds-adaptation.md` | Design Council transcript (Brad Frost, Don Norman, Julie Zhuo) — Alan DS visual adaptation strategy |
 
 ## Common Commands
 
@@ -175,6 +176,112 @@ All pages include attribution to **@bychrisr** in:
 - README.md: Credits section with creation date
 - About pages: All 3 locales (pt-BR, en, es)
 
+## Design System Strategy
+
+**Design Council Decision (2026-02-16):**
+Consulted with Brad Frost (Design Systems), Don Norman (UX), and Julie Zhuo (Design Leadership) via Kaven Design Council workflow. Full transcript: `docs/design/design-council-alan-ds-adaptation.md`
+
+### Design Philosophy
+
+**Influenced by Alan DS (Lendária Design System):**
+- **Luxury Minimalism:** Primary color usage ≤8%, generous whitespace
+- **Typography hierarchy:** Multi-font system for different content types
+- **Dark-optional:** Light-first for documentation readability, dark mode as user choice
+- **Token-based:** CSS variables for consistency and maintainability
+
+**Core Principle:** "Token extraction, not component port" — adopt design tokens selectively while maintaining Nextra's docs-first UX.
+
+### 3-Tier Implementation Strategy
+
+#### ✅ Tier 1: ADOPTED (Safe, High Value)
+
+**Typography System:**
+```css
+:root {
+  --font-sans: 'Inter', -apple-system, sans-serif;           /* UI elements */
+  --font-serif: 'Source Serif 4', serif;                     /* Body text (better reading) */
+  --font-mono: 'JetBrains Mono', monospace;                  /* Code blocks */
+  --font-display: 'Rajdhani', sans-serif;                    /* Hero sections (use sparingly) */
+}
+```
+
+**Color System (Gold Accent):**
+```css
+:root {
+  --primary: 32 27% 69%;        /* #C9B298 Gold from Alan DS */
+  --primary-dark: 33 27% 50%;   /* Darker gold for hover */
+}
+/* Applied to: links, CTAs, active nav items (≤8% total usage) */
+```
+
+**Spacing Tokens (4px base unit):**
+```css
+:root {
+  --space-4: 1rem;   /* 16px */
+  --space-6: 1.5rem; /* 24px */
+  --space-8: 2rem;   /* 32px */
+}
+```
+
+#### ⚠️ Tier 2: TEST BEFORE ROLLOUT (Validate with Users)
+
+**Shadow Tokens:**
+```css
+:root {
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+}
+/* Applied to: sidebar, cards, elevated components */
+```
+
+**Dark Mode:**
+- User toggle in navbar (opt-in, not default)
+- Preserves light-first reading convention
+- Validate usage metrics after 2 weeks
+
+**Border Radius:**
+- Subtle rounding for cards, code blocks, buttons
+- Test for visual coherence with Nextra's aesthetic
+
+#### ❌ Tier 3: AVOID (High Risk, Low Value)
+
+1. ❌ **Porting Alan DS's 60 React components** — Wrong tool for documentation
+2. ❌ **Dark-first as default** — Cognitive friction for long-form reading
+3. ❌ **Heavy animations** — Distracting for text consumption
+4. ❌ **Rajdhani for body text** — Too aggressive for documentation
+5. ❌ **Copying entire tailwind.config.ts** — Over-engineering
+
+### Design Validation
+
+**Before deploying Tier 2 changes:**
+1. **5-Second Test:** Show screenshots to 10 developers, ask "What is this?"
+   - Expected: "Documentation" (not "App")
+2. **Metrics:** Measure bounce rate, time-to-find, user feedback
+3. **Rollback Plan:** Changes isolated in `custom.css`, revert in <5 minutes
+
+**Success Criteria:**
+- Visual impact: 7/10 (elevated feel without breaking docs UX)
+- Risk: 2/10 (CSS-only, no JS, no structural changes)
+- Maintenance: Near zero (CSS variables)
+- Performance: Bundle size increase <5%
+
+### What Makes This Different From Alan DS
+
+| Aspect | Alan DS (SPA) | aios-docs (SSG) |
+|--------|---------------|----------------|
+| **Purpose** | Interactive web application | Technical documentation |
+| **Interaction** | Click-heavy | Scroll-heavy reading |
+| **Visual hierarchy** | Color-driven | Typography-driven |
+| **Background** | Dark-first (UI focus) | Light-first (reading focus) |
+| **Components** | 60 React components | Markdown content + Nextra primitives |
+| **Whitespace** | Guides action | Improves scannability |
+
+**Key Insight (Brad Frost):** "This is a TOKEN EXTRACTION problem, not a COMPONENT PORT problem."
+
+**Key Insight (Don Norman):** "Selectively adopt 5-6 tokens, maintain docs-first UX principles. The goal is 'elevated documentation,' not 'documentation disguised as an app.'"
+
+**Key Insight (Julie Zhuo):** "Define the user problem first. For documentation, 'helpful' beats 'beautiful' every time."
+
 ## MDX Gotchas
 
 - **Never use `<=` or `>=` in MDX** — use `≤` and `≥` (unicode) instead
@@ -237,5 +344,5 @@ After changes, always verify:
 3. All 3 locales have matching file structures (29 MDX files each)
 
 ---
-*Synkra AIOS Docs — Claude Code Configuration v3.2*
-*Last Updated: 2026-02-16 — Mobile UX optimizations, ThemeSwitch, GitHub icon reordering*
+*Synkra AIOS Docs — Claude Code Configuration v3.3*
+*Last Updated: 2026-02-16 — Design System Strategy (Alan DS influence), Kaven Design Council decision*
