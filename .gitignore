@@ -24,17 +24,18 @@ Thumbs.db
 *.swp
 
 # AIOS Local (AIOS)
-.aios-core/local/
+.aios-core/
+.aios/
+.claude/skills/
 .claude/settings.local.json
-.aios/install-log.txt
-.aios/project-status.yaml
-.aios/environment-report.yaml
-.aios/environment-report.json
+docs/stories/
+squads/
 
 # Build outputs
 .next/
 out/
 .pnpm-store/
+public/_pagefind/
 
 # Testing
 coverage/
