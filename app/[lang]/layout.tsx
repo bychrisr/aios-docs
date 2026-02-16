@@ -33,6 +33,10 @@ export default async function LangLayout({ children, params }: { children: React
           editLink={lang === 'en' ? 'Edit this page' : 'Editar esta página'}
           sidebar={{ defaultMenuCollapseLevel: 1 }}
           toc={{ title: tocTitles[lang] || 'On this page' }}
+          i18n={[
+            { locale: 'pt-BR', name: 'Português' },
+            { locale: 'en', name: 'English' }
+          ]}
         >
           {children}
         </Layout>
