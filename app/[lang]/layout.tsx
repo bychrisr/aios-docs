@@ -55,7 +55,7 @@ export default async function LangLayout({ children, params }: { children: React
               logo={
                 <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <span style={{ fontWeight: 800, fontSize: '1.1rem' }}>Synkra AIOS</span>
-                  <span style={{ fontWeight: 400, fontSize: '0.85rem', opacity: 0.6 }}>{subtitles[lang] || subtitles.en}</span>
+                  <span className="logo-subtitle" style={{ fontWeight: 400, fontSize: '0.85rem', opacity: 0.6 }}>{subtitles[lang] || subtitles.en}</span>
                 </span>
               }
               projectLink="https://github.com/SynkraAI/aios-core"

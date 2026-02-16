@@ -5,6 +5,11 @@
 
 /* Mobile responsive fixes */
 @media (max-width: 767px) {
+  /* Hide logo subtitle on mobile to prevent navbar overflow */
+  .logo-subtitle {
+    display: none !important;
+  }
+
   /* Stack footer text vertically on mobile */
   footer div {
     flex-direction: column !important;
