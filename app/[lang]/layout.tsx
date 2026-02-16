@@ -47,7 +47,21 @@ export default async function LangLayout({ children, params }: { children: React
   const pageMap = await getPageMap(lang)
   return (
     <html lang={lang} dir="ltr" suppressHydrationWarning>
-      <Head />
+      <Head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                var theme = localStorage.getItem('theme');
+                if (!theme) {
+                  localStorage.setItem('theme', 'light');
+                  document.documentElement.classList.add('light');
+                }
+              } catch (e) {}
+            `
+          }}
+        />
+      </Head>
       <body>
         <Layout
           navbar={
