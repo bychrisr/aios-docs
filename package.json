@@ -5,7 +5,7 @@
   "description": "Synkra AIOS Documentation Site — Nextra 4",
   "scripts": {
     "dev": "next --turbopack",
-    "build": "next build",
+    "build": "next build && pagefind --site .next/server/app --output-path public/_pagefind",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
@@ -21,6 +21,7 @@
   "devDependencies": {
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
+    "pagefind": "^1.4.0",
     "typescript": "^5.7.0"
   }
 }
