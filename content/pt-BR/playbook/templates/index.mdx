@@ -1,24 +1,147 @@
-# Modelos
+# Referência de Modelos
 
-Modelos prontos para uso no desenvolvimento com AIOS.
+O AIOS usa um sistema de modelos (templates) para garantir consistência em todos os artefatos do projeto. Os modelos fornecem estruturas padronizadas para stories, epics, documentos de arquitetura, definições de agentes e muito mais.
 
-## Modelos Disponíveis
-
-| Modelo | Comando | Agente |
-|--------|---------|--------|
-| Story | `@sm *draft` | @sm |
-| PRD | `@pm *create-doc` | @pm |
-| Arquitetura | `@architect *create-full-stack-architecture` | @architect |
-| Execução de Epic | `@pm *create-epic` | @pm |
-| Relatório de QA Gate | `@qa *qa-gate` | @qa |
+---
 
 ## Localização dos Modelos
 
-Os modelos ficam armazenados em `.aios-core/development/templates/` e são carregados automaticamente pelos comandos do agente correspondente.
+Todos os modelos ficam armazenados no seu projeto em:
 
-## Modelos Personalizados
+```
+.aios-core/development/templates/
+```
 
-Para criar um modelo personalizado:
-1. Copie um modelo existente de `.aios-core/development/templates/`
-2. Modifique a estrutura YAML e as seções
-3. Referencie-o no comando do agente apropriado
+Os modelos são carregados automaticamente pelos comandos do agente correspondente. Você não precisa referenciá-los manualmente.
+
+---
+
+## Modelos Disponíveis
+
+### Modelos de Documentação do Projeto
+
+| Modelo | Arquivo | Descrição |
+|--------|---------|-----------|
+| **AIOS Doc** | `aios-doc-template.md` | Modelo de documentação de uso geral para artefatos AIOS |
+| **Research Prompt** | `research-prompt-tmpl.md` | Modelo de prompt estruturado para tarefas de pesquisa no Spec Pipeline |
+| **Subagent Step Prompt** | `subagent-step-prompt.md` | Modelo de prompt para execução de subagentes em múltiplas etapas |
+
+### Modelos de Squad
+
+Modelos de squad fornecem a estrutura para criar novos squads (equipes de agentes especializados):
+
+| Modelo | Arquivo | Descrição |
+|--------|---------|-----------|
+| **Definição de Agente** | `squad/agent-template.md` | Modelo para definir um novo agente com papel, capacidades e instruções |
+| **Definição de Task** | `squad/task-template.md` | Modelo para criar tasks reutilizáveis com inputs, outputs e pré/pós-condições |
+| **Definição de Workflow** | `squad/workflow-template.yaml` | Modelo YAML para definir workflows automatizados com múltiplas etapas |
+| **Checklist** | `squad/checklist-template.md` | Modelo para checklists de qualidade com critérios de pontuação |
+| **Config de Dados** | `squad/data-template.yaml` | Modelo YAML para dados e arquivos de configuração de agentes |
+| **Script** | `squad/script-template.js` | Modelo JavaScript para scripts de automação |
+| **Ferramenta** | `squad/tool-template.js` | Modelo JavaScript para ferramentas e utilitários de agentes |
+| **Template** | `squad/template-template.md` | Meta-template para criar novos modelos |
+
+### Kit Inicial de Squad
+
+O diretório `squad-template/` fornece um kit completo para criar um novo squad do zero:
+
+```
+squad-template/
+  agents/          # Arquivos de definição de agentes
+  tasks/           # Arquivos de definição de tasks
+  templates/       # Templates específicos do squad
+  workflows/       # Configurações de workflows
+  tests/           # Arquivos de teste
+  squad.yaml       # Configuração do squad
+  package.json     # Dependências
+  README.md        # Documentação
+```
+
+### Modelos de Serviço
+
+O diretório `service-template/` contém modelos Handlebars (`.hbs`) para gerar pacotes de serviço em TypeScript:
+
+| Modelo | Descrição |
+|--------|-----------|
+| `client.ts.hbs` | Cliente HTTP com tratamento de erros e lógica de retry |
+| `errors.ts.hbs` | Classes de erro customizadas para o serviço |
+| `index.ts.hbs` | Entry point e exports do pacote |
+| `types.ts.hbs` | Definições de tipos TypeScript |
+| `package.json.hbs` | Configuração do pacote |
+| `README.md.hbs` | Documentação gerada automaticamente |
+
+---
+
+## Como os Modelos Funcionam
+
+### Template Engine V2
+
+O AIOS usa o sistema Template Engine V2, que processa os modelos através destas etapas:
+
+1. **Seleção** -- O comando do agente seleciona o modelo apropriado com base no tipo de artefato
+2. **Resolução de Variáveis** -- Variáveis do modelo (nome do projeto, data, contexto do agente) são resolvidas
+3. **Renderização** -- O modelo é renderizado com as variáveis resolvidas
+4. **Validação** -- A saída é validada contra o schema do modelo
+5. **Output** -- O artefato final é escrito no local correto
+
+### Variáveis do Modelo
+
+Os modelos suportam variáveis padrão que são preenchidas automaticamente:
+
+| Variável | Valor |
+|----------|-------|
+| `projectName` | Nome do projeto atual da configuração |
+| `date` | Data atual |
+| `agent` | Nome do agente executor |
+| `storyId` | Identificador da story atual (quando aplicável) |
+| `epicId` | Identificador do epic atual (quando aplicável) |
+
+---
+
+## Usando os Modelos
+
+### Criando Documentos
+
+Use o comando `*create-doc` com qualquer agente para gerar documentos a partir dos modelos:
+
+```bash
+# Criar um documento PRD
+@pm *create-doc prd
+
+# Criar um documento de arquitetura
+@architect *create-doc architecture
+
+# Criar uma story a partir do modelo
+@sm *draft
+```
+
+### Criando um Novo Squad
+
+Para gerar a estrutura de um novo squad com todos os arquivos necessários:
+
+```bash
+# Criar um squad a partir do kit inicial
+@aios-master *create-squad meu-squad
+```
+
+Isso copia a estrutura do `squad-template/` e a personaliza para o seu squad.
+
+### Criando Modelos Personalizados
+
+1. Copie um modelo existente de `.aios-core/development/templates/squad/`
+2. Modifique a estrutura, seções e variáveis de placeholder
+3. Coloque-o no diretório `squad/` ou na pasta `templates/` do seu squad
+4. Referencie-o no comando do agente ou definição de task apropriada
+
+Você pode usar `squad/template-template.md` como ponto de partida -- é um meta-template projetado para criar novos modelos.
+
+---
+
+## Resumo das Categorias de Modelos
+
+| Categoria | Modelos | Usado Por |
+|-----------|---------|-----------|
+| **Documentos** | aios-doc, research-prompt, subagent-step-prompt | @pm, @analyst, todos os agentes |
+| **Artefatos de Squad** | agent, task, workflow, checklist, data, script, tool | @aios-master, criadores de squads |
+| **Geração de Serviço** | client, errors, index, types, package.json, README | @architect, @dev |
+| **Kit Inicial** | Diretório completo squad-template | @aios-master |

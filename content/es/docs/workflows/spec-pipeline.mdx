@@ -1,48 +1,225 @@
-# Canalización de Especificaciones
+# Canalizacion de Especificaciones
 
-Transforma requisitos informales en especificaciones ejecutables.
+Transforma requisitos informales en especificaciones ejecutables a traves de un flujo de trabajo adaptativo de multiples fases.
 
 ## Resumen
 
-La Canalización de Especificaciones es un flujo de trabajo de múltiples fases para características complejas que necesitan especificación formal antes de la implementación. Produce especificaciones validadas con planes de implementación.
+El Spec Pipeline es un flujo de trabajo orquestado que transforma descripciones de usuarios en especificaciones formales y estructuradas. Implementa un flujo de hasta 6 fases que se adaptan dinamicamente segun la complejidad detectada del requisito. El pipeline garantiza calidad a traves de gates de validacion y refuerza la trazabilidad desde los requisitos hasta la implementacion.
 
-## Fases
+### Principios Fundamentales
 
-| Fase | Agente | Salida | Saltar Si |
-|------|--------|--------|-----------|
-| 1. Recopilar | @pm | `requirements.json` | Nunca |
-| 2. Evaluar | @architect | `complexity.json` | source=simple |
-| 3. Investigar | @analyst | `research.json` | clase SIMPLE |
-| 4. Escribir Spec | @pm | `spec.md` | Nunca |
-| 5. Crítica | @qa | `critique.json` | Nunca |
-| 6. Plan | @architect | `implementation.yaml` | Si APROBADO |
+| Principio | Descripcion |
+|-----------|-------------|
+| **No Invention** | Ninguna informacion fabricada -- solo derivacion de los inputs |
+| **Traceability** | Toda declaracion debe rastrearse a un requisito o hallazgo de investigacion |
+| **Adaptive Phases** | Las fases se ajustan automaticamente segun la complejidad |
+| **Quality Gates** | Validacion obligatoria antes de avanzar |
+
+## Flujo del Pipeline
+
+```mermaid
+flowchart TB
+    subgraph PHASE1["Fase 1: Recopilacion"]
+        G1["@pm: Elicitar requisitos"]
+        G2["requirements.json"]
+        G1 --> G2
+    end
+
+    subgraph PHASE2["Fase 2: Evaluacion"]
+        A1["@architect: Evaluar 5 dimensiones"]
+        A2["complexity.json"]
+        A1 --> A2
+    end
+
+    subgraph PHASE3["Fase 3: Investigacion"]
+        R1["@analyst: Context7 + EXA"]
+        R2["research.json"]
+        R1 --> R2
+    end
+
+    subgraph PHASE4["Fase 4: Escritura de Spec"]
+        W1["@pm: Generar spec.md"]
+        W2["Invencion prohibida"]
+        W1 --> W2
+    end
+
+    subgraph PHASE5["Fase 5: Critica"]
+        C1["@qa: Evaluar 5 dimensiones de calidad"]
+        C2{"Veredicto"}
+    end
+
+    subgraph PHASE6["Fase 6: Planificacion"]
+        P1["@architect: implementation.yaml"]
+    end
+
+    G2 --> A1
+    A2 --> R1
+    R2 --> W1
+    W2 --> C1
+    C1 --> C2
+    C2 -->|"APPROVED"| P1
+    C2 -->|"NEEDS_REVISION"| W1
+    C2 -->|"BLOCKED"| HALT(["Escalar a @architect"])
+```
+
+## Las 6 Fases
+
+### Fase 1: Recopilar Requisitos
+
+**Agente:** @pm (Morgan)
+**Task:** `spec-gather-requirements.md`
+
+Elicitacion interactiva en 9 categorias de preguntas:
+
+1. **Funcionales** -- Que debe HACER el sistema?
+2. **Restricciones** -- Restricciones tecnicas o de negocio?
+3. **No-Funcionales** -- Rendimiento, seguridad, escalabilidad?
+4. **Aceptacion** -- Criterios Given/When/Then?
+5. **Suposiciones** -- Que se esta asumiendo?
+6. **Dominio** -- Entidades y relaciones?
+7. **Interaccion** -- Como interactua el usuario?
+8. **Casos Extremos** -- Que puede salir mal?
+9. **Terminologia** -- Glosario especifico del dominio?
+
+**Salida:** `requirements.json` con requisitos estructurados (FR-\*, NFR-\*, CON-\*)
+
+### Fase 2: Evaluar Complejidad
+
+**Agente:** @architect (Aria)
+**Task:** `spec-assess-complexity.md`
+**Se omite cuando:** `source=simple` o anulacion manual a SIMPLE
+
+Evalua 5 dimensiones de complejidad, cada una puntuada de 1 a 5:
+
+| Dimension | Score 1 | Score 3 | Score 5 |
+|-----------|---------|---------|---------|
+| **Alcance** | 1-2 archivos | 6-10 archivos | 20+ archivos |
+| **Integracion** | Sin APIs externas | 1-2 APIs externas | Multiples orquestaciones |
+| **Infraestructura** | Sin cambios | Nueva dependencia | Nueva infraestructura |
+| **Conocimiento** | Patrones existentes | Nueva biblioteca | Dominio desconocido |
+| **Riesgo** | Bajo, aislado | Medio, importante | Critico, nucleo del sistema |
+
+**Salida:** `complexity.json` con clasificacion
+
+### Fase 3: Investigar Dependencias
+
+**Agente:** @analyst (Atlas)
+**Task:** `spec-research-dependencies.md`
+**Se omite cuando:** La clase de complejidad es SIMPLE
+
+Valida dependencias usando Context7 (primario) y EXA (fallback). Verifica la codebase en busca de patrones existentes, imports y entradas en `package.json`.
+
+**Salida:** `research.json` con dependencias validadas
+
+### Fase 4: Escribir Especificacion
+
+**Agente:** @pm (Morgan)
+**Task:** `spec-write-spec.md`
+**Gate Constitucional:** Articulo IV -- Prohibicion de Invencion
+
+Genera el documento formal de especificacion. Toda declaracion DEBE rastrearse a un requisito (FR-\*, NFR-\*, CON-\*) o un hallazgo de investigacion verificado. Las violaciones se bloquean -- el contenido inventado se elimina o se agrega a Open Questions.
+
+**Salida:** `spec.md` con especificacion completa incluyendo arquitectura, flujo de datos, estrategia de pruebas y lista de verificacion de implementacion
+
+### Fase 5: Criticar Especificacion
+
+**Agente:** @qa (Quinn)
+**Task:** `spec-critique.md`
+
+Evalua la especificacion en 5 dimensiones de calidad:
+
+| Dimension | Peso | Verifica |
+|-----------|------|----------|
+| **Precision** | 25% | La especificacion refleja correctamente los requisitos? |
+| **Completitud** | 25% | Todas las secciones completas? Las pruebas cubren FRs? |
+| **Consistencia** | 20% | IDs validos? Sin contradicciones? |
+| **Viabilidad** | 15% | Tecnicamente posible? Las dependencias existen? |
+| **Alineacion** | 15% | Alineado con stack y patrones del proyecto? |
+
+**Salida:** `critique.json` con veredicto
+
+### Fase 6: Crear Plan de Implementacion
+
+**Agente:** @architect (Aria)
+**Task:** `plan-create-implementation.md`
+**Condicion:** El veredicto de la critica es APPROVED
+
+Genera un plan de implementacion atomico con subtareas:
+
+| Regla | Descripcion |
+|-------|-------------|
+| Servicio Unico | 1 servicio por subtarea (frontend, backend, base de datos, infra) |
+| Limite de Archivos | Maximo 3 archivos por subtarea |
+| Verificacion Obligatoria | Cada subtarea DEBE tener verificacion definida |
+| Orden de Dependencias | Base de Datos, luego Backend, luego Frontend, luego Integracion |
+
+**Salida:** `implementation.yaml` con subtareas ordenadas
 
 ## Clases de Complejidad
 
-| Puntuación | Clase | Fases Utilizadas |
-|-----------|-------|-----------------|
-| ≤ 8 | SIMPLE | recopilar → spec → crítica (3) |
-| 9-15 | ESTÁNDAR | Las 6 fases |
-| ≥ 16 | COMPLEJA | 6 fases + ciclo de revisión |
+La puntuacion total de complejidad determina cuales fases estan activas y la profundidad del pipeline:
 
-## Dimensiones de Complejidad
+| Puntuacion | Clase | Fases Activas | Tiempo Estimado |
+|-----------|-------|---------------|----------------|
+| ≤ 8 | **SIMPLE** | Recopilacion, Spec, Critica (3 fases) | 30-60 min |
+| 9-15 | **STANDARD** | Las 6 fases | 2-4 horas |
+| ≥ 16 | **COMPLEX** | 6 fases + Revision + Segunda Critica | 4-8 horas |
 
-Cinco dimensiones puntuadas 1-5:
+```mermaid
+flowchart LR
+    subgraph SIMPLE["SIMPLE (≤ 8)"]
+        S1["Recopilar"] --> S2["Spec"] --> S3["Critica"]
+    end
 
-1. **Alcance** — Archivos afectados
-2. **Integración** — APIs externas
-3. **Infraestructura** — Cambios necesarios
-4. **Conocimiento** — Familiaridad del equipo
-5. **Riesgo** — Nivel de criticidad
+    subgraph STANDARD["STANDARD (9-15)"]
+        ST1["Recopilar"] --> ST2["Evaluar"] --> ST3["Investigar"] --> ST4["Spec"] --> ST5["Critica"] --> ST6["Plan"]
+    end
 
-## Veredictos de Crítica
+    subgraph COMPLEX["COMPLEX (≥ 16)"]
+        C1["Recopilar"] --> C2["Evaluar"] --> C3["Investigar"] --> C4["Spec"] --> C5["Critica"] --> C6["Revisar"] --> C7["Critica 2"] --> C8["Plan"]
+    end
+```
 
-| Veredicto | Puntuación Promedio | Próximo Paso |
-|-----------|-------------------|------------|
-| APROBADO | ≥ 4.0 | Plan (Fase 6) |
-| NECESITA_REVISIÓN | 3.0-3.9 | Revisar (Fase 5b) |
-| BLOQUEADO | {'<'} 3.0 | Escalar a @architect |
+## Veredictos de la Critica
 
-## Puerta Constitucional
+| Veredicto | Condicion | Proxima Accion |
+|-----------|-----------|----------------|
+| **APPROVED** | Sin issues HIGH, promedio ≥ 4.0, todas dimensiones ≥ 3 | Proceder al Plan (Fase 6) |
+| **NEEDS_REVISION** | Issues MEDIUM o promedio 3.0-3.9 | Volver a Escritura de Spec (Fase 4) |
+| **BLOCKED** | Issues HIGH o promedio {'<'} 3.0 | Escalar a @architect |
 
-**Artículo IV — Sin Invención:** Toda declaración en `spec.md` DEBE rastrearse a FR-\*, NFR-\*, CON-\*, o a un hallazgo de investigación. No se permiten características inventadas.
+## Gate Constitucional: Articulo IV -- Prohibicion de Invencion
+
+Esta es una regla de aplicacion estricta durante la escritura de la especificacion:
+
+- Toda declaracion en `spec.md` DEBE rastrearse a FR-\*, NFR-\*, CON-\* o un hallazgo de investigacion verificado
+- Agregar funcionalidades no listadas en los requisitos es una **violacion**
+- Asumir detalles no validados por la investigacion es una **violacion**
+- Especificar tecnologia no validada es una **violacion**
+- Crear criterios de aceptacion inventados es una **violacion**
+
+En caso de violacion: el contenido se **bloquea y elimina**, o se mueve a la seccion **Open Questions** para seguimiento.
+
+## Comandos
+
+| Comando | Descripcion | Agente |
+|---------|-------------|--------|
+| `*create-spec STORY-ID` | Ejecutar pipeline completo | -- |
+| `*gather-requirements STORY-ID` | Ejecutar solo fase Recopilacion | @pm |
+| `*assess-complexity STORY-ID` | Ejecutar solo fase Evaluacion | @architect |
+| `*research-deps STORY-ID` | Ejecutar solo fase Investigacion | @analyst |
+| `*write-spec STORY-ID` | Ejecutar solo fase Escritura | @pm |
+| `*critique-spec STORY-ID` | Ejecutar solo fase Critica | @qa |
+
+## Artefactos Generados
+
+Todos los artefactos se guardan en `docs/stories/{storyId}/spec/`:
+
+| Artefacto | Fase | Descripcion |
+|-----------|------|-------------|
+| `requirements.json` | 1 | Requisitos estructurados en 9 categorias |
+| `complexity.json` | 2 | Evaluacion de complejidad con 5 dimensiones |
+| `research.json` | 3 | Dependencias validadas y hallazgos de investigacion |
+| `spec.md` | 4 | Especificacion ejecutable completa |
+| `critique.json` | 5 | Resultado de la evaluacion de calidad |
+| `implementation.yaml` | 6 | Plan de implementacion con subtareas atomicas |

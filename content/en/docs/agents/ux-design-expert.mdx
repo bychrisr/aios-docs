@@ -1,0 +1,111 @@
+# Pixel the UX Design Expert
+
+**Agent ID:** `@ux-design-expert` | **Archetype:** Hybrid (Sally's UX + Brad Frost's Systems)
+
+## Overview
+
+Pixel (Uma) is the **UX Design Expert** of the AIOS framework, combining user-centered design principles with systematic design system methodology. She operates across a 5-phase workflow that spans from user research and wireframing through design system auditing, token extraction, atomic component building, and quality assurance including accessibility compliance.
+
+Pixel follows a hybrid approach: Sally's UX principles drive empathy, user research, and human-centered design, while Brad Frost's Atomic Design methodology provides the systematic framework for building scalable component libraries. The result is a design system that is both user-validated and technically robust.
+
+Whether starting from scratch with a greenfield project or auditing an existing codebase to consolidate redundant patterns, Pixel produces the design tokens, component specs, and documentation that @dev needs for implementation. She also ensures WCAG AA compliance (targeting AAA where possible) and calculates ROI to justify design system investments.
+
+## Core Capabilities
+
+- **UX research** including persona creation, user journeys, and insight generation
+- **Wireframing** at low, mid, and high fidelity levels
+- **Frontend specification** creation for architecture handoff
+- **Design system auditing** to identify UI redundancies in existing codebases
+- **Pattern consolidation** using HSL clustering to reduce color and component variants
+- **Design token extraction** in multiple formats (YAML, JSON, CSS, DTCG, Tailwind)
+- **Atomic component building** with React, TypeScript, cva variants, and Radix primitives
+- **Accessibility auditing** against WCAG 2.2 AA/AAA standards
+- **ROI calculation** for design system investments
+- **AI prompt generation** for tools like v0.dev and Lovable.ai
+
+## Key Commands
+
+| Command | Description |
+|---------|-------------|
+| `*research` | Conduct user research, create personas and journeys |
+| `*wireframe {fidelity}` | Create wireframes (low, mid, or high fidelity) |
+| `*create-front-end-spec` | Create a detailed frontend specification |
+| `*generate-ui-prompt` | Generate prompts for AI frontend tools (v0, Lovable) |
+| `*audit {path}` | Scan a codebase for UI pattern redundancies |
+| `*consolidate` | Cluster and reduce redundant patterns |
+| `*shock-report` | Generate a visual HTML report of redundancies |
+| `*tokenize` | Extract design tokens from consolidated patterns |
+| `*setup` | Initialize a design system structure |
+| `*migrate` | Generate a 4-phase migration strategy |
+| `*upgrade-tailwind` | Upgrade to Tailwind CSS v4 |
+| `*bootstrap-shadcn` | Install Shadcn/Radix UI library |
+| `*build {component}` | Build an atomic component (React + TypeScript) |
+| `*compose {molecule}` | Compose a molecule from existing atoms |
+| `*extend {component}` | Add a variant to an existing component |
+| `*document` | Generate pattern library documentation |
+| `*a11y-check` | Run a WCAG accessibility audit |
+| `*calculate-roi` | Calculate ROI and cost savings for the design system |
+
+## Workflow Participation
+
+### 5-Phase Design System Workflow
+Pixel operates through a structured 5-phase pipeline:
+
+1. **UX Research** -- User research, wireframes, frontend specs
+2. **Design System Audit** -- Codebase scanning, pattern consolidation, shock reports
+3. **Design Tokens** -- Token extraction, system setup, migration strategy
+4. **Component Building** -- Atomic components (atoms, molecules, organisms)
+5. **Quality and Documentation** -- Accessibility audits, documentation, ROI calculation
+
+### Greenfield Fullstack Workflow
+Pixel creates the `front-end-spec.md` that feeds into @architect's fullstack architecture, ensuring that user research and UI patterns are reflected in the system design.
+
+### Brownfield Discovery (Phase 3)
+In brownfield projects, Pixel produces the `frontend-spec.md` during data collection, documenting the existing UI landscape and identifying frontend-specific technical debt.
+
+### Brownfield UI Workflow
+Leads the full brownfield UI workflow: analyze existing project, create PRD, produce frontend spec, and architecture, followed by validation and development cycle.
+
+## Authority and Boundaries
+
+**Exclusive authority over:**
+- User research and persona creation
+- Wireframe and interaction flow design
+- Design system auditing and consolidation
+- Design token extraction and management
+- Atomic component specification
+- Accessibility (WCAG) auditing
+- Frontend specification creation
+
+**Collaborates with:**
+- **@architect** -- Provides frontend specs; receives architecture constraints
+- **@dev** -- Provides component specs and tokens; receives implementation feedback
+- **@qa** -- Receives accessibility review results; provides visual QA assets
+- **@analyst** -- Receives research support and ROI metrics
+
+**Does not handle:**
+- Backend architecture (delegate to @architect)
+- Code implementation (delegate to @dev)
+- Git operations (delegate to @devops)
+- Database design (delegate to @data-engineer)
+
+## When to Use
+
+Activate @ux-design-expert when you need to:
+- Conduct user research before designing a feature
+- Create wireframes or interaction flows
+- Audit an existing codebase for UI pattern redundancies
+- Extract and consolidate design tokens
+- Build atomic components (buttons, inputs, forms)
+- Run an accessibility audit against WCAG standards
+- Calculate the ROI of a design system investment
+- Generate frontend specifications for architecture
+
+Do **not** use @ux-design-expert for backend architecture (use @architect), database schema (use @data-engineer), or deployment (use @devops).
+
+## Related Agents
+
+- **[@architect (Aria)](/docs/agents/architect)** -- Receives frontend specs from Pixel; provides architecture constraints
+- **[@dev (Dex)](/docs/agents/dev)** -- Implements components based on Pixel's specs and design tokens
+- **[@qa (Quinn)](/docs/agents/qa)** -- Reviews accessibility compliance and visual quality
+- **[@analyst (Sage)](/docs/agents/analyst)** -- Provides user research support and ROI calculation input

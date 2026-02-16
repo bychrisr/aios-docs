@@ -1,45 +1,71 @@
 # Crisis Management (War Room)
 
-Procedures for handling critical production issues.
+Procedures for handling critical production issues with AIOS, including escalation triggers, hotfix workflows, rollback procedures, and communication patterns.
 
 ## Trigger Conditions
 
+Activate the war room protocol when any of these conditions occur:
+
 - Production down or severely degraded
-- Data loss or security breach
+- Data loss or security breach detected
 - Critical business function unavailable
+- Performance degradation affecting a majority of users
+- Cascading failures across services
+
+## Severity Classification
+
+| Severity | Description | Response Time |
+|----------|-------------|---------------|
+| **P0** | Service completely down; data loss | Immediate (minutes) |
+| **P1** | Major feature broken; significant user impact | Within 1 hour |
+| **P2** | Degraded performance; workaround available | Within 4 hours |
+| **P3** | Minor issue; limited user impact | Next sprint |
+
+P0 and P1 issues trigger the full war room protocol. P2 issues use an expedited version. P3 issues follow the standard Story Development Cycle.
 
 ## War Room Protocol
 
 ### 1. Assemble
 
 Activate key agents:
+
 ```
-@devops  — Infrastructure and deployment
-@dev     — Code investigation and fixes
-@qa      — Verification and regression testing
+@devops  -- Infrastructure and deployment
+@dev     -- Code investigation and fixes
+@qa      -- Verification and regression testing
 ```
+
+For P0 incidents, also involve @architect for system-level analysis.
 
 ### 2. Triage
 
 1. Identify the symptom (what users see)
 2. Check recent deployments (`git log --oneline -10`)
-3. Check infrastructure status
-4. Check external service status
+3. Check infrastructure status (hosting provider dashboard, monitoring)
+4. Check external service status (third-party APIs, databases)
+5. Correlate timing with recent changes
 
 ### 3. Containment
 
-Options (in order of preference):
-1. **Rollback** — Revert to last known good deployment
-2. **Feature Flag** — Disable problematic feature
-3. **Hotfix** — Minimal code change to restore service
+Apply the quickest mitigation in order of preference:
 
-### 4. Fix
+1. **Rollback** -- Revert to the last known good deployment
+2. **Feature Flag** -- Disable the problematic feature
+3. **Hotfix** -- Minimal code change to restore service
+
+### 4. Hotfix Workflow
+
+For hotfixes, use the Story Development Cycle in YOLO mode:
 
 ```
 @dev *develop hotfix-{issue}
 ```
 
-Use YOLO mode for speed. Skip story creation for P0 issues.
+YOLO mode characteristics:
+- Zero to one prompts (autonomous execution)
+- All decisions logged in `decision-log-hotfix-{issue}.md`
+- Skip story creation for P0 issues
+- Minimal scope: fix only the immediate problem
 
 ### 5. Verify
 
@@ -47,7 +73,10 @@ Use YOLO mode for speed. Skip story creation for P0 issues.
 @qa *qa-gate
 ```
 
-Ensure fix resolves the issue without regressions.
+Even for hotfixes, verify that:
+- The fix resolves the reported issue
+- No new regressions are introduced
+- Core functionality remains intact
 
 ### 6. Deploy
 
@@ -55,10 +84,86 @@ Ensure fix resolves the issue without regressions.
 @devops *push --expedite
 ```
 
+Expedited push skips the full review cycle and flags the PR for immediate merge.
+
 ### 7. Post-Mortem
 
-After resolution:
-1. Document timeline of events
-2. Identify root cause
-3. Create preventive stories
-4. Update monitoring/alerts
+After resolution, document the incident:
+
+1. **Timeline** -- Chronological record of events from detection to resolution
+2. **Root cause** -- Technical analysis of what failed and why
+3. **Impact** -- Users affected, duration, business impact
+4. **Response** -- What was done and how quickly
+5. **Prevention** -- Create stories to prevent recurrence
+
+## Escalation Triggers
+
+The following conditions trigger automatic escalation:
+
+| Trigger | Source | Escalation Target |
+|---------|--------|-------------------|
+| `max_iterations_reached` | QA Loop (5 iterations) | @aios-master |
+| `verdict_blocked` | QA gate returns BLOCKED | @aios-master |
+| `fix_failure` | Dev fix fails after retries | @architect |
+| `manual_escalate` | User runs `*escalate-qa-loop` | @aios-master |
+| Constitutional violation | Any agent detects violation | BLOCK until resolved |
+
+### Escalation Commands
+
+```
+*escalate-qa-loop     # Force escalation from QA loop
+*stop-qa-loop         # Pause and save state
+*resume-qa-loop       # Resume from saved state
+```
+
+## Rollback Procedures
+
+### Code Rollback
+
+```bash
+# Identify the last good commit
+git log --oneline -20
+
+# Revert the problematic commit(s)
+@devops *push   # with revert commit
+```
+
+### Database Rollback
+
+If the issue involves database migrations:
+1. Identify the problematic migration
+2. Run the down migration or apply a corrective migration
+3. Verify data integrity
+4. Never delete production data without a backup
+
+### Infrastructure Rollback
+
+For infrastructure-level issues, @devops manages:
+- Reverting deployment configurations
+- Scaling resources back to previous levels
+- Restoring from backups if needed
+
+## Communication Patterns
+
+### During the Incident
+
+- **Status updates** every 15-30 minutes for P0/P1
+- **Clear ownership** -- One person coordinates; agents execute
+- **Decision log** -- Every action and decision documented with timestamps
+
+### After Resolution
+
+- **Incident report** -- Shared within 24 hours
+- **Preventive stories** -- Created in the backlog within 48 hours
+- **Monitoring updates** -- Alerts and dashboards updated to catch similar issues
+
+## Prevention Checklist
+
+To reduce the likelihood of future crises:
+
+- [ ] Automated tests cover critical paths
+- [ ] Feature flags available for major features
+- [ ] Monitoring and alerting configured for key metrics
+- [ ] Rollback procedures documented and tested
+- [ ] Database backup strategy verified
+- [ ] Incident response contacts and channels established

@@ -1,41 +1,139 @@
-# Flujo Estándar de PR
+# Flujo de PR Estándar
 
-El flujo estándar de pull request en proyectos AIOS.
+El flujo de trabajo estándar de pull request en proyectos AIOS, desde la finalización del código hasta el merge y despliegue.
 
-## Creando un PR
+## Descripción General
 
-Después del desarrollo y aprobación de QA:
+En AIOS, solo @devops (Gage) tiene autoridad para enviar código y crear pull requests. Todos los demás agentes delegan a @devops cuando el código está listo para enviar. Esto asegura una gestión de ramas consistente y calidad en los PRs.
+
+## Crear un PR
+
+Después del desarrollo y la aprobación del QA gate:
 
 ```
 @devops *push
 ```
 
-El agente DevOps maneja:
-1. Crear la rama de feature (si no estás en una)
-2. Subir al remoto
-3. Crear el pull request con descripción apropiada
+El agente DevOps se encarga de:
 
-## Lista de Verificación de PR
+1. Crear la rama de feature (si aún no estás en una)
+2. Preparar y hacer commit de todos los cambios
+3. Enviar al repositorio remoto
+4. Crear el pull request con una descripción adecuada que enlace la historia
+
+## Checklist del PR
+
+Antes de solicitar un push, asegúrate de:
 
 - [ ] Todos los criterios de aceptación cumplidos
-- [ ] Pruebas pasando
-- [ ] Linting limpio
-- [ ] QA gate pasado
-- [ ] Archivo de historia actualizado con File List
-- [ ] Sin secretos o credenciales comprometidas
+- [ ] Tests pasando
+- [ ] Lint limpio
+- [ ] QA gate aprobado (PASS o CONCERNS)
+- [ ] Archivo de historia actualizado con la Lista de Archivos
+- [ ] Sin secretos ni credenciales en el commit
+- [ ] Change Log actualizado en el archivo de historia
 
-## Revisión de Código
+## Integración con CodeRabbit
 
-AIOS se integra con CodeRabbit para revisión automatizada:
+AIOS se integra con CodeRabbit para revisión automatizada de código. CodeRabbit opera en dos modos dependiendo de la fase:
 
-- Hallazgos **CRITICAL**: Deben corregirse antes de merge
-- Hallazgos **HIGH**: Corregir o documentar como deuda técnica
-- Hallazgos **MEDIUM**: Documentar como deuda técnica
-- Hallazgos **LOW**: Opcional
+### Durante Desarrollo (Fase @dev)
 
-## Mergeando
+```yaml
+mode: light
+max_iterations: 2
+severity_filter: [CRITICAL, HIGH]
+```
 
-Después de la aprobación:
+- Hallazgos **CRITICAL**: Auto-corregidos inmediatamente
+- Hallazgos **HIGH**: Auto-corregidos si hay menos de 2 iteraciones, sino documentados como deuda técnica
+- Hallazgos **MEDIUM**: Documentados como deuda técnica
+- Hallazgos **LOW**: Ignorados
+
+Si los problemas CRITICAL persisten después de 2 iteraciones, el proceso se detiene para intervención manual.
+
+### Durante Revisión QA (Fase @qa)
+
+```yaml
+mode: full
+max_iterations: 3
+severity_filter: [CRITICAL, HIGH]
+```
+
+QA ejecuta una revisión más exhaustiva:
+
+1. Escaneo de revisión pre-commit
+2. Bucle de auto-corrección (máximo 3 iteraciones para auto-fixes)
+3. Análisis manual de QA (patrones arquitectónicos, trazabilidad, requisitos no funcionales)
+4. Decisión del gate (PASS / CONCERNS / FAIL / WAIVED)
+
+### Ejecutar CodeRabbit Manualmente
+
+```
+*coderabbit-review
+```
+
+Esto lanza una revisión de CodeRabbit independiente fuera del flujo normal, útil para verificaciones puntuales antes del envío.
+
+## El Bucle de Auto-Corrección
+
+Cuando CodeRabbit encuentra problemas, el bucle de auto-corrección intenta correcciones automáticas:
+
+```
+Escaneo CodeRabbit --> ¿CRITICAL encontrado?
+  SÍ --> auto-fix --> re-escanear (máx iteraciones)
+  NO  --> documentar problemas restantes --> continuar
+```
+
+Después del número máximo de iteraciones, cualquier problema CRITICAL restante bloquea el PR hasta que se resuelva manualmente. Los problemas HIGH que sobreviven al bucle se documentan como deuda técnica.
+
+## Proceso de Revisión QA
+
+El QA gate ejecuta 7 verificaciones de calidad:
+
+1. **Revisión de código** -- Patrones, legibilidad, mantenibilidad
+2. **Tests unitarios** -- Cobertura adecuada, todos pasando
+3. **Criterios de aceptación** -- Todos cumplidos según los AC de la historia
+4. **Sin regresiones** -- Funcionalidad existente preservada
+5. **Rendimiento** -- Dentro de límites aceptables
+6. **Seguridad** -- Básicos OWASP verificados
+7. **Documentación** -- Actualizada si es necesario
+
+### Decisiones del Gate
+
+| Decisión | Significado | Acción |
+|----------|-------------|--------|
+| **PASS** | Todas las verificaciones OK | Proceder a `@devops *push` |
+| **CONCERNS** | Problemas menores | Aprobar con observaciones documentadas |
+| **FAIL** | Problemas críticos | Devolver a @dev con feedback específico |
+| **WAIVED** | Problemas aceptados | Aprobar con exención documentada (raro) |
+
+## Merge
+
+Después de la aprobación del PR:
+
 ```
 @devops *merge
 ```
+
+El agente DevOps hace merge del PR usando la estrategia de merge configurada (típicamente squash merge).
+
+## Flujo Expedito (Hotfixes)
+
+Para emergencias de producción:
+
+```
+@devops *push --expedite
+```
+
+Esto omite el bucle completo de QA y crea un PR de alta prioridad marcado para revisión inmediata. Usar solo para problemas P0. Consulta la guía de [Gestión de Crisis](/playbook/workflows/crisis-management) para el protocolo completo de sala de guerra.
+
+## Resolución de Problemas
+
+| Problema | Solución |
+|----------|----------|
+| Push rechazado (sin remoto) | Asegurar que el repositorio tenga un remoto configurado: `git remote -v` |
+| Timeout de CodeRabbit | Verificar conectividad de red; re-ejecutar con `*coderabbit-review` |
+| Conflictos en PR | Rebase local: `git rebase main`; resolver conflictos; luego `@devops *push` |
+| QA gate se repite indefinidamente | Verificar si los criterios de aceptación son ambiguos; clarificar con @po |
+| Push bloqueado por autoridad | Solo @devops puede hacer push; delegar con `@devops *push` |

@@ -1,0 +1,98 @@
+# Quinn — QA Engineer
+
+**Archetype:** Guardian | **Agent ID:** `@qa`
+
+Quinn is the Test Architect and Quality Advisor of the AIOS framework. Quinn provides comprehensive quality analysis, quality gate decisions, and actionable recommendations for development teams. With an analytical, systematic, and educational approach, Quinn validates code through automated and manual review processes.
+
+## Core Capabilities
+
+- **Story Review** — Comprehensive code review with quality gate decisions
+- **Quality Gates** — PASS / CONCERNS / FAIL / WAIVED verdicts with justification
+- **Test Design** — Create thorough test scenarios based on acceptance criteria
+- **Risk Profiling** — Generate risk assessment matrices for stories
+- **NFR Validation** — Validate non-functional requirements (security, performance, reliability)
+- **Requirements Traceability** — Map requirements to tests using Given-When-Then patterns
+- **CodeRabbit Integration** — Automated review with self-healing loop (max 3 iterations)
+- **QA Loop Orchestration** — Iterative review-fix cycles with @dev
+
+## Key Commands
+
+### Review and Analysis
+
+| Command | Description |
+|---------|-------------|
+| `*review {story}` | Complete story review with gate decision |
+| `*code-review {scope}` | Execute automated code review |
+
+### Quality Gates
+
+| Command | Description |
+|---------|-------------|
+| `*gate {story}` | Create a quality gate decision file |
+| `*nfr-assess {story}` | Validate non-functional requirements |
+| `*risk-profile {story}` | Generate a risk assessment matrix |
+
+### Test Strategy
+
+| Command | Description |
+|---------|-------------|
+| `*test-design {story}` | Create comprehensive test scenarios |
+| `*trace {story}` | Map requirements to tests (Given-When-Then) |
+| `*generate-tests` | Generate test suites automatically |
+| `*run-tests` | Execute test suite with quality gate |
+
+### Backlog Management
+
+| Command | Description |
+|---------|-------------|
+| `*backlog-add` | Add follow-up items to the backlog |
+| `*create-fix-request {story}` | Generate a fix request document for @dev |
+
+## Gate Decisions
+
+| Decision | Criteria | Action |
+|----------|----------|--------|
+| **PASS** | All acceptance criteria met, no high-severity issues | Approve, proceed to deployment |
+| **CONCERNS** | Minor non-blocking issues present | Approve with documented observations |
+| **FAIL** | High/critical issues or unmet acceptance criteria | Return to @dev with specific feedback |
+| **WAIVED** | Known issues explicitly accepted | Approve with documented waiver |
+
+## Issue Severities
+
+| Severity | Prefix | Gate Impact | Action |
+|----------|--------|-------------|--------|
+| CRITICAL | `SEC-`, `DATA-` | Gate = FAIL | Auto-fix or block |
+| HIGH | `PERF-`, `REL-` | Gate = FAIL | Auto-fix or document |
+| MEDIUM | `MNT-`, `TEST-` | Gate = CONCERNS | Create tech debt issue |
+| LOW | `DOC-`, `ARCH-` | Gate = PASS | Note in review |
+
+## Workflow Participation
+
+- **Story Development Cycle (SDC)** — Phase 4: QA Gate. Reviews implementation from @dev, produces gate verdicts
+- **QA Loop** — Orchestrates iterative review-fix cycles (max 5 iterations) with escalation triggers
+- **Spec Pipeline** — Phase 5: Critique. Reviews specifications for quality and completeness
+- **Brownfield Discovery** — Phase 7: QA Review of the technical debt assessment
+
+## When to Use This Agent
+
+**Use @qa when you need to:**
+- Review a story implementation before deployment
+- Design test scenarios for acceptance criteria
+- Assess risk profiles for complex stories
+- Validate non-functional requirements
+- Run automated test suites
+- Create fix requests for developers
+
+**Do not use @qa when:**
+- Implementing code changes (use @dev)
+- Creating or managing stories (use @sm or @po)
+- Pushing code to remote (use @devops)
+
+## Related Agents
+
+| Agent | Relationship |
+|-------|-------------|
+| @dev (Dex) | Receives code for review, sends fix requests |
+| @po (Pax) | Sends follow-up backlog items |
+| @sm (River) | Collaborates on risk profiling for sprint planning |
+| @devops (Gage) | Provides quality gates for PRs and deployments |

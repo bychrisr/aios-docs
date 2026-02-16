@@ -1,0 +1,90 @@
+# Orion — AIOS Master
+
+**Arquetipo:** Orchestrator | **Agent ID:** `@aios-master`
+
+Orion e o meta-agente e orquestrador universal do framework AIOS. Como AIOS Master, Orion pode executar qualquer task de qualquer agente diretamente, criar e modificar componentes do framework (agentes, tasks, workflows, templates) e coordenar workflows multi-agente complexos. Orion tambem gerencia a Knowledge Base do AIOS e atua como autoridade de governanca do framework.
+
+## Capacidades Principais
+
+- **Orquestracao Universal** — Executa qualquer task de qualquer agente sem transformacao de persona
+- **Desenvolvimento de Framework** — Cria, modifica e deprecia agentes, tasks, workflows e templates
+- **Gestao de Componentes** — Valida, analisa e gerencia o ciclo de vida de todos os componentes do framework
+- **Coordenacao Multi-Agente** — Orquestra workflows complexos envolvendo multiplos agentes
+- **Knowledge Base** — Acesso a base de conhecimento completa do AIOS Method via `*kb`
+- **Correcao de Curso** — Analisa e corrige desvios de processo ou qualidade com `*correct-course`
+
+## Comandos Principais
+
+### Comandos de Criacao
+
+| Comando | Descricao |
+|---------|-----------|
+| `*create agent {name}` | Cria uma nova definicao de agente usando o sistema de templates |
+| `*create task {name}` | Cria um novo arquivo de task padronizado |
+| `*create workflow {name}` | Cria uma nova definicao de workflow multi-agente |
+| `*create-doc {template}` | Cria um documento a partir de um template YAML |
+| `*create-next-story` | Cria a proxima user story |
+
+### Comandos de Modificacao
+
+| Comando | Descricao |
+|---------|-----------|
+| `*modify agent {name}` | Modifica um agente existente com backup e rollback |
+| `*modify task {name}` | Modifica uma task existente preservando compatibilidade |
+| `*modify workflow {name}` | Modifica um workflow existente mantendo integridade |
+| `*update-manifest` | Atualiza o manifesto de equipe com novos agentes |
+| `*propose-modification` | Cria uma proposta de modificacao para revisao colaborativa |
+
+### Comandos de Analise
+
+| Comando | Descricao |
+|---------|-----------|
+| `*analyze-framework` | Analisa estrutura do framework, redundancias e performance |
+| `*deprecate-component` | Deprecia um componente com timeline e plano de migracao |
+| `*correct-course` | Analisa e corrige desvios de processo/qualidade |
+| `*execute-checklist {name}` | Executa um checklist de validacao |
+
+### Comandos de Execucao
+
+| Comando | Descricao |
+|---------|-----------|
+| `*task {name}` | Executa uma task especifica diretamente |
+| `*workflow {name}` | Inicia um workflow multi-agente |
+| `*kb` | Alterna o modo interativo da Knowledge Base |
+| `*help` | Mostra todos os comandos disponiveis |
+| `*status` | Mostra contexto e progresso atual |
+
+## Participacao em Workflows
+
+Orion participa e orquestra todos os principais workflows do AIOS:
+
+- **Story Development Cycle (SDC)** — Pode executar qualquer fase diretamente
+- **Spec Pipeline** — Coordena as fases de pesquisa, avaliacao e planejamento
+- **Brownfield Discovery** — Orquestra o workflow de avaliacao de 10 fases
+- **QA Loop** — Pode intervir quando escalacao e acionada
+- **Workflows Greenfield e Brownfield** — Variantes full-stack, service e UI
+
+## Quando Usar Este Agente
+
+**Use @aios-master quando precisar:**
+- Criar ou modificar componentes do framework (agentes, tasks, workflows)
+- Orquestrar workflows multi-agente complexos
+- Executar qualquer task diretamente sem trocar de agente
+- Realizar operacoes de meta-framework e coordenacao cross-agente
+- Acessar a Knowledge Base do AIOS (`*kb`)
+- Analisar e melhorar o proprio framework
+
+**Nao use @aios-master quando:**
+- Um agente especializado seria mais apropriado (ex.: @dev para codigo, @qa para reviews)
+- Voce precisa apenas de uma task de agente unico — use o especialista relevante
+
+## Agentes Relacionados
+
+| Agente | Relacionamento |
+|--------|---------------|
+| @pm (Morgan) | Delega criacao de epics/stories |
+| @analyst (Sage) | Delega brainstorming e pesquisa |
+| @architect (Aria) | Delega geracao de prompts AI e arquitetura |
+| @qa (Quinn) | Delega criacao de suites de teste |
+| @dev (Dex) | Pode executar tasks de dev diretamente |
+| @devops (Gage) | Pode executar tasks de DevOps diretamente |

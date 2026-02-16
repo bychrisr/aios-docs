@@ -1,48 +1,227 @@
 # Onboarding in 60 Minutes
 
-A structured walkthrough to become productive with AIOS in one hour.
+A structured walkthrough to become productive with Synkra AIOS in one hour. By the end, you will have installed the framework, activated agents, created your first story, run a workflow, and passed a quality gate.
 
-## Phase 1: Setup (10 min)
+---
 
-1. Ensure you have Node.js 18+, Git, and GitHub CLI installed
-2. Initialize AIOS in your project: `npx @synkra/aios-core init`
-3. Verify the `.aios-core/` directory was created
-4. Open your AI IDE (Claude Code recommended)
+## Minute 0-10: Installation and Setup
 
-## Phase 2: Agent Exploration (15 min)
+### Prerequisites
 
-1. Activate each key agent and run `*help`:
-   - `@dev *help` — Developer commands
-   - `@architect *help` — Architecture commands
-   - `@sm *help` — Story management commands
-   - `@qa *help` — Quality assurance commands
+Before starting, make sure you have:
 
-2. Understand agent boundaries:
-   - @dev can commit but cannot push
-   - @devops handles all push/deploy operations
-   - @po validates stories, @sm creates them
+- **Node.js** version 18.0.0 or higher
+- **npm** version 6.0.0 or higher
+- **Git** installed and configured
+- **GitHub CLI** (`gh`) installed (for push/PR workflows)
+- An AI IDE such as **Claude Code** (recommended), Cursor, or VS Code with AI extensions
 
-## Phase 3: Create a Story (15 min)
+### Install AIOS
 
-1. `@sm *draft` — Create your first story
-2. `@po *validate-story-draft` — Validate the story
-3. Review the generated story file in `docs/stories/`
+```bash
+# Create a new project
+npx @synkra/aios-core init my-first-project
 
-## Phase 4: Implement (15 min)
+# Navigate to your project
+cd my-first-project
+```
 
-1. `@dev *develop {story-id}` — Start implementation
-2. Follow the interactive development flow
-3. `@qa *qa-gate` — Run quality checks
+### Verify Installation
 
-## Phase 5: Review & Ship (5 min)
+Check that the `.aios-core/` directory was created with the expected structure:
 
-1. Review changes with `git diff`
-2. `@devops *push` — Push to remote
+```
+my-first-project/
+  .aios-core/             # Framework configuration and agents
+  agents/                 # AI agents directory
+  workflows/              # Automated workflows
+  tasks/                  # Reusable tasks
+  .env                    # Environment variables (configure your API key)
+```
 
-## Congratulations!
+### Configure Your Environment
 
-You've completed the AIOS onboarding. Continue learning:
+Edit the `.env` file with your AI provider key:
 
-- [Workflows](/playbook/workflows) — Sprint planning, PR workflow
-- [Commands](/playbook/commands) — Complete command reference
-- [Trails by Profile](/playbook/trails) — Role-specific learning paths
+```env
+OPENAI_API_KEY=your-openai-api-key
+# or
+ANTHROPIC_API_KEY=your-anthropic-api-key
+```
+
+---
+
+## Minute 10-20: Understanding the Meta-Agent
+
+### Start the Meta-Agent
+
+```bash
+npx @synkra/aios-core
+```
+
+### Core Concepts
+
+The **meta-agent** is the heart of AIOS. It is an AI that understands its own codebase and orchestrates specialized agents to handle different aspects of development.
+
+**Key capabilities:**
+- **Self-Analysis** -- Examines the project code structure
+- **Code Generation** -- Creates components following learned patterns
+- **Pattern Learning** -- Adapts to your team's development style
+- **Workflow Orchestration** -- Coordinates agents through structured workflows
+
+### Essential Commands
+
+Try these commands to get oriented:
+
+```bash
+*help                    # Show all available commands
+*status                  # Display system status
+*list-agents             # Show all available agents
+*config                  # View current configuration
+```
+
+### The 13 Agents
+
+AIOS comes with 13 specialized agents. The most important ones to know right away:
+
+| Agent | Role | Key Command |
+|-------|------|-------------|
+| @dev (Dex) | Software development | `@dev *develop {story-id}` |
+| @sm (River) | Story creation | `@sm *draft` |
+| @po (Pax) | Story validation | `@po *validate-story-draft` |
+| @qa | Quality assurance | `@qa *qa-gate` |
+| @devops (Gage) | Push and deployment | `@devops *push` |
+| @architect (Aria) | System design | `@architect *create-full-stack-architecture` |
+| @pm (Morgan) | Epic and project management | `@pm *create-epic` |
+
+---
+
+## Minute 20-35: Agent Activation and Your First Story
+
+### Activate an Agent
+
+Agents are activated by addressing them directly:
+
+```bash
+@sm *help      # Activate the Scrum Master and see available commands
+@dev *help     # Activate the Developer agent
+```
+
+### Understand Agent Boundaries
+
+An important concept in AIOS: agents have **authority boundaries**.
+
+- @dev can `git commit` but **cannot** `git push` (delegate to @devops)
+- @po can validate stories but **cannot** edit acceptance criteria after validation
+- Only @devops can create PRs and push to remote
+
+### Create Your First Story
+
+```bash
+# Step 1: Create a story draft
+@sm *draft
+```
+
+The Scrum Master will guide you through creating a story file with title, description, acceptance criteria, and scope.
+
+```bash
+# Step 2: Validate the story
+@po *validate-story-draft
+```
+
+The Product Owner runs the 10-point checklist. If the score is ≥ 7/10, the story moves from `Draft` to `Ready`.
+
+```bash
+# Step 3: Review the generated story file
+# Stories are saved in docs/stories/
+```
+
+---
+
+## Minute 35-50: Running a Workflow (SDC)
+
+### The Story Development Cycle
+
+The SDC is the primary workflow in AIOS, with 4 phases:
+
+| Phase | Agent | What Happens |
+|-------|-------|--------------|
+| 1. Create | @sm | Story drafted from epic/PRD |
+| 2. Validate | @po | 10-point checklist, GO/NO-GO decision |
+| 3. Implement | @dev | Code written, CodeRabbit self-healing |
+| 4. QA Gate | @qa | 7-point quality check, verdict |
+
+### Implement Your Story
+
+```bash
+# Start implementation (interactive mode by default)
+@dev *develop {story-id}
+```
+
+The developer agent works in one of three modes:
+
+- **Interactive** (default) -- 5-10 prompts with checkpoints and confirmations
+- **YOLO** -- Autonomous execution with 0-1 prompts; decisions logged automatically
+- **Pre-Flight** -- All questions asked upfront, then zero-ambiguity execution
+
+During implementation, CodeRabbit automatically scans for issues:
+- CRITICAL and HIGH severity issues are auto-fixed (up to 2 iterations)
+- MEDIUM issues are documented as technical debt
+- LOW issues are ignored
+
+---
+
+## Minute 50-60: Quality Gates and Next Steps
+
+### Run the QA Gate
+
+```bash
+@qa *qa-gate
+```
+
+The QA agent checks 7 quality dimensions:
+
+1. Code review (patterns, readability)
+2. Unit tests (coverage, all passing)
+3. Acceptance criteria (all met)
+4. No regressions
+5. Performance
+6. Security (OWASP basics)
+7. Documentation
+
+**Possible verdicts:** PASS, CONCERNS, FAIL, WAIVED
+
+### Ship Your Changes
+
+If the QA gate passes:
+
+```bash
+# Review your changes
+git diff
+
+# Push to remote (only @devops can do this)
+@devops *push
+```
+
+### What You Accomplished
+
+In 60 minutes you have:
+
+- Installed and configured Synkra AIOS
+- Learned the meta-agent concept and essential commands
+- Activated agents and understood authority boundaries
+- Created and validated your first story
+- Run the Story Development Cycle with CodeRabbit integration
+- Passed a quality gate and shipped your changes
+
+---
+
+## Next Steps
+
+Now that you have the basics, explore these resources:
+
+- **[Workflow Guides](/playbook/workflows)** -- Sprint planning, PR workflow, greenfield and brownfield projects
+- **[Command Reference](/playbook/commands)** -- Complete list of all available commands
+- **[Learning Trails](/playbook/trails)** -- Role-specific learning paths for developers, PMs, QA engineers, and architects
+- **[Validation Checklists](/playbook/checklists)** -- Detailed quality checklists for every phase
+- **[The 12 AIOS Agents](/docs/agents)** -- Deep dive into each agent's capabilities

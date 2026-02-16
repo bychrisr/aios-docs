@@ -1,0 +1,118 @@
+# Morgan — Project Manager
+
+**Arquetipo:** Strategist | **Agent ID:** `@pm`
+
+Morgan e o Gerente de Projeto do framework AIOS, responsavel por criar Product Requirements Documents (PRDs), definir epics, conduzir pesquisa estrategica e navegar correcoes de curso durante o desenvolvimento. Morgan opera com uma mentalidade estrategica, traduzindo necessidades de negocio em planos de produto estruturados para projetos greenfield e brownfield.
+
+## Capacidades Principais
+
+- **Criacao de PRD** — Cria Product Requirements Documents abrangentes para projetos greenfield e brownfield
+- **Gestao de Epics** — Define e estrutura epics com planejamento de qualidade integrado
+- **Pesquisa Estrategica** — Gera prompts de pesquisa profunda para analise de mercado, inteligencia competitiva e mais
+- **Correcao de Curso** — Navega mudancas significativas durante o desenvolvimento usando checklists estruturados
+- **Fragmentacao de Documentos** — Fragmenta documentos grandes em partes gerenciaveis e focadas
+- **Coordenacao Cross-Agente** — Faz handoff de PRDs aprovados para @architect, stories para @sm
+
+## Comandos Principais
+
+### Criacao de Documentos
+
+| Comando | Descricao |
+|---------|-----------|
+| `*create-prd` | Cria um PRD para projeto greenfield |
+| `*create-brownfield-prd` | Cria um PRD para projeto brownfield |
+| `*shard-prd` | Fragmenta um PRD grande em arquivos menores |
+| `*doc-out` | Gera o output completo do documento |
+
+### Planejamento Estrategico
+
+| Comando | Descricao |
+|---------|-----------|
+| `*create-epic` | Cria um epic para enhancements brownfield |
+| `*create-story` | Cria uma story isolada para trabalho brownfield |
+| `*research {topic}` | Gera um prompt de pesquisa profunda sobre um topico especifico |
+| `*correct-course` | Navega mudancas e desvios usando o change checklist |
+
+### Utilidade
+
+| Comando | Descricao |
+|---------|-----------|
+| `*checklist` | Executa checklist de validacao de PRD |
+| `*help` | Mostra todos os comandos disponiveis |
+| `*guide` | Mostra guia de uso completo do agente |
+| `*yolo` | Alterna modo de skip de confirmacoes |
+
+## Tipos de Pesquisa
+
+Morgan pode gerar prompts de pesquisa estruturados para 9 categorias:
+
+| # | Tipo | Foco |
+|---|------|------|
+| 1 | Validacao de Produto | Validacao de hipoteses e market fit |
+| 2 | Oportunidade de Mercado | Analise de tamanho e potencial de mercado |
+| 3 | Usuario e Cliente | Personas, jobs-to-be-done, pain points |
+| 4 | Inteligencia Competitiva | Analise de concorrentes |
+| 5 | Tecnologia e Inovacao | Tendencias tecnologicas |
+| 6 | Industria e Ecossistema | Value chains e ecossistema |
+| 7 | Opcoes Estrategicas | Avaliacao de direcoes estrategicas |
+| 8 | Risco e Viabilidade | Identificacao e avaliacao de riscos |
+| 9 | Pesquisa Personalizada | Foco de pesquisa customizado |
+
+## Validacao de PRD
+
+Morgan usa o **PM Checklist** com 9 categorias de validacao:
+
+1. Definicao de Problema e Contexto
+2. Definicao de Escopo do MVP
+3. Requisitos de Experiencia do Usuario
+4. Requisitos Funcionais
+5. Requisitos Nao-Funcionais
+6. Estrutura de Epics e Stories
+7. Orientacao Tecnica
+8. Requisitos Cross-Funcionais
+9. Clareza e Comunicacao
+
+**Status de categoria:** PASS (90%+ completo), PARTIAL (60-89%), FAIL (abaixo de 60%)
+
+**Decisao final:** READY FOR ARCHITECT ou NEEDS REFINEMENT
+
+## Participacao em Workflows
+
+- **Spec Pipeline** — Fases 1 (Gather) e 4 (Write Spec). Cria requisitos e escreve especificacoes
+- **Brownfield Discovery** — Fase 10: Cria epics e stories a partir da avaliacao de divida tecnica
+- **Correcao de Curso** — Acionado quando o desenvolvimento se desvia do plano original
+
+## Matriz de Handoff
+
+| De | Para | Gatilho | Artefato |
+|----|------|---------|----------|
+| @pm | @architect | PRD aprovado | `docs/prd.md` + Architect Prompt |
+| @pm | @ux-design-expert | PRD com requisitos de UI | `docs/prd.md` + UX Prompt |
+| @pm | @sm | Epic criado | Epic doc + Story Manager Handoff |
+| @pm | @po | PRD para validacao | PRD Draft |
+| @analyst | @pm | Pesquisa completa | Research findings |
+
+## Quando Usar Este Agente
+
+**Use @pm quando precisar:**
+- Iniciar um novo projeto criando um PRD
+- Definir epics para enhancements brownfield
+- Conduzir pesquisa estrategica sobre um topico
+- Navegar mudancas ou desvios durante o desenvolvimento
+- Fragmentar documentos grandes em partes gerenciaveis
+
+**Nao use @pm quando:**
+- Criando user stories detalhadas (use @sm)
+- Implementando codigo (use @dev)
+- Projetando arquitetura de sistemas (use @architect)
+- Revisando qualidade de codigo (use @qa)
+
+## Agentes Relacionados
+
+| Agente | Relacionamento |
+|--------|---------------|
+| @architect (Aria) | Recebe PRDs aprovados para design de arquitetura |
+| @sm (River) | Recebe estrutura de epic para criacao de stories |
+| @po (Pax) | Fornece direcao estrategica, recebe feedback de backlog |
+| @analyst (Sage) | Recebe insights de pesquisa para criacao de PRD |
+| @ux-design-expert (Pixel) | Recebe PRDs com requisitos de UI |

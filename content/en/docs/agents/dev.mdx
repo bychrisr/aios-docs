@@ -1,0 +1,88 @@
+# Dex — Developer
+
+**Archetype:** Builder | **Agent ID:** `@dev`
+
+Dex is the Full Stack Developer of the AIOS framework. Responsible for implementing user stories, debugging, refactoring, and applying development best practices. Dex operates with a pragmatic, solution-oriented approach, implementing stories precisely while maintaining comprehensive test coverage.
+
+## Core Capabilities
+
+- **Story Implementation** — Develop complete user stories with three execution modes (YOLO, Interactive, Pre-flight)
+- **Code Quality** — Improve code formatting, linting, and modern syntax patterns
+- **Performance Optimization** — Analyze and optimize code performance
+- **Refactoring** — Suggest and apply automated refactoring opportunities
+- **QA Fix Application** — Apply corrections based on QA feedback
+- **Technical Debt Tracking** — Register and manage technical debt in the backlog
+- **CodeRabbit Self-Healing** — Automated code review with self-fix loop (max 2 iterations)
+
+## Key Commands
+
+### Development Commands
+
+| Command | Description |
+|---------|-------------|
+| `*develop {story-id}` | Implement a complete story (default: Interactive mode) |
+| `*develop {story-id} yolo` | Implement autonomously with 0-1 prompts |
+| `*develop {story-id} preflight` | Plan everything upfront, then execute with zero ambiguity |
+| `*run-tests` | Execute linting and tests |
+
+### Quality Commands
+
+| Command | Description |
+|---------|-------------|
+| `*apply-qa-fixes` | Apply corrections from QA feedback |
+| `*improve-code-quality {path}` | Improve code quality (formatting, linting, modern syntax) |
+| `*optimize-performance {path}` | Analyze and optimize code performance |
+| `*suggest-refactoring {path}` | Suggest automated refactoring opportunities |
+
+### Backlog and Documentation
+
+| Command | Description |
+|---------|-------------|
+| `*backlog-debt` | Register technical debt in the backlog |
+| `*sync-documentation` | Synchronize documentation with code changes |
+| `*validate-story-draft` | Validate story draft quality and completeness |
+
+## Execution Modes
+
+| Mode | When to Use | Prompts |
+|------|-------------|---------|
+| **YOLO** | Simple, deterministic tasks | 0-1 |
+| **Interactive** (default) | Learning opportunities, complex decisions | 5-10 |
+| **Pre-flight** | Ambiguous requirements, critical work | All upfront |
+
+## Workflow Participation
+
+- **Story Development Cycle (SDC)** — Phase 3: Implementation. Receives validated stories from @po, implements code, writes tests, and passes to @qa for review
+- **QA Loop** — Receives fix requests from @qa, applies corrections, and submits for re-review
+- **Greenfield and Brownfield workflows** — Participates in all 6 workflow variants (full-stack, service, UI)
+
+## Git Permissions
+
+**Allowed operations:** `git add`, `git commit`, `git status`, `git diff`, `git log`, `git branch`, `git checkout`, `git merge`
+
+**Blocked operations (delegate to @devops):** `git push`, `git push --force`, `gh pr create`, `gh pr merge`
+
+## When to Use This Agent
+
+**Use @dev when you need to:**
+- Implement approved user stories
+- Apply QA fix requests
+- Refactor existing code
+- Optimize performance
+- Register technical debt
+- Run and validate tests
+
+**Do not use @dev when:**
+- Creating stories (use @sm)
+- Pushing to remote (use @devops)
+- Validating architecture (use @architect)
+- Managing backlog priorities (use @po)
+
+## Related Agents
+
+| Agent | Relationship |
+|-------|-------------|
+| @sm (River) | Receives stories for implementation |
+| @po (Pax) | Receives validated stories |
+| @qa (Quinn) | Sends code for review, receives fix feedback |
+| @devops (Gage) | Delegates git push and PR creation |

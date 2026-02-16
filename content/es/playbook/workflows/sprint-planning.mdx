@@ -1,44 +1,149 @@
-# Planificación de Sprint (Semanal)
+# Planificación de Sprint
 
-Guía para planificar y ejecutar sprints semanales con AIOS.
+Guía para planificar y ejecutar sprints semanales con AIOS, desde la creación de épicas hasta la entrega de historias.
+
+## El Modelo de Sprint de AIOS
+
+AIOS organiza el trabajo en una jerarquía: las **Épicas** contienen **Historias**, y las historias fluyen a través del Story Development Cycle (SDC). La planificación de sprint es el proceso de seleccionar qué historias abordar en un período de tiempo determinado.
+
+### Roles de los Agentes en la Planificación de Sprint
+
+| Agente | Rol | Comandos Clave |
+|--------|-----|----------------|
+| @pm (Morgan) | Crea épicas, define la estrategia del producto | `*create-epic`, `*execute-epic` |
+| @sm (River) | Crea y gestiona historias desde épicas | `*draft`, `*create-story` |
+| @po (Pax) | Valida historias, gestiona prioridades del backlog | `*validate-story-draft` |
+| @dev (Dex) | Estima esfuerzo, implementa historias | `*develop {story-id}` |
+| @qa (Quinn) | Revisa la calidad de la implementación | `*qa-gate`, `*qa-loop` |
+| @devops (Gage) | Envía el trabajo aprobado | `*push` |
 
 ## Antes del Sprint
 
-1. Revisa el backlog: `@po` revisa historias priorizadas
-2. Selecciona historias para el sprint según capacidad
-3. Asegúrate de que todas las historias seleccionadas estén en estado `Ready`
+### 1. Crear o Revisar la Épica
 
-## Inicio de Sprint
+Si estás comenzando una nueva área funcional, crea una épica primero:
+
+```
+@pm *create-epic
+```
+
+El agente PM recopila requisitos, define el alcance, criterios de éxito y divide la épica en una lista priorizada de historias.
+
+### 2. Crear Historias desde la Épica
+
+```
+@sm *draft
+```
+
+El Scrum Master crea historias detalladas desde la épica. Cada historia incluye criterios de aceptación, tareas, límites de alcance (IN/OUT) y dependencias.
+
+### 3. Validar Historias
+
+```
+@po *validate-story-draft
+```
+
+El Product Owner valida cada historia contra un checklist de 10 puntos:
+
+1. Título claro y objetivo
+2. Descripción completa (problema/necesidad explicada)
+3. Criterios de aceptación verificables (formato Given/When/Then preferido)
+4. Alcance bien definido (IN y OUT listados claramente)
+5. Dependencias mapeadas
+6. Estimación de complejidad
+7. Valor de negocio declarado
+8. Riesgos documentados
+9. Criterios de Definition of Done
+10. Alineación con PRD/Épica
+
+Una historia obtiene **GO** (≥ 7/10) o **NO-GO** (requiere correcciones). Solo las historias con estado GO pasan a Ready.
+
+### 4. Seleccionar Historias para el Sprint
+
+Revisa el backlog de historias Ready y selecciona basándote en:
+
+- **Prioridad** -- Valor de negocio y urgencia
+- **Capacidad** -- Tiempo de desarrollo disponible
+- **Dependencias** -- Las historias prerrequisito deben completarse primero
+- **Balance de riesgo** -- Mezcla de historias de alto riesgo y sencillas
+
+## Ejecución del Sprint
+
+### Kickoff
 
 ```
 @pm *execute-epic {epic-id}
 ```
 
-Esto inicia el flujo de ejecución de épica, procesando historias en orden.
+Esto inicia el flujo de ejecución de la épica, procesando historias en orden de prioridad.
 
-## Durante el Sprint
+### Flujo de Desarrollo Diario
 
-### Flujo Diario
-1. `@dev *develop {story-id}` — Toma la siguiente historia
-2. Implementa siguiendo los criterios de aceptación de la historia
-3. `@qa *qa-gate` — Ejecuta verificaciones de calidad
-4. `@devops *push` — Envía cuando esté aprobada
+Para cada historia en el sprint:
+
+1. `@sm *draft` -- Crear la siguiente historia (si no fue pre-creada)
+2. `@po *validate-story-draft` -- Validar la historia (GO/NO-GO)
+3. `@dev *develop {story-id}` -- Implementar siguiendo los criterios de aceptación
+4. `@qa *qa-gate` -- Ejecutar la verificación de calidad de 7 puntos
+5. `@devops *push` -- Enviar cuando esté aprobado
+
+### Progresión de Estado de la Historia
+
+```
+Draft --> Ready --> InProgress --> InReview --> Done
+```
+
+| Estado | Disparador | Responsable |
+|--------|------------|-------------|
+| Draft | @sm crea la historia | @sm |
+| Ready | @po valida (GO) | @po |
+| InProgress | @dev inicia implementación | @dev |
+| InReview | @dev completa, @qa revisa | @qa |
+| Done | @qa PASS, @devops envía | @devops |
 
 ### Manejo de Bloqueos
-- Si está bloqueada por una dependencia: `@sm` actualiza el estado de la historia
-- Si QA falla: `@qa *qa-loop` inicia ciclo de corrección iterativa
-- Si el alcance cambia: `@po *validate-story-draft` re-valida
 
-## Revisión de Sprint
+- **Bloqueo por dependencia**: @sm actualiza el estado de la historia; repriorizar el backlog del sprint
+- **Fallo de QA**: `@qa *qa-loop {story-id}` inicia el ciclo iterativo de corrección (máximo 5 iteraciones)
+- **Cambio de alcance**: `@po *validate-story-draft` re-valida la historia con el alcance actualizado
+- **Escalamiento**: Si el QA loop alcanza el máximo de iteraciones o un veredicto es BLOCKED, escalar a @aios-master
 
-1. Revisa historias completadas vs. planificadas
-2. Ejecuta `@qa` verificación final en todo el trabajo completado
-3. Documenta aprendizajes en retrospectiva
+## Estimación y Velocidad
 
-## Métricas a Rastrear
+### Estimación de Historias
 
-| Métrica | Objetivo |
-|---------|----------|
-| Historias completadas | ≥ 80% de lo planificado |
-| Tasa de aprobación de QA (primer intento) | ≥ 70% |
-| Tiempo de ciclo por historia | Tendencia decreciente |
+Las historias se estiman usando puntos de complejidad o tallas de camiseta durante la validación. Factores considerados:
+
+- **Alcance** -- Número de archivos afectados
+- **Integración** -- APIs externas o sistemas involucrados
+- **Infraestructura** -- Cambios de entorno o configuración
+- **Conocimiento** -- Familiaridad del equipo con el dominio
+- **Riesgo** -- Criticidad y potencial de regresiones
+
+### Seguimiento de Velocidad
+
+Rastrea estas métricas a través de los sprints:
+
+| Métrica | Objetivo | Propósito |
+|---------|----------|-----------|
+| Historias completadas | ≥ 80% de las planificadas | Predictibilidad del sprint |
+| Tasa de aprobación QA (primer intento) | ≥ 70% | Calidad del desarrollo |
+| Tiempo de ciclo por historia | Tendencia decreciente | Eficiencia del proceso |
+| Iteraciones del QA loop | Promedio menor a 2 | Efectividad de la revisión |
+
+## Revisión y Retrospectiva del Sprint
+
+### Revisión
+
+1. Comparar historias completadas contra el plan del sprint
+2. Ejecutar verificación final de `@qa` en todo el trabajo completado
+3. Demostrar funcionalidades completadas a los stakeholders
+
+### Retrospectiva
+
+Después del sprint (o después de que una épica se complete):
+
+1. Qué salió bien
+2. Qué se puede mejorar
+3. Ítems de acción para el siguiente sprint
+4. Actualizar la documentación del proceso si es necesario

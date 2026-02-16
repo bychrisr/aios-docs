@@ -1,0 +1,110 @@
+# Nova la Creadora de Squads
+
+**ID del Agente:** `@squad-creator` | **Arquetipo:** Craft
+
+## Descripcion General
+
+Nova (Craft) es la **Creadora de Squads** del marco AIOS, especializada en la creacion, validacion, publicacion y gestion de squads. Los squads son paquetes modulares de agentes, tareas, workflows y recursos que pueden reutilizarse entre proyectos -- son el mecanismo de extension del ecosistema AIOS.
+
+Nova implementa la arquitectura task-first de AIOS, donde las tareas son el punto de entrada principal para la ejecucion y los agentes orquestan esas tareas. Puede disenar squads a partir de analisis de documentacion, crearlos desde plantillas o blueprints, validarlos contra JSON Schema y prepararlos para distribucion en tres niveles: proyecto local, repositorio publico (aios-squads) y marketplace (Synkra API).
+
+Ya sea que necesites empaquetar un conjunto de agentes y workflows especificos de dominio para reutilizacion, extender un squad existente con nuevas capacidades, o migrar un squad legacy al formato de orquestacion v2, Nova maneja todo el ciclo de vida desde el diseno hasta la distribucion.
+
+## Capacidades Principales
+
+- **Diseno de squads** a partir de analisis de documentacion con extraccion de dominios y recomendacion de agentes
+- **Creacion de squads** usando plantillas (basico, ETL, solo-agente) o blueprints
+- **Validacion de squads** contra JSON Schema con verificaciones de estructura, formato de tareas y formato de agentes
+- **Analisis de squads** para sugerencias de mejora de estructura
+- **Extension de squads** con nuevos componentes (agentes, tareas, workflows)
+- **Migracion v2** agregando workflows de orquestacion y despacho de skills a squads legacy
+- **Generacion de skills** creando skills de conocimiento a partir de contenido del squad
+- **Generacion de workflows** produciendo YAML de orquestacion para ejecucion multi-fase
+- **Distribucion multi-nivel** a traves de local, publico (aios-squads) y marketplace (Synkra API)
+
+## Comandos Clave
+
+| Comando | Descripcion |
+|---------|-------------|
+| `*create-squad` | Crear un nuevo squad con estructura completa |
+| `*create-squad --from-design` | Crear un squad a partir de un blueprint generado previamente |
+| `*design-squad` | Analizar documentacion y generar un blueprint de squad |
+| `*validate-squad` | Validar un squad contra esquema y estandares |
+| `*list-squads` | Listar todos los squads locales en el proyecto |
+| `*analyze-squad` | Analizar estructura del squad y sugerir mejoras |
+| `*extend-squad` | Agregar nuevos componentes a un squad existente |
+| `*generate-skills` | Generar skills de conocimiento a partir de contenido del squad |
+| `*generate-workflow` | Generar un YAML de workflow de orquestacion |
+| `*migrate-to-v2` | Migrar un squad a formato v2 con orquestacion |
+| `*create-agent` | Crear una definicion individual de agente |
+| `*create-task` | Crear un archivo individual de tarea |
+| `*create-workflow` | Crear un workflow de orquestacion |
+
+## Participacion en Workflows
+
+### Ciclo de Vida del Squad
+Nova gestiona el ciclo de vida completo del squad:
+
+1. **Disenar** -- Analizar documentacion, extraer dominios, recomendar agentes y tareas, generar blueprint
+2. **Crear** -- Generar estructura del squad desde plantilla o blueprint (v1 legacy o v2 orquestacion)
+3. **Validar** -- Verificar manifiesto contra JSON Schema, verificar estructura, validar formatos de tareas y agentes
+4. **Distribuir** -- Publicar en proyecto local, repositorio publico o marketplace de Synkra
+
+### Integracion con Ciclo de Desarrollo
+Despues de que Nova crea la estructura de un squad, @dev implementa la funcionalidad, @qa revisa y prueba el codigo, y @devops maneja la publicacion y despliegue.
+
+## Autoridad y Limites
+
+**Autoridad exclusiva sobre:**
+- Creacion de squads y generacion de estructura
+- Validacion de squads contra esquemas
+- Diseno de squads a partir de analisis de documentacion
+- Generacion y gestion de blueprints
+- Migracion v2 de squads legacy
+
+**Estructura del squad generada:**
+
+```
+squads/{squad-name}/
+  squad.yaml          -- Manifiesto (v1 o v2)
+  README.md           -- Documentacion
+  agents/             -- Definiciones de agentes
+  tasks/              -- Definiciones de tareas
+  workflows/          -- Workflows de orquestacion
+  config/             -- Archivos de configuracion
+  checklists/         -- Listas de verificacion de validacion
+  templates/          -- Plantillas de documentos
+  tools/              -- Configuraciones de herramientas
+  scripts/            -- Scripts de soporte
+  data/               -- Datos de conocimiento
+```
+
+**Colabora con:**
+- **@dev** -- Implementa funcionalidad del squad despues de crear la estructura
+- **@qa** -- Revisa y prueba el codigo del squad
+- **@devops** -- Maneja publicacion y despliegue de squads
+
+**No maneja:**
+- Implementacion de codigo del squad (delegar a @dev)
+- Operaciones de Git y publicacion (delegar a @devops)
+- Revision de codigo y pruebas (delegar a @qa)
+
+## Cuando Usar
+
+Activa @squad-creator cuando necesites:
+- Crear un nuevo squad de agentes y tareas para un dominio especifico
+- Disenar un squad a partir de documentacion o requisitos existentes
+- Validar un squad antes de su distribucion
+- Extender un squad existente con nuevos componentes
+- Migrar un squad legacy v1 a formato v2 con orquestacion
+- Generar skills o workflows para un squad
+- Listar o analizar squads existentes en un proyecto
+
+**No** uses @squad-creator para implementar funcionalidad del squad (usa @dev), desplegar squads (usa @devops), o arquitectura general del proyecto (usa @architect).
+
+## Agentes Relacionados
+
+- **[@dev (Dex)](/docs/agents/dev)** -- Implementa la funcionalidad dentro de las estructuras del squad
+- **[@qa (Quinn)](/docs/agents/qa)** -- Revisa y prueba la calidad del codigo del squad
+- **[@devops (Gage)](/docs/agents/devops)** -- Publica y despliega squads validados
+- **[@architect (Aria)](/docs/agents/architect)** -- Proporciona guia arquitectonica para disenos de squads complejos

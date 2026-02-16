@@ -1,48 +1,227 @@
 # Onboarding em 60 Minutos
 
-Um passo a passo estruturado para se tornar produtivo com o AIOS em uma hora.
+Um passo a passo estruturado para se tornar produtivo com o Synkra AIOS em uma hora. Ao final, você terá instalado o framework, ativado agentes, criado sua primeira story, executado um workflow e passado por um quality gate.
 
-## Fase 1: Configuração (10 min)
+---
 
-1. Certifique-se de ter Node.js 18+, Git e GitHub CLI instalados
-2. Inicialize o AIOS no seu projeto: `npx @synkra/aios-core init`
-3. Verifique se o diretório `.aios-core/` foi criado
-4. Abra sua IDE de IA (Claude Code recomendado)
+## Minuto 0-10: Instalação e Configuração
 
-## Fase 2: Exploração dos Agentes (15 min)
+### Pré-requisitos
 
-1. Ative cada agente principal e execute `*help`:
-   - `@dev *help` — Comandos de desenvolvimento
-   - `@architect *help` — Comandos de arquitetura
-   - `@sm *help` — Comandos de gestão de stories
-   - `@qa *help` — Comandos de garantia de qualidade
+Antes de começar, certifique-se de ter:
 
-2. Entenda os limites dos agentes:
-   - @dev pode fazer commit mas não pode fazer push
-   - @devops cuida de todas as operações de push/deploy
-   - @po valida stories, @sm as cria
+- **Node.js** versão 18.0.0 ou superior
+- **npm** versão 6.0.0 ou superior
+- **Git** instalado e configurado
+- **GitHub CLI** (`gh`) instalado (para workflows de push/PR)
+- Uma IDE de IA como **Claude Code** (recomendado), Cursor ou VS Code com extensões de IA
 
-## Fase 3: Criar uma Story (15 min)
+### Instale o AIOS
 
-1. `@sm *draft` — Crie sua primeira story
-2. `@po *validate-story-draft` — Valide a story
-3. Revise o arquivo de story gerado em `docs/stories/`
+```bash
+# Criar um novo projeto
+npx @synkra/aios-core init meu-primeiro-projeto
 
-## Fase 4: Implementar (15 min)
+# Navegar até o projeto
+cd meu-primeiro-projeto
+```
 
-1. `@dev *develop {story-id}` — Inicie a implementação
-2. Siga o fluxo interativo de desenvolvimento
-3. `@qa *qa-gate` — Execute as verificações de qualidade
+### Verifique a Instalação
 
-## Fase 5: Revisar e Entregar (5 min)
+Confirme que o diretório `.aios-core/` foi criado com a estrutura esperada:
 
-1. Revise as alterações com `git diff`
-2. `@devops *push` — Envie para o remoto
+```
+meu-primeiro-projeto/
+  .aios-core/             # Configuração do framework e agentes
+  agents/                 # Diretório de agentes de IA
+  workflows/              # Workflows automatizados
+  tasks/                  # Tasks reutilizáveis
+  .env                    # Variáveis de ambiente (configure sua chave de API)
+```
 
-## Parabéns!
+### Configure seu Ambiente
 
-Você completou o onboarding do AIOS. Continue aprendendo:
+Edite o arquivo `.env` com a chave do seu provedor de IA:
 
-- [Fluxos de Trabalho](/playbook/workflows) — Planejamento de sprint, fluxo de PR
-- [Comandos](/playbook/commands) — Referência completa de comandos
-- [Trilhas por Perfil](/playbook/trails) — Caminhos de aprendizado por papel
+```env
+OPENAI_API_KEY=sua-chave-openai
+# ou
+ANTHROPIC_API_KEY=sua-chave-anthropic
+```
+
+---
+
+## Minuto 10-20: Entendendo o Meta-Agente
+
+### Inicie o Meta-Agente
+
+```bash
+npx @synkra/aios-core
+```
+
+### Conceitos Fundamentais
+
+O **meta-agente** é o coração do AIOS. É uma IA que entende seu próprio código-fonte e orquestra agentes especializados para lidar com diferentes aspectos do desenvolvimento.
+
+**Capacidades principais:**
+- **Auto-Análise** -- Examina a estrutura de código do projeto
+- **Geração de Código** -- Cria componentes seguindo padrões aprendidos
+- **Aprendizado de Padrões** -- Adapta-se ao estilo de desenvolvimento da equipe
+- **Orquestração de Workflows** -- Coordena agentes através de workflows estruturados
+
+### Comandos Essenciais
+
+Experimente estes comandos para se orientar:
+
+```bash
+*help                    # Mostrar todos os comandos disponíveis
+*status                  # Exibir status do sistema
+*list-agents             # Mostrar todos os agentes disponíveis
+*config                  # Ver configuração atual
+```
+
+### Os 13 Agentes
+
+O AIOS vem com 13 agentes especializados. Os mais importantes para conhecer de imediato:
+
+| Agente | Papel | Comando Principal |
+|--------|-------|-------------------|
+| @dev (Dex) | Desenvolvimento de software | `@dev *develop {story-id}` |
+| @sm (River) | Criação de stories | `@sm *draft` |
+| @po (Pax) | Validação de stories | `@po *validate-story-draft` |
+| @qa | Garantia de qualidade | `@qa *qa-gate` |
+| @devops (Gage) | Push e deploy | `@devops *push` |
+| @architect (Aria) | Design de sistemas | `@architect *create-full-stack-architecture` |
+| @pm (Morgan) | Gestão de epics e projetos | `@pm *create-epic` |
+
+---
+
+## Minuto 20-35: Ativação de Agentes e sua Primeira Story
+
+### Ative um Agente
+
+Os agentes são ativados ao endereçá-los diretamente:
+
+```bash
+@sm *help      # Ativar o Scrum Master e ver comandos disponíveis
+@dev *help     # Ativar o agente Desenvolvedor
+```
+
+### Entenda os Limites dos Agentes
+
+Um conceito importante no AIOS: agentes têm **limites de autoridade**.
+
+- @dev pode fazer `git commit` mas **não pode** fazer `git push` (delegar ao @devops)
+- @po pode validar stories mas **não pode** editar critérios de aceitação após validação
+- Apenas @devops pode criar PRs e fazer push para o remoto
+
+### Crie sua Primeira Story
+
+```bash
+# Passo 1: Criar um rascunho de story
+@sm *draft
+```
+
+O Scrum Master vai guiá-lo na criação de um arquivo de story com título, descrição, critérios de aceitação e escopo.
+
+```bash
+# Passo 2: Validar a story
+@po *validate-story-draft
+```
+
+O Product Owner executa o checklist de 10 pontos. Se a nota for ≥ 7/10, a story muda de `Draft` para `Ready`.
+
+```bash
+# Passo 3: Revise o arquivo de story gerado
+# As stories são salvas em docs/stories/
+```
+
+---
+
+## Minuto 35-50: Executando um Workflow (SDC)
+
+### O Ciclo de Desenvolvimento de Stories
+
+O SDC é o workflow principal do AIOS, com 4 fases:
+
+| Fase | Agente | O que Acontece |
+|------|--------|---------------|
+| 1. Criar | @sm | Story rascunhada a partir de epic/PRD |
+| 2. Validar | @po | Checklist de 10 pontos, decisão GO/NO-GO |
+| 3. Implementar | @dev | Código escrito, CodeRabbit self-healing |
+| 4. QA Gate | @qa | Verificação de qualidade em 7 pontos, veredicto |
+
+### Implemente sua Story
+
+```bash
+# Iniciar implementação (modo interativo por padrão)
+@dev *develop {story-id}
+```
+
+O agente desenvolvedor trabalha em um de três modos:
+
+- **Interactive** (padrão) -- 5-10 prompts com checkpoints e confirmações
+- **YOLO** -- Execução autônoma com 0-1 prompts; decisões registradas automaticamente
+- **Pre-Flight** -- Todas as perguntas feitas antecipadamente, depois execução sem ambiguidade
+
+Durante a implementação, o CodeRabbit escaneia automaticamente por problemas:
+- Problemas de severidade CRITICAL e HIGH são corrigidos automaticamente (até 2 iterações)
+- Problemas MEDIUM são documentados como débito técnico
+- Problemas LOW são ignorados
+
+---
+
+## Minuto 50-60: Quality Gates e Próximos Passos
+
+### Execute o QA Gate
+
+```bash
+@qa *qa-gate
+```
+
+O agente de QA verifica 7 dimensões de qualidade:
+
+1. Code review (padrões, legibilidade)
+2. Testes unitários (cobertura, todos passando)
+3. Critérios de aceitação (todos atendidos)
+4. Sem regressões
+5. Performance
+6. Segurança (básicos do OWASP)
+7. Documentação
+
+**Veredictos possíveis:** PASS, CONCERNS, FAIL, WAIVED
+
+### Entregue suas Alterações
+
+Se o QA gate passar:
+
+```bash
+# Revise suas alterações
+git diff
+
+# Envie para o remoto (apenas @devops pode fazer isso)
+@devops *push
+```
+
+### O que Você Conquistou
+
+Em 60 minutos você:
+
+- Instalou e configurou o Synkra AIOS
+- Aprendeu o conceito de meta-agente e comandos essenciais
+- Ativou agentes e entendeu limites de autoridade
+- Criou e validou sua primeira story
+- Executou o Story Development Cycle com integração CodeRabbit
+- Passou por um quality gate e entregou suas alterações
+
+---
+
+## Próximos Passos
+
+Agora que você domina o básico, explore estes recursos:
+
+- **[Guias de Workflow](/playbook/workflows)** -- Planejamento de sprint, fluxo de PR, projetos greenfield e brownfield
+- **[Referência de Comandos](/playbook/commands)** -- Lista completa de todos os comandos disponíveis
+- **[Trilhas de Aprendizado](/playbook/trails)** -- Caminhos específicos por papel para desenvolvedores, PMs, engenheiros de QA e arquitetos
+- **[Checklists de Validação](/playbook/checklists)** -- Checklists detalhados de qualidade para cada fase
+- **[Os 12 Agentes do AIOS](/docs/agents)** -- Mergulho profundo nas capacidades de cada agente
