@@ -15,6 +15,17 @@
     display: none !important;
   }
 
+  /* Hide text from ThemeSwitch and LocaleSwitch buttons in navbar (show icons only) */
+  .nextra-navbar button[aria-haspopup="listbox"] > span:last-child,
+  .nextra-navbar button:has(img[alt*="theme"]) > span:last-child {
+    display: none !important;
+  }
+
+  /* Ensure icons remain visible */
+  .nextra-navbar button img {
+    display: block !important;
+  }
+
   /* Stack footer text vertically on mobile */
   footer div {
     flex-direction: column !important;
