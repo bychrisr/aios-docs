@@ -1,5 +1,14 @@
+/* ========================================
+   SIDEBAR FOOTER FIXES
+   ======================================== */
+
 /* Hide LocaleSwitch from sidebar footer (desktop and mobile) */
 .nextra-sidebar-footer > :first-child {
+  display: none !important;
+}
+
+/* Hide ThemeSwitch from sidebar footer (desktop and mobile) - keep only in navbar */
+.nextra-sidebar-footer button:has(svg[viewBox*="20"]) {
   display: none !important;
 }
 
@@ -8,41 +17,106 @@
   display: none !important;
 }
 
-/* Mobile responsive fixes */
+/* ========================================
+   FOOTER FIXES (Desktop & Mobile)
+   ======================================== */
+
+/* Footer container: center and reduce padding */
+footer {
+  padding: 1rem 0 !important;
+  text-align: center !important;
+}
+
+/* Footer content: center alignment */
+footer > div {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+}
+
+footer p {
+  margin: 0.25rem 0 !important;
+  line-height: 1.5 !important;
+}
+
+/* Remove article bottom padding */
+article {
+  padding-bottom: 0 !important;
+}
+
+/* Reduce ALL spacing in article footer area */
+article > div[class*="mt-"],
+article > div[class*="mb-"],
+article > div[class*="pt-"],
+article > div[class*="pb-"],
+article > div[class*="border-t"] {
+  margin-top: 1rem !important;
+  margin-bottom: 0 !important;
+  padding-top: 0.75rem !important;
+  padding-bottom: 0 !important;
+}
+
+/* Specific: "Last updated" element */
+article > div[class*="text-xs"] {
+  margin-top: 1rem !important;
+  margin-bottom: 0 !important;
+  padding-top: 0.5rem !important;
+}
+
+/* Force reduce gap between navigation and footer separator */
+body > div:last-of-type,
+body > div > div:last-child {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* ========================================
+   MOBILE RESPONSIVE FIXES
+   ======================================== */
+
 @media (max-width: 767px) {
   /* Hide logo subtitle on mobile to prevent navbar overflow */
   .logo-subtitle {
     display: none !important;
   }
 
-  /* Hide text from ThemeSwitch and LocaleSwitch buttons in navbar (show icons only) */
+  /* Mobile navbar: icon-only buttons with proper spacing */
   .nextra-navbar button[aria-haspopup="listbox"],
   .nextra-navbar button:has(svg[viewBox*="20"]):not([aria-label="Menu"]) {
     font-size: 0 !important;
+    padding: 0.5rem !important;
+    min-width: 2.5rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
-  /* Ensure icons remain visible */
+  /* Ensure icons remain visible and centered */
   .nextra-navbar button svg,
   .nextra-navbar button img {
     font-size: initial !important;
     display: block !important;
+    margin: 0 auto !important;
   }
 
   /* Stack footer text vertically on mobile */
   footer div {
     flex-direction: column !important;
-    gap: 0.5rem !important;
-    text-align: center !important;
+    gap: 0.25rem !important;
   }
 
   footer p {
-    margin: 0.25rem 0 !important;
     font-size: 0.8rem !important;
   }
-}
 
-/* Nextra 4 already handles mobile sidebar correctly via:
-   - .nextra-mobile-nav with transform: translate3d(0, -100%, 0)
-   - Hamburger menu toggle
-   - No additional CSS needed for sidebar behavior
-*/
+  /* Fix mobile copy button positioning */
+  button[title*="Copy"],
+  button[aria-label*="Copy"] {
+    position: absolute !important;
+    top: 0.5rem !important;
+    right: 0.5rem !important;
+  }
+}
