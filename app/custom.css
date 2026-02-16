@@ -16,13 +16,15 @@
   }
 
   /* Hide text from ThemeSwitch and LocaleSwitch buttons in navbar (show icons only) */
-  .nextra-navbar button[aria-haspopup="listbox"] > span:last-child,
-  .nextra-navbar button:has(img[alt*="theme"]) > span:last-child {
-    display: none !important;
+  .nextra-navbar button[aria-haspopup="listbox"],
+  .nextra-navbar button:has(svg[viewBox*="20"]):not([aria-label="Menu"]) {
+    font-size: 0 !important;
   }
 
   /* Ensure icons remain visible */
+  .nextra-navbar button svg,
   .nextra-navbar button img {
+    font-size: initial !important;
     display: block !important;
   }
 
