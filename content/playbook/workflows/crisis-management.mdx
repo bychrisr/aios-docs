@@ -1,0 +1,64 @@
+# Crisis Management (War Room)
+
+Procedures for handling critical production issues.
+
+## Trigger Conditions
+
+- Production down or severely degraded
+- Data loss or security breach
+- Critical business function unavailable
+
+## War Room Protocol
+
+### 1. Assemble
+
+Activate key agents:
+```
+@devops  — Infrastructure and deployment
+@dev     — Code investigation and fixes
+@qa      — Verification and regression testing
+```
+
+### 2. Triage
+
+1. Identify the symptom (what users see)
+2. Check recent deployments (`git log --oneline -10`)
+3. Check infrastructure status
+4. Check external service status
+
+### 3. Containment
+
+Options (in order of preference):
+1. **Rollback** — Revert to last known good deployment
+2. **Feature Flag** — Disable problematic feature
+3. **Hotfix** — Minimal code change to restore service
+
+### 4. Fix
+
+```
+@dev *develop hotfix-{issue}
+```
+
+Use YOLO mode for speed. Skip story creation for P0 issues.
+
+### 5. Verify
+
+```
+@qa *qa-gate
+```
+
+Ensure fix resolves the issue without regressions.
+
+### 6. Deploy
+
+```
+@devops *push --expedite
+```
+
+### 7. Post-Mortem
+
+After resolution:
+1. Document timeline of events
+2. Identify root cause
+3. Create preventive stories
+4. Update monitoring/alerts

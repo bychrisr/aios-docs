@@ -1,0 +1,48 @@
+# Greenfield Project
+
+Starting a new project from scratch with AIOS.
+
+## Step 1: Initialize
+
+```bash
+mkdir my-project && cd my-project
+git init
+npx @synkra/aios-cli init
+```
+
+## Step 2: Architecture
+
+```
+@architect *create-full-stack-architecture
+```
+
+Follow the interactive workflow to define:
+- Tech stack selection
+- Project structure
+- Deployment strategy
+- Testing approach
+
+## Step 3: Epic Planning
+
+```
+@pm *create-epic
+```
+
+Break the architecture into epics with stories.
+
+## Step 4: Story Development
+
+For each story in priority order:
+
+1. `@sm *draft` — Create the story
+2. `@po *validate-story-draft` — Validate (GO/NO-GO)
+3. `@dev *develop {story-id}` — Implement
+4. `@qa *qa-gate` — Quality check
+5. `@devops *push` — Ship
+
+## Step 5: Iterate
+
+Continue through stories, using:
+- `*qa-loop` for iterative fixes
+- Sprint planning for weekly cadence
+- Retrospectives for continuous improvement

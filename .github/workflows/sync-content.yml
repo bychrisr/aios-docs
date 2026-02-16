@@ -1,0 +1,39 @@
+name: Sync AIOS Core Docs
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Daily at 6:00 UTC
+  workflow_dispatch:       # Manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout aios-docs
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Clone aios-core (shallow)
+        run: |
+          git clone --depth 1 https://github.com/SynkraAI/aios-core.git /tmp/aios-core
+
+      - name: Run sync script
+        run: bash scripts/sync-content.sh /tmp/aios-core
+
+      - name: Check for changes
+        id: changes
+        run: |
+          git diff --quiet content/ && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push changes
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "AIOS Sync Bot"
+          git config user.email "sync@synkra.ai"
+          git add content/docs/
+          git commit -m "docs: sync content from aios-core [automated]"
+          git push

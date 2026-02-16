@@ -1,0 +1,24 @@
+# Templates
+
+Ready-to-use templates for AIOS development.
+
+## Available Templates
+
+| Template | Command | Agent |
+|----------|---------|-------|
+| Story | `@sm *draft` | @sm |
+| PRD | `@pm *create-doc` | @pm |
+| Architecture | `@architect *create-full-stack-architecture` | @architect |
+| Epic Execution | `@pm *create-epic` | @pm |
+| QA Gate Report | `@qa *qa-gate` | @qa |
+
+## Template Location
+
+Templates are stored in `.aios-core/product/templates/` and are loaded automatically by the relevant agent commands.
+
+## Custom Templates
+
+To create a custom template:
+1. Copy an existing template from `.aios-core/product/templates/`
+2. Modify the YAML structure and sections
+3. Reference it in the appropriate agent command

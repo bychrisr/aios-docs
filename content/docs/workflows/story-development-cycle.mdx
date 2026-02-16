@@ -1,0 +1,52 @@
+# Story Development Cycle
+
+The primary workflow for all development work in AIOS.
+
+## Overview
+
+The Story Development Cycle (SDC) is a 4-phase workflow that takes a story from creation through validation, implementation, and quality assurance.
+
+```
+@sm Draft → @po Validate → @dev Implement → @qa Review
+```
+
+## Phase 1: Create
+
+**Agent:** @sm (Scrum Master)
+
+- Creates story from epic/PRD context
+- Applies story template
+- Sets initial status to **Draft**
+
+## Phase 2: Validate
+
+**Agent:** @po (Product Owner)
+
+- Runs 10-point validation checklist
+- Verifies acceptance criteria are testable
+- Checks alignment with PRD and epic
+- **Decision:** GO (≥7/10) or NO-GO
+- On GO: Status changes to **Ready**
+
+## Phase 3: Implement
+
+**Agent:** @dev (Developer)
+
+- Picks up **Ready** stories
+- Three execution modes: YOLO, Interactive, Pre-Flight
+- CodeRabbit self-healing (max 2 iterations)
+- Status: Ready → **InProgress**
+- On completion: Status → **InReview**
+
+## Phase 4: QA Gate
+
+**Agent:** @qa (QA Engineer)
+
+- 7 quality checks (code, tests, AC, regressions, perf, security, docs)
+- **Verdicts:** PASS, CONCERNS, FAIL, WAIVED
+- PASS → @devops pushes, status → **Done**
+- FAIL → Returns to @dev via QA Loop
+
+## After QA
+
+If QA passes, the story is handed to @devops for git push and PR creation. If QA fails, the QA Loop engages for iterative fixes (max 5 iterations).

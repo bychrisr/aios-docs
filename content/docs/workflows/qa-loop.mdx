@@ -1,0 +1,48 @@
+# QA Loop
+
+Automated review-fix cycle for iterative quality improvement.
+
+## Overview
+
+The QA Loop runs after the initial QA gate when issues are found. It automates the back-and-forth between QA review and developer fixes.
+
+```
+@qa review → verdict → @dev fixes → re-review (max 5 iterations)
+```
+
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `*qa-loop {storyId}` | Start QA loop |
+| `*qa-loop-review` | Resume from review |
+| `*qa-loop-fix` | Resume from fix |
+| `*stop-qa-loop` | Pause and save state |
+| `*resume-qa-loop` | Resume from saved state |
+| `*escalate-qa-loop` | Force escalation |
+
+## Verdicts
+
+| Verdict | Action |
+|---------|--------|
+| APPROVE | Complete, mark story Done |
+| REJECT | @dev fixes, then re-review |
+| BLOCKED | Escalate immediately |
+
+## Configuration
+
+- **Max iterations:** 5
+- **Status tracking:** `qa/loop-status.json`
+
+## Escalation Triggers
+
+The loop escalates automatically when:
+
+- Maximum iterations reached (default: 5)
+- Verdict is BLOCKED
+- Fix attempt fails
+- Manual escalation via `*escalate-qa-loop`
+
+## CodeRabbit Integration
+
+During the QA Loop, CodeRabbit runs in full mode with up to 3 self-healing iterations. CRITICAL and HIGH severity issues trigger automatic fixes before manual QA analysis.

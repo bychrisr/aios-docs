@@ -1,0 +1,41 @@
+# Standard PR Workflow
+
+The standard pull request workflow in AIOS projects.
+
+## Creating a PR
+
+After development and QA gate pass:
+
+```
+@devops *push
+```
+
+The DevOps agent handles:
+1. Creating the feature branch (if not already on one)
+2. Pushing to remote
+3. Creating the pull request with proper description
+
+## PR Checklist
+
+- [ ] All acceptance criteria met
+- [ ] Tests passing
+- [ ] Lint clean
+- [ ] QA gate passed
+- [ ] Story file updated with File List
+- [ ] No secrets or credentials committed
+
+## Code Review
+
+AIOS integrates with CodeRabbit for automated review:
+
+- **CRITICAL** findings: Must fix before merge
+- **HIGH** findings: Fix or document as tech debt
+- **MEDIUM** findings: Document as tech debt
+- **LOW** findings: Optional
+
+## Merging
+
+After approval:
+```
+@devops *merge
+```

@@ -1,0 +1,68 @@
+# Quick Start Guide
+
+Get up and running with AIOS in minutes.
+
+## Step 1: Initialize AIOS
+
+In your project root:
+
+```bash
+npx @synkra/aios-cli init
+```
+
+This bootstraps the `.aios-core/` directory with all framework files.
+
+## Step 2: Activate Your First Agent
+
+In Claude Code (or your AI IDE), type:
+
+```
+@dev
+```
+
+This activates the Developer agent (Dex) with all development capabilities.
+
+## Step 3: Run Your First Command
+
+```
+*help
+```
+
+Shows all available commands for the active agent.
+
+## Step 4: Create Your First Story
+
+Activate the Scrum Master:
+
+```
+@sm *draft
+```
+
+Follow the interactive prompts to create your first development story.
+
+## Step 5: Start Developing
+
+With a story created and validated:
+
+```
+@dev *develop story-1.1
+```
+
+The developer agent will guide you through implementation.
+
+## Essential Commands
+
+| Command | Agent | Description |
+|---------|-------|-------------|
+| `*help` | Any | Show available commands |
+| `*draft` | @sm | Create a new story |
+| `*validate-story-draft` | @po | Validate a story |
+| `*develop` | @dev | Start implementing a story |
+| `*qa-gate` | @qa | Run quality checks |
+| `*push` | @devops | Push changes to remote |
+
+## Next Steps
+
+- Complete the [60-minute onboarding](/playbook/getting-started/onboarding-60min)
+- Learn about [Workflow Patterns](/playbook/workflows)
+- Explore [Commands Reference](/playbook/commands)

@@ -1,0 +1,48 @@
+# Onboarding in 60 Minutes
+
+A structured walkthrough to become productive with AIOS in one hour.
+
+## Phase 1: Setup (10 min)
+
+1. Ensure you have Node.js 18+, Git, and GitHub CLI installed
+2. Initialize AIOS in your project: `npx @synkra/aios-cli init`
+3. Verify the `.aios-core/` directory was created
+4. Open your AI IDE (Claude Code recommended)
+
+## Phase 2: Agent Exploration (15 min)
+
+1. Activate each key agent and run `*help`:
+   - `@dev *help` — Developer commands
+   - `@architect *help` — Architecture commands
+   - `@sm *help` — Story management commands
+   - `@qa *help` — Quality assurance commands
+
+2. Understand agent boundaries:
+   - @dev can commit but cannot push
+   - @devops handles all push/deploy operations
+   - @po validates stories, @sm creates them
+
+## Phase 3: Create a Story (15 min)
+
+1. `@sm *draft` — Create your first story
+2. `@po *validate-story-draft` — Validate the story
+3. Review the generated story file in `docs/stories/`
+
+## Phase 4: Implement (15 min)
+
+1. `@dev *develop {story-id}` — Start implementation
+2. Follow the interactive development flow
+3. `@qa *qa-gate` — Run quality checks
+
+## Phase 5: Review & Ship (5 min)
+
+1. Review changes with `git diff`
+2. `@devops *push` — Push to remote
+
+## Congratulations!
+
+You've completed the AIOS onboarding. Continue learning:
+
+- [Workflows](/playbook/workflows) — Sprint planning, PR workflow
+- [Commands](/playbook/commands) — Complete command reference
+- [Trails by Profile](/playbook/trails) — Role-specific learning paths

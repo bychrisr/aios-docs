@@ -1,0 +1,42 @@
+# Brownfield Project
+
+Joining an existing codebase with AIOS.
+
+## Step 1: Initialize AIOS
+
+In the existing project root:
+
+```bash
+npx @synkra/aios-cli init
+```
+
+## Step 2: Brownfield Discovery
+
+```
+@architect *create-brownfield-architecture
+```
+
+This triggers the 10-phase assessment:
+
+1. **System Architecture** — Map current architecture
+2. **Database Audit** — Assess data layer
+3. **Frontend Spec** — Document UI patterns
+4. **Technical Debt Draft** — Identify debt
+5. **DB Review** — Specialist database review
+6. **UX Review** — Specialist UX review
+7. **QA Gate** — Validate assessment
+8. **Final Assessment** — Consolidated document
+9. **Executive Report** — Summary for stakeholders
+10. **Epic Planning** — Create stories from findings
+
+## Step 3: Prioritize
+
+Work with `@po` to prioritize stories based on:
+- Business impact
+- Technical risk
+- Dependencies
+- Team capacity
+
+## Step 4: Execute
+
+Follow the standard Story Development Cycle for each story.

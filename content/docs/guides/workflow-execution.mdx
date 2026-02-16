@@ -1,0 +1,57 @@
+# Workflow Execution
+
+How AIOS workflows orchestrate multi-agent development.
+
+## Core Principle
+
+Workflows are composed of **tasks connected together**, not agents. Each task defines inputs, outputs, pre/post-conditions, and execution modes. Agents are the default executors.
+
+## Available Workflows
+
+| Workflow | Purpose |
+|----------|---------|
+| Story Development Cycle | Primary development workflow |
+| QA Loop | Iterative review-fix cycle |
+| Spec Pipeline | Requirements → executable spec |
+| Brownfield Discovery | Legacy codebase assessment |
+
+## Workflow Selection
+
+| Situation | Workflow |
+|-----------|---------|
+| New story from epic | Story Development Cycle |
+| QA found issues | QA Loop |
+| Complex feature needs spec | Spec Pipeline → SDC |
+| Joining existing project | Brownfield Discovery |
+| Simple bug fix | SDC (YOLO mode) |
+
+## Execution Modes
+
+### Guided Mode
+Manual persona-switch between agents. The orchestrator tells you which agent to activate next.
+
+### Engine Mode
+Real subagent spawning — agents are automatically dispatched in sequence.
+
+## Starting a Workflow
+
+```
+@aios-master
+> *workflow greenfield-fullstack
+```
+
+Or for specific workflows:
+
+```
+> *workflow story-development-cycle
+> *workflow brownfield-discovery
+```
+
+## Workflow Configuration
+
+Workflows are defined as YAML files in `.aios-core/development/workflows/`. Each workflow specifies:
+
+- **Phases** with sequential steps
+- **Agent assignments** per step
+- **Artifacts** produced at each phase
+- **Gate conditions** for progression
