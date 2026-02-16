@@ -7,7 +7,7 @@
 
 ## Hi AIOS Team! 👋
 
-I'm @bychrisr (Christian). I built a comprehensive documentation site for AIOS because I was struggling to learn the framework from scattered markdown files in the repo. Now that it's helped me, I'd like to donate it to the community.
+I'm @bychrisr (Christian). I built this documentation site because I wanted to learn AIOS but found navigating between markdown files really challenging. I'm neurodivergent (ASD + ADHD), so I need visual, structured content to learn effectively. That's why I created this site with search, navigation, and the practical `playbook/` section — it's how I learn best. Now that it's helped me master AIOS, I'd like to donate it to the community so others can benefit too.
 
 ## 🌐 What I Built
 
@@ -189,13 +189,16 @@ Tuesday 6:07 AM: Your changes live on docs.synkraaios.site
 
 **Full transparency:**
 
-AIOS is free and gave me tremendous value. I went from struggling with scattered markdown files to understanding the entire framework. Now I want to **give back** what AIOS gave me.
+AIOS is free and gave me tremendous value. As someone neurodivergent, I learn differently — I need structure, visuals, and step-by-step guides. Navigating between markdown files in a repo doesn't work for my brain. So I built this site the way I needed to learn: instant search, clear navigation, visual hierarchy, and practical playbooks.
+
+It worked! Now I understand AIOS deeply. I want to **give back** what AIOS gave me, especially for others who learn like I do.
 
 **My journey:**
-1. Downloaded AIOS → Confused by documentation scattered across repo
-2. Built this site to help myself learn → It worked!
-3. Now I understand AIOS deeply → Want others to have the same experience
-4. AIOS is free → This is my way to say thank you
+1. Found AIOS → Wanted to learn but navigating files was overwhelming for me
+2. Built this site with visual structure + search → Finally clicked for me!
+3. Created `playbook/` with step-by-step guides → Made AIOS accessible for my brain
+4. Now I understand AIOS deeply → Want to help others (especially neurodivergent folks)
+5. AIOS is free and changed how I work → This is my way to say thank you
 
 **Why donate instead of keeping independent:**
 - Official docs reach more people than "some random site"
