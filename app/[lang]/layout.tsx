@@ -3,7 +3,24 @@ import { Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 
 const footer = (
-  <Footer>MIT {new Date().getFullYear()} © Synkra AI</Footer>
+  <Footer>
+    <div style={{ textAlign: 'center' }}>
+      <p>MIT {new Date().getFullYear()} © Synkra AI</p>
+      <p style={{ fontSize: '0.85rem', opacity: 0.7, marginTop: '0.5rem' }}>
+        Built with ❤️ by{' '}
+        <a
+          href="https://github.com/bychrisr"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: 'inherit', textDecoration: 'underline' }}
+        >
+          @bychrisr
+        </a>
+        {' • '}
+        Maintained by AIOS Community
+      </p>
+    </div>
+  </Footer>
 )
 
 
