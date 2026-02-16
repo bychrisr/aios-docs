@@ -68,12 +68,12 @@ Each locale directory (`content/{locale}/`) mirrors the same structure (29 MDX f
 
 | File | Purpose |
 |------|---------|
-| `app/[lang]/layout.tsx` | Navbar (logo + subtitle + LocaleSwitch), sidebar, footer, i18n config |
+| `app/[lang]/layout.tsx` | Navbar (logo, ThemeSwitch, LocaleSwitch, GitHub icon), sidebar, footer, i18n config, credits |
 | `app/layout.tsx` | Root layout — imports `nextra-theme-docs/style.css` and `custom.css` |
 | `middleware.ts` | `export { proxy as middleware } from 'nextra/locales'` |
 | `next.config.mjs` | Nextra config (`search: true`, `latex: true`) + i18n locales + redirects |
 | `vercel.json` | Vercel deployment config with security headers and Pagefind buildCommand |
-| `app/custom.css` | Hides LocaleSwitch from sidebar (kept in navbar only) |
+| `app/custom.css` | Mobile responsive fixes: icon-only buttons, hidden subtitle, sidebar LocaleSwitch removal, footer stacking |
 
 ## Common Commands
 
@@ -121,6 +121,60 @@ Labels in `_meta.js` files must be distinct — avoid duplicates across sections
 
 Generic titles like "Visão Geral" / "Overview" should be replaced with descriptive names.
 
+## Mobile UX Optimizations
+
+### Header Mobile (< 768px)
+
+**Layout:** `Logo | Theme Icon | Locale Icon | GitHub Icon | Menu`
+
+**CSS Implementation (`app/custom.css`):**
+```css
+@media (max-width: 767px) {
+  /* Hide logo subtitle */
+  .logo-subtitle {
+    display: none !important;
+  }
+
+  /* Icon-only buttons (ThemeSwitch, LocaleSwitch) */
+  .nextra-navbar button[aria-haspopup="listbox"],
+  .nextra-navbar button:has(svg[viewBox*="20"]):not([aria-label="Menu"]) {
+    font-size: 0 !important;
+  }
+
+  /* Keep icons visible */
+  .nextra-navbar button svg,
+  .nextra-navbar button img {
+    font-size: initial !important;
+    display: block !important;
+  }
+
+  /* Stack footer vertically */
+  footer div {
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+    text-align: center !important;
+  }
+}
+```
+
+**Features:**
+- ✅ Minimalist design with icon-only buttons
+- ✅ ThemeSwitch and LocaleSwitch show full text in dropdown menus
+- ✅ GitHub icon positioned before hamburger menu
+- ✅ Logo subtitle hidden to prevent overflow
+- ✅ LocaleSwitch hidden from mobile sidebar footer (kept only in navbar)
+
+### Footer Mobile
+
+Footer text stacks vertically on mobile with centered alignment and smaller font size for better readability.
+
+### Credits
+
+All pages include attribution to **@bychrisr** in:
+- Footer: "Built with ❤️ by @bychrisr • Maintained by AIOS Community"
+- README.md: Credits section with creation date
+- About pages: All 3 locales (pt-BR, en, es)
+
 ## MDX Gotchas
 
 - **Never use `<=` or `>=` in MDX** — use `≤` and `≥` (unicode) instead
@@ -144,6 +198,31 @@ The correct package name is `@synkra/aios-core` (not `@synkra/aios-cli`).
 The correct template path is `.aios-core/development/templates/` (not `.aios-core/product/templates/`).
 The framework has 13 agents (including @squad-creator / Nova).
 
+## Content Synchronization (Mirror Process)
+
+This project is an **automated mirror** of `SynkraAI/aios-core` documentation with enhancements:
+
+### Sync Infrastructure
+- **Workflow:** `.github/workflows/sync-content.yml` (daily at 6:00 UTC)
+- **Script:** `scripts/sync-content.sh` (clone → convert → copy)
+- **Conversion:** Markdown (`.md`) → MDX (`.mdx`) for Nextra compatibility
+- **Frequency:** Daily automatic sync + manual trigger available
+
+### Content Flow
+```
+aios-core/docs/*.md → clone → convert to .mdx → content/{locale}/docs/
+```
+
+### Enhancements Applied
+- ✅ Multilingual translations (pt-BR, en, es)
+- ✅ Nextra-compatible MDX formatting
+- ✅ Pagefind search indexing
+- ✅ Navigation structure optimization
+- ✅ Quality improvements (e.g., agent count corrections)
+- ✅ Mobile-first responsive design
+
+**Important:** We are a **faithful mirror with presentation enhancements**, not an independent documentation source. Content corrections should ideally be proposed to the upstream `aios-core` repository.
+
 ## Git Conventions
 
 - Use conventional commits: `feat:`, `fix:`, `docs:`, `chore:`
@@ -158,4 +237,5 @@ After changes, always verify:
 3. All 3 locales have matching file structures (29 MDX files each)
 
 ---
-*Synkra AIOS Docs — Claude Code Configuration v3.1*
+*Synkra AIOS Docs — Claude Code Configuration v3.2*
+*Last Updated: 2026-02-16 — Mobile UX optimizations, ThemeSwitch, GitHub icon reordering*
