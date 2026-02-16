@@ -1,48 +1,498 @@
-# Comandos Essenciais
+# Referência de Comandos
 
-Referência rápida para os comandos mais importantes do AIOS.
+Referência completa de todos os comandos do meta-agente Synkra AIOS. O AIOS fornece mais de 60 comandos organizados em 11 categorias, cobrindo desde navegação e gestão de stories até geração de código e administração do sistema.
 
-## Comandos Universais
+## Como os Comandos Funcionam
 
-| Comando | Descrição |
-|---------|-----------|
-| `*help` | Mostrar comandos disponíveis para o agente ativo |
-| `*guide` | Mostrar guia de uso completo |
-| `*session-info` | Mostrar detalhes da sessão atual |
-| `*yolo` | Alternar modo de permissão (ask → auto → explore) |
-| `*exit` | Sair do modo do agente atual |
+Todos os comandos do AIOS usam o prefixo `*` (asterisco). Os comandos são sensíveis ao contexto e podem se comportar de forma diferente dependendo de qual agente está ativo. Alguns comandos são universais (disponíveis para todos os agentes), enquanto outros são exclusivos de agentes específicos.
 
-## Gestão de Stories
+### Sintaxe dos Comandos
 
-| Comando | Agente | Descrição |
-|---------|--------|-----------|
-| `*draft` | @sm | Criar uma nova story |
-| `*validate-story-draft` | @po | Validar uma story (checklist de 10 pontos) |
-| `*develop {story-id}` | @dev | Começar a implementar uma story |
-| `*qa-gate` | @qa | Executar verificações do quality gate |
-| `*qa-loop {story-id}` | @qa | Iniciar loop iterativo de QA |
+```
+*nome-do-comando {param-obrigatório} [param-opcional] [--flag valor]
+```
 
-## Arquitetura
+- Comandos começam com `*` (asterisco)
+- Parâmetros em `{chaves}` são obrigatórios
+- Parâmetros em `[colchetes]` são opcionais
+- Flags começam com `--` e podem aceitar valores
+- Múltiplas flags podem ser combinadas em um único comando
 
-| Comando | Agente | Descrição |
-|---------|--------|-----------|
-| `*create-full-stack-architecture` | @architect | Arquitetura completa do sistema |
-| `*create-front-end-architecture` | @architect | Arquitetura do frontend |
-| `*create-plan` | @architect | Criar plano de implementação |
-| `*analyze-project-structure` | @architect | Analisar projeto para novas features |
+### Atalhos de Comandos
 
-## Gestão de Projetos
+Comandos comuns possuem atalhos de uma letra:
 
-| Comando | Agente | Descrição |
-|---------|--------|-----------|
-| `*create-epic` | @pm | Criar um novo epic |
-| `*execute-epic` | @pm | Executar fluxo do epic |
-| `*research {topic}` | @analyst | Pesquisa aprofundada sobre um tópico |
+| Atalho | Comando Completo |
+|--------|-----------------|
+| `*h` | `*help` |
+| `*s` | `*status` |
+| `*la` | `*list-agents` |
+| `*lt` | `*list-tasks` |
+| `*lw` | `*list-workflows` |
+| `*ca` | `*create-agent` |
+| `*ct` | `*create-task` |
+| `*cw` | `*create-workflow` |
+| `*a` | `*analyze-framework` |
+| `*i` | `*improve-code-quality` |
 
-## DevOps
+---
 
-| Comando | Agente | Descrição |
-|---------|--------|-----------|
-| `*push` | @devops | Enviar alterações para o remoto |
-| `*deploy` | @devops | Deploy no ambiente alvo |
-| `*setup-mcp-docker` | @devops | Configurar Docker MCP |
+## 1. Comandos Principais
+
+Comandos essenciais para navegação, ajuda e status do sistema.
+
+| Comando | Descrição | Agentes |
+|---------|-----------|---------|
+| `*help` | Mostrar todos os comandos disponíveis ou ajuda para um comando específico | Todos |
+| `*help {comando}` | Mostrar ajuda detalhada para um comando específico | Todos |
+| `*help --category {nome}` | Mostrar comandos filtrados por categoria | Todos |
+| `*status` | Mostrar status atual do sistema e agentes ativos | Todos |
+| `*status --detailed` | Mostrar informações detalhadas do sistema | Todos |
+| `*status --health` | Executar verificação de saúde | Todos |
+| `*config` | Visualizar configuração atual | Todos |
+| `*config --set {chave} {valor}` | Definir um valor de configuração | Todos |
+| `*config --reset` | Resetar configuração para os padrões | Todos |
+| `*config --export` | Exportar configuração atual | Todos |
+| `*version` | Exibir informações de versão | Todos |
+| `*version --check-update` | Verificar atualizações disponíveis | Todos |
+| `*version --changelog` | Mostrar changelog | Todos |
+
+### Exemplos
+
+```bash
+*help create-agent       # Ajuda para comando específico
+*status --detailed       # Informações completas do sistema
+*config --set ai.model gpt-4   # Alterar modelo de IA
+```
+
+---
+
+## 2. Gestão de Agentes
+
+Comandos para criar, ativar, modificar e gerenciar agentes de IA.
+
+| Comando | Descrição | Agentes |
+|---------|-----------|---------|
+| `*create-agent {nome}` | Criar um novo agente de IA | @aios-master |
+| `*create-agent {nome} --type {tipo}` | Criar agente com tipo (assistant, analyzer, generator, specialist) | @aios-master |
+| `*create-agent {nome} --template {nome}` | Criar a partir de template (basic, advanced, custom) | @aios-master |
+| `*create-agent {nome} --from-file {caminho}` | Criar a partir de arquivo YAML | @aios-master |
+| `*list-agents` | Listar todos os agentes disponíveis | Todos |
+| `*list-agents --active` | Mostrar apenas agentes ativos | Todos |
+| `*list-agents --type {tipo}` | Filtrar agentes por tipo | Todos |
+| `*list-agents --detailed` | Mostrar detalhes completos dos agentes | Todos |
+| `*activate {agente}` | Ativar um agente para uso | Todos |
+| `*activate {a1} {a2}` | Ativar múltiplos agentes | Todos |
+| `*activate --all` | Ativar todos os agentes | @aios-master |
+| `*deactivate {agente}` | Desativar um agente | Todos |
+| `*deactivate --all` | Desativar todos os agentes | @aios-master |
+| `*deactivate --except {agente}` | Desativar todos exceto o especificado | @aios-master |
+| `*modify-agent {nome}` | Modificar configuração do agente | @aios-master |
+| `*modify-agent {nome} --add-capability {cap}` | Adicionar uma capacidade ao agente | @aios-master |
+| `*modify-agent {nome} --remove-capability {cap}` | Remover uma capacidade | @aios-master |
+| `*modify-agent {nome} --interactive` | Modo de modificação interativo | @aios-master |
+| `*delete-agent {nome}` | Remover um agente (com confirmação) | @aios-master |
+| `*delete-agent {nome} --force` | Remover sem confirmação | @aios-master |
+| `*delete-agent {nome} --backup` | Backup antes da exclusão | @aios-master |
+| `*clone-agent {origem} {destino}` | Clonar um agente existente | @aios-master |
+| `*clone-agent {origem} {destino} --modify` | Clonar e modificar | @aios-master |
+
+### Exemplos
+
+```bash
+*create-agent code-reviewer --type analyzer
+*activate code-reviewer
+*modify-agent helper --add-capability translate
+*clone-agent bot bot-v2 --modify
+```
+
+---
+
+## 3. Operações de Tarefas
+
+Comandos para criar, listar, executar e agendar tarefas reutilizáveis.
+
+| Comando | Descrição | Agentes |
+|---------|-----------|---------|
+| `*create-task {nome}` | Criar uma nova tarefa reutilizável | Todos |
+| `*create-task {nome} --type {tipo}` | Tipo de tarefa: command, automation, analysis | Todos |
+| `*create-task {nome} --template {nome}` | Criar a partir de template de tarefa | Todos |
+| `*list-tasks` | Listar todas as tarefas disponíveis | Todos |
+| `*list-tasks --type {tipo}` | Filtrar por tipo | Todos |
+| `*list-tasks --recent` | Mostrar tarefas usadas recentemente | Todos |
+| `*list-tasks --search {consulta}` | Buscar tarefas por nome/descrição | Todos |
+| `*run-task {nome}` | Executar uma tarefa específica | Todos |
+| `*run-task {nome} --{param} {valor}` | Executar tarefa com parâmetros | Todos |
+| `*schedule-task {tarefa} --cron {expr}` | Agendar com expressão cron | @devops |
+| `*schedule-task {tarefa} --every {intervalo}` | Agendar em intervalos | @devops |
+| `*schedule-task {tarefa} --at {hora}` | Agendar em horário específico | @devops |
+| `*modify-task {nome}` | Atualizar configuração da tarefa | Todos |
+| `*modify-task {nome} --rename {novo}` | Renomear uma tarefa | Todos |
+
+### Exemplos
+
+```bash
+*create-task validate-input --type command
+*run-task generate-report --format pdf
+*schedule-task cleanup --cron "0 2 * * *"
+*schedule-task backup --at "03:00" --on "sunday"
+```
+
+---
+
+## 4. Comandos de Workflow
+
+Comandos para criar, executar e gerenciar workflows automatizados.
+
+| Comando | Descrição | Agentes |
+|---------|-----------|---------|
+| `*create-workflow {nome}` | Criar um novo workflow automatizado | Todos |
+| `*create-workflow {nome} --trigger {tipo}` | Definir gatilho: manual, schedule, event | Todos |
+| `*create-workflow {nome} --template {nome}` | Criar a partir de template de workflow | Todos |
+| `*create-workflow {nome} --from-file {caminho}` | Importar de arquivo YAML | Todos |
+| `*list-workflows` | Listar todos os workflows | Todos |
+| `*list-workflows --active` | Mostrar workflows em execução | Todos |
+| `*list-workflows --scheduled` | Mostrar workflows agendados | Todos |
+| `*list-workflows --failed` | Mostrar execuções com falha | Todos |
+| `*run-workflow {nome}` | Executar um workflow | Todos |
+| `*run-workflow {nome} --dry-run` | Pré-visualizar sem executar | Todos |
+| `*run-workflow {nome} --skip-steps {etapas}` | Pular etapas específicas | Todos |
+| `*run-workflow {nome} --force` | Forçar execução mesmo se já em andamento | Todos |
+| `*stop-workflow {nome}` | Parar um workflow em execução | Todos |
+| `*stop-workflow --all` | Parar todos os workflows em execução | Todos |
+| `*workflow-status {nome}` | Verificar status de execução | Todos |
+| `*workflow-status --all` | Status de todos os workflows | Todos |
+| `*workflow-status --history` | Mostrar histórico de execuções | Todos |
+
+### Exemplos
+
+```bash
+*create-workflow ci-pipeline --trigger push
+*run-workflow deploy --params '{"env":"staging"}'
+*run-workflow test-suite --dry-run
+*stop-workflow deploy
+```
+
+---
+
+## 5. Gestão de Stories
+
+Comandos para o ciclo de vida completo de stories, desde a criação até o QA.
+
+| Comando | Descrição | Agentes |
+|---------|-----------|---------|
+| `*draft` | Criar uma nova story a partir do epic/PRD | @sm |
+| `*create-next-story` | Criar a próxima story na sequência | @sm |
+| `*validate-story-draft` | Validar uma story com checklist de 10 pontos | @po |
+| `*develop {story-id}` | Começar a implementar uma story | @dev |
+| `*develop {story-id} --mode yolo` | Implementação autônoma (0-1 prompts) | @dev |
+| `*develop {story-id} --mode interactive` | Implementação interativa (5-10 prompts) | @dev |
+| `*develop {story-id} --mode pre-flight` | Implementação plan-first (10-15 prompts) | @dev |
+| `*qa-gate` | Executar o quality gate de 7 pontos | @qa |
+| `*qa-loop {story-id}` | Iniciar loop iterativo de revisão-correção | @qa |
+| `*qa-loop-review` | Retomar loop de QA a partir da revisão | @qa |
+| `*qa-loop-fix` | Retomar loop de QA a partir da correção | @qa |
+| `*stop-qa-loop` | Pausar loop de QA e salvar estado | @qa |
+| `*resume-qa-loop` | Retomar loop de QA do estado salvo | @qa |
+| `*escalate-qa-loop` | Forçar escalação do loop de QA | @qa |
+
+### Progressão de Status da Story
+
+```
+Draft → Ready → InProgress → InReview → Done
+```
+
+### Exemplos
+
+```bash
+*draft                          # Criar story do contexto do epic
+*validate-story-draft           # Executar validação de 10 pontos
+*develop STORY-42 --mode yolo   # Implementação autônoma
+*qa-gate                        # Executar verificações de qualidade
+*qa-loop STORY-42               # Iniciar QA iterativo
+```
+
+---
+
+## 6. Arquitetura e Planejamento
+
+Comandos para arquitetura do sistema, análise de projeto e planejamento.
+
+| Comando | Descrição | Agentes |
+|---------|-----------|---------|
+| `*create-full-stack-architecture` | Gerar arquitetura completa do sistema | @architect |
+| `*create-front-end-architecture` | Gerar arquitetura do frontend | @architect |
+| `*create-plan` | Criar plano de implementação | @architect |
+| `*analyze-project-structure` | Analisar projeto para novas features | @architect |
+| `*create-epic` | Criar um novo epic | @pm |
+| `*execute-epic` | Executar workflow do epic | @pm |
+| `*research {tópico}` | Pesquisa aprofundada sobre um tópico | @analyst |
+
+### Exemplos
+
+```bash
+*create-full-stack-architecture
+*create-plan
+*analyze-project-structure
+*create-epic
+*research "authentication patterns"
+```
+
+---
+
+## 7. Geração de Código
+
+Comandos para gerar componentes, APIs, testes e documentação.
+
+| Comando | Descrição | Agentes |
+|---------|-----------|---------|
+| `*generate-component {nome}` | Gerar um componente de UI | @dev |
+| `*generate-component {nome} --type {tipo}` | Tipo de componente: react, vue, angular, web-component | @dev |
+| `*generate-component {nome} --tests` | Gerar com arquivos de teste | @dev |
+| `*generate-component {nome} --storybook` | Gerar stories do Storybook | @dev |
+| `*generate-api {recurso}` | Gerar endpoints de API | @dev |
+| `*generate-api {recurso} --operations crud` | Operações CRUD completas | @dev |
+| `*generate-api {recurso} --auth` | Incluir autenticação | @dev |
+| `*generate-api {recurso} --validation` | Incluir validação de entrada | @dev |
+| `*generate-api {recurso} --database {tipo}` | Tipo de banco: postgres, mongodb, mysql | @dev |
+| `*generate-tests {caminho}` | Gerar suítes de teste | @dev, @qa |
+| `*generate-tests {caminho} --type {tipo}` | Tipo de teste: unit, integration, e2e | @dev, @qa |
+| `*generate-tests {caminho} --framework {nome}` | Framework: jest, mocha, cypress | @dev, @qa |
+| `*generate-tests {caminho} --coverage {pct}` | Percentual de cobertura alvo | @dev, @qa |
+| `*generate-documentation {caminho}` | Gerar documentação | Todos |
+| `*generate-documentation {caminho} --type {tipo}` | Tipo de doc: api, user-guide, technical | Todos |
+| `*generate-documentation {caminho} --diagrams` | Incluir diagramas | Todos |
+
+### Exemplos
+
+```bash
+*generate-component UserProfile --type react --features "avatar,bio,stats"
+*generate-api users --operations crud --auth --validation
+*generate-tests src/utils/ --type unit --coverage 90
+*generate-documentation src/ --type api --format markdown
+```
+
+---
+
+## 8. Análise e Melhoria
+
+Comandos para analisar código, detectar padrões e melhorar a qualidade do código.
+
+| Comando | Descrição | Agentes |
+|---------|-----------|---------|
+| `*analyze-framework` | Analisar todo o codebase | Todos |
+| `*analyze-framework --depth {nível}` | Profundidade: surface, standard, deep | Todos |
+| `*analyze-framework --focus {áreas}` | Foco: performance, security, quality | Todos |
+| `*analyze-code {caminho}` | Analisar arquivos de código específicos | Todos |
+| `*analyze-code {caminho} --metrics` | Mostrar métricas de código | Todos |
+| `*analyze-code {caminho} --complexity` | Analisar complexidade | Todos |
+| `*analyze-code {caminho} --security` | Análise de segurança | Todos |
+| `*analyze-code {caminho} --dependencies` | Analisar dependências | Todos |
+| `*improve-code-quality {caminho}` | Melhoria de código assistida por IA | @dev |
+| `*improve-code-quality {caminho} --focus {aspecto}` | Foco: readability, performance, maintainability | @dev |
+| `*improve-code-quality {caminho} --fix-eslint` | Corrigir problemas de linting | @dev |
+| `*suggest-refactoring {caminho}` | Obter sugestões de refatoração | @dev, @architect |
+| `*suggest-refactoring {caminho} --preview` | Pré-visualizar mudanças antes de aplicar | @dev, @architect |
+| `*suggest-refactoring {caminho} --auto-apply` | Aplicar sugestões automaticamente | @dev |
+| `*detect-patterns {caminho}` | Detectar padrões e anti-padrões de código | Todos |
+| `*detect-patterns --anti-patterns` | Foco em anti-padrões | Todos |
+| `*detect-patterns --suggest-fixes` | Incluir sugestões de correção | Todos |
+
+### Exemplos
+
+```bash
+*analyze-framework --depth deep --focus "performance,security"
+*analyze-code src/api/ --security --suggestions
+*improve-code-quality src/utils.js --focus readability
+*detect-patterns --anti-patterns --suggest-fixes
+```
+
+---
+
+## 9. Camada de Memória
+
+Comandos para gerenciar o sistema de memória dos agentes, que permite aprender com mudanças de código e armazenar conhecimento específico do projeto.
+
+| Comando | Descrição | Agentes |
+|---------|-----------|---------|
+| `*memory status` | Mostrar status da camada de memória | Todos |
+| `*memory search {consulta}` | Busca semântica na memória | Todos |
+| `*memory rebuild` | Reconstruir índice de memória | Todos |
+| `*memory clear-cache` | Limpar cache de memória | Todos |
+| `*memory optimize` | Otimizar performance da memória | Todos |
+| `*memory export {caminho}` | Exportar dados de memória | Todos |
+| `*memory import {caminho}` | Importar dados de memória | Todos |
+| `*learn` | Aprender com mudanças de código e padrões | Todos |
+| `*learn --from {fonte}` | Fonte: recent-changes, commits, patterns | Todos |
+| `*learn --period {período}` | Período: "1 week", "1 month" | Todos |
+| `*remember {chave} {valor}` | Armazenar informação na memória | Todos |
+| `*remember {chave} {valor} --type {tipo}` | Tipo: pattern, preference, rule | Todos |
+| `*remember {chave} {valor} --expires {tempo}` | Definir tempo de expiração | Todos |
+| `*forget {chave}` | Remover informação específica da memória | Todos |
+| `*forget --older-than {tempo}` | Remover memórias antigas | Todos |
+
+### Exemplos
+
+```bash
+*memory status
+*memory search "authentication flow"
+*learn --from recent-changes --period "1 week"
+*remember coding-style "use-functional-components" --type preference
+*forget --older-than "6 months"
+```
+
+---
+
+## 10. Auto-Modificação
+
+Comandos para auto-melhoria e adaptação do meta-agente. Estes comandos permitem que o sistema AIOS evolua com base em padrões de uso e necessidades do projeto.
+
+| Comando | Descrição | Agentes |
+|---------|-----------|---------|
+| `*improve-self` | Auto-melhoria do meta-agente | @aios-master |
+| `*improve-self --aspect {área}` | Área: speed, accuracy, features | @aios-master |
+| `*improve-self --based-on {dados}` | Base: usage, feedback, analysis | @aios-master |
+| `*improve-self --preview` | Pré-visualizar melhorias antes de aplicar | @aios-master |
+| `*evolve` | Evoluir capacidades com base no uso | @aios-master |
+| `*evolve --strategy {tipo}` | Estratégia: conservative, balanced, aggressive | @aios-master |
+| `*evolve --generations {num}` | Número de ciclos de evolução | @aios-master |
+| `*evolve --rollback-point` | Criar ponto de rollback antes de evoluir | @aios-master |
+| `*adapt` | Adaptar-se às necessidades específicas do projeto | @aios-master |
+| `*adapt --to {contexto}` | Contexto: project-type, team-style, domain | @aios-master |
+| `*adapt --learn-from {fonte}` | Fonte: codebase, commits, reviews | @aios-master |
+| `*optimize-performance` | Otimizar performance do meta-agente | @aios-master |
+| `*optimize-performance --target {métrica}` | Alvo: speed, memory, accuracy | @aios-master |
+| `*optimize-performance --benchmark` | Executar benchmarks | @aios-master |
+
+### Exemplos
+
+```bash
+*improve-self --aspect accuracy --based-on feedback
+*evolve --strategy balanced --rollback-point
+*adapt --to project-type --learn-from codebase
+*optimize-performance --target speed --profile
+```
+
+---
+
+## 11. Comandos do Sistema
+
+Comandos para backup, restauração, atualizações, diagnósticos e administração do sistema.
+
+| Comando | Descrição | Agentes |
+|---------|-----------|---------|
+| `*backup` | Criar backup do sistema | @devops |
+| `*backup --include all` | Backup completo | @devops |
+| `*backup --include {itens}` | Backup de itens específicos: config, agents, memory | @devops |
+| `*backup --compress` | Comprimir backup | @devops |
+| `*backup --encrypt` | Criptografar backup | @devops |
+| `*restore {arquivo}` | Restaurar a partir de backup | @devops |
+| `*restore {arquivo} --preview` | Pré-visualizar operação de restauração | @devops |
+| `*restore {arquivo} --merge` | Mesclar com dados existentes | @devops |
+| `*update` | Atualizar Synkra AIOS | @devops |
+| `*update --check` | Apenas verificar atualizações | @devops |
+| `*update --version {ver}` | Atualizar para versão específica | @devops |
+| `*update --backup` | Backup antes de atualizar | @devops |
+| `*uninstall {componente}` | Desinstalar um componente | @devops |
+| `*uninstall --complete` | Desinstalação completa | @devops |
+| `*doctor` | Diagnósticos e reparo do sistema | Todos |
+| `*doctor --fix` | Auto-corrigir problemas detectados | Todos |
+| `*doctor --deep` | Varredura profunda do sistema | Todos |
+| `*push` | Enviar alterações para o repositório remoto | @devops |
+| `*deploy` | Deploy no ambiente alvo | @devops |
+| `*setup-mcp-docker` | Configurar infraestrutura Docker MCP | @devops |
+
+### Exemplos
+
+```bash
+*backup --include all --compress
+*restore backups/backup-2024-01-01.zip --preview
+*update --check
+*doctor --fix
+*push
+```
+
+---
+
+## 12. Comandos Avançados
+
+Comandos para importação/exportação, benchmarking, depuração e gestão de plugins.
+
+| Comando | Descrição | Agentes |
+|---------|-----------|---------|
+| `*export {tipo}` | Exportar dados (config, agents, workflows, memory, all) | Todos |
+| `*export {tipo} --format {fmt}` | Formato: json, yaml, archive | Todos |
+| `*export {tipo} --destination {caminho}` | Exportar para caminho específico | Todos |
+| `*import {arquivo}` | Importar dados de arquivo | Todos |
+| `*import {arquivo} --merge` | Mesclar com dados existentes | Todos |
+| `*import {arquivo} --validate` | Validar antes de importar | Todos |
+| `*import {arquivo} --dry-run` | Pré-visualizar importação | Todos |
+| `*benchmark` | Executar benchmarks de performance | Todos |
+| `*benchmark {suite}` | Suite: all, generation, analysis, memory, e2e | Todos |
+| `*benchmark {suite} --compare {baseline}` | Comparar com baseline | Todos |
+| `*debug enable` | Ativar modo de depuração | Todos |
+| `*debug disable` | Desativar modo de depuração | Todos |
+| `*debug logs {nível}` | Mostrar logs de depuração por nível | Todos |
+| `*debug trace {operação}` | Rastrear uma operação específica | Todos |
+| `*plugin install {nome}` | Instalar um plugin | @devops |
+| `*plugin remove {nome}` | Remover um plugin | @devops |
+| `*plugin list` | Listar plugins instalados | Todos |
+| `*plugin search {consulta}` | Buscar plugins disponíveis | Todos |
+| `*plugin create {nome}` | Criar um novo plugin | @dev |
+
+### Exemplos
+
+```bash
+*export config --format yaml
+*import agents.json --type agents --merge
+*benchmark all --iterations 10
+*debug enable --verbose
+*plugin install code-formatter --enable
+```
+
+---
+
+## Comandos Exclusivos do DevOps
+
+As operações a seguir são gerenciadas **exclusivamente** pelo agente @devops (Gage). Outros agentes devem delegar essas operações.
+
+| Operação | Comando | Detalhes |
+|----------|---------|----------|
+| Git push | `*push` | Enviar para repositório remoto |
+| Criação de PR | `gh pr create` | Criar pull request |
+| Merge de PR | `gh pr merge` | Mesclar pull request |
+| Gestão de MCP | `*setup-mcp-docker` | Adicionar/remover/configurar servidores MCP |
+| CI/CD | `*deploy` | Gestão de pipeline e deploy |
+| Release | `*update` | Gestão de releases |
+
+---
+
+## Encadeamento de Comandos
+
+Comandos podem ser encadeados para operações complexas:
+
+```bash
+# Execução sequencial com &&
+*analyze-framework && *suggest-improvements && *generate-report
+
+# Fluxo de dados com pipes
+*analyze-code src/ | *improve-code-quality | *generate-tests
+
+# Execução independente com ;
+*backup ; *update ; *doctor --fix
+```
+
+---
+
+## Variáveis de Ambiente
+
+Controle o comportamento do AIOS com variáveis de ambiente:
+
+| Variável | Descrição | Padrão |
+|----------|-----------|--------|
+| `AIOS_AI_PROVIDER` | Provedor de IA a utilizar | openai |
+| `AIOS_AI_MODEL` | Modelo de IA a utilizar | gpt-4 |
+| `AIOS_LOG_LEVEL` | Nível de log | info |
+| `AIOS_TELEMETRY` | Configuração de telemetria | disabled |
+| `AIOS_TIMEOUT` | Timeout de comando em ms | 30000 |
+| `AIOS_MEMORY_CACHE` | Ativar cache de memória | true |

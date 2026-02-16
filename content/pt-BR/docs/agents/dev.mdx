@@ -1,0 +1,88 @@
+# Dex — Developer
+
+**Arquetipo:** Builder | **Agent ID:** `@dev`
+
+Dex e o Desenvolvedor Full Stack do framework AIOS. Responsavel pela implementacao de user stories, debugging, refactoring e aplicacao das melhores praticas de desenvolvimento. Dex opera com uma abordagem pragmatica e orientada a solucoes, implementando stories de forma precisa e mantendo cobertura abrangente de testes.
+
+## Capacidades Principais
+
+- **Implementacao de Stories** — Desenvolve user stories completas com tres modos de execucao (YOLO, Interactive, Pre-flight)
+- **Qualidade de Codigo** — Melhora formatacao, linting e padroes de sintaxe moderna
+- **Otimizacao de Performance** — Analisa e otimiza a performance do codigo
+- **Refactoring** — Sugere e aplica oportunidades de refactoring automatizado
+- **Aplicacao de Fixes de QA** — Aplica correcoes baseadas em feedback de QA
+- **Rastreamento de Divida Tecnica** — Registra e gerencia divida tecnica no backlog
+- **CodeRabbit Self-Healing** — Review automatizado de codigo com loop de auto-correcao (max 2 iteracoes)
+
+## Comandos Principais
+
+### Comandos de Desenvolvimento
+
+| Comando | Descricao |
+|---------|-----------|
+| `*develop {story-id}` | Implementa uma story completa (padrao: modo Interactive) |
+| `*develop {story-id} yolo` | Implementa autonomamente com 0-1 prompts |
+| `*develop {story-id} preflight` | Planeja tudo antecipadamente, depois executa sem ambiguidade |
+| `*run-tests` | Executa linting e testes |
+
+### Comandos de Qualidade
+
+| Comando | Descricao |
+|---------|-----------|
+| `*apply-qa-fixes` | Aplica correcoes do feedback de QA |
+| `*improve-code-quality {path}` | Melhora qualidade de codigo (formatacao, linting, sintaxe moderna) |
+| `*optimize-performance {path}` | Analisa e otimiza performance do codigo |
+| `*suggest-refactoring {path}` | Sugere oportunidades de refactoring automatizado |
+
+### Backlog e Documentacao
+
+| Comando | Descricao |
+|---------|-----------|
+| `*backlog-debt` | Registra divida tecnica no backlog |
+| `*sync-documentation` | Sincroniza documentacao com mudancas de codigo |
+| `*validate-story-draft` | Valida qualidade e completude de story draft |
+
+## Modos de Execucao
+
+| Modo | Quando Usar | Prompts |
+|------|-------------|---------|
+| **YOLO** | Tasks simples e deterministicas | 0-1 |
+| **Interactive** (padrao) | Oportunidades de aprendizado, decisoes complexas | 5-10 |
+| **Pre-flight** | Requisitos ambiguos, trabalho critico | Todos antecipadamente |
+
+## Participacao em Workflows
+
+- **Story Development Cycle (SDC)** — Fase 3: Implementacao. Recebe stories validadas do @po, implementa codigo, escreve testes e passa para @qa para review
+- **QA Loop** — Recebe solicitacoes de fix do @qa, aplica correcoes e submete para re-review
+- **Workflows Greenfield e Brownfield** — Participa em todas as 6 variantes (full-stack, service, UI)
+
+## Permissoes de Git
+
+**Operacoes permitidas:** `git add`, `git commit`, `git status`, `git diff`, `git log`, `git branch`, `git checkout`, `git merge`
+
+**Operacoes bloqueadas (delegar para @devops):** `git push`, `git push --force`, `gh pr create`, `gh pr merge`
+
+## Quando Usar Este Agente
+
+**Use @dev quando precisar:**
+- Implementar user stories aprovadas
+- Aplicar solicitacoes de fix do QA
+- Refatorar codigo existente
+- Otimizar performance
+- Registrar divida tecnica
+- Executar e validar testes
+
+**Nao use @dev quando:**
+- Criando stories (use @sm)
+- Fazendo push para remoto (use @devops)
+- Validando arquitetura (use @architect)
+- Gerenciando prioridades de backlog (use @po)
+
+## Agentes Relacionados
+
+| Agente | Relacionamento |
+|--------|---------------|
+| @sm (River) | Recebe stories para implementacao |
+| @po (Pax) | Recebe stories validadas |
+| @qa (Quinn) | Envia codigo para review, recebe feedback de fixes |
+| @devops (Gage) | Delega git push e criacao de PR |

@@ -1,3 +1,15 @@
 export default {
-  index: 'Visão Geral'
+  index: { title: 'Os 13 Agentes AIOS' },
+  'aios-master': { title: 'Orion — AIOS Master' },
+  dev: { title: 'Dex — Developer' },
+  qa: { title: 'Quinn — QA Engineer' },
+  sm: { title: 'River — Scrum Master' },
+  po: { title: 'Pax — Product Owner' },
+  pm: { title: 'Morgan — Project Manager' },
+  architect: { title: 'Aria — Architect' },
+  analyst: { title: 'Sage — Analyst' },
+  'data-engineer': { title: 'Dara — Data Engineer' },
+  devops: { title: 'Gage — DevOps' },
+  'ux-design-expert': { title: 'Pixel — UX Design Expert' },
+  'squad-creator': { title: 'Nova — Squad Creator' },
 }

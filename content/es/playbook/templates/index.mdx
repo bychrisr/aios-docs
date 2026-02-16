@@ -1,24 +1,147 @@
-# Plantillas
+# Referencia de Plantillas
 
-Plantillas listas para usar para desarrollo AIOS.
+AIOS utiliza un sistema de plantillas para asegurar consistencia en todos los artefactos del proyecto. Las plantillas proporcionan estructuras estandarizadas para historias, épicas, documentos de arquitectura, definiciones de agentes y más.
+
+---
+
+## Ubicación de las Plantillas
+
+Todas las plantillas están almacenadas en tu proyecto en:
+
+```
+.aios-core/development/templates/
+```
+
+Las plantillas son cargadas automáticamente por los comandos del agente correspondiente. No necesitas referenciarlas manualmente.
+
+---
 
 ## Plantillas Disponibles
 
-| Plantilla | Comando | Agente |
-|-----------|---------|--------|
-| Historia | `@sm *draft` | @sm |
-| PRD | `@pm *create-doc` | @pm |
-| Arquitectura | `@architect *create-full-stack-architecture` | @architect |
-| Ejecución de Épica | `@pm *create-epic` | @pm |
-| Reporte QA Gate | `@qa *qa-gate` | @qa |
+### Plantillas de Documentos del Proyecto
 
-## Ubicación de Plantillas
+| Plantilla | Archivo | Descripción |
+|-----------|---------|-------------|
+| **AIOS Doc** | `aios-doc-template.md` | Plantilla de documentación de propósito general para artefactos AIOS |
+| **Research Prompt** | `research-prompt-tmpl.md` | Plantilla de prompt estructurado para tareas de investigación en el Spec Pipeline |
+| **Subagent Step Prompt** | `subagent-step-prompt.md` | Plantilla de prompt para ejecución de subagentes multi-paso |
 
-Las plantillas se almacenan en `.aios-core/product/templates/` y se cargan automáticamente por los comandos de agente relevantes.
+### Plantillas de Squad
 
-## Plantillas Personalizadas
+Las plantillas de squad proporcionan el scaffolding para crear nuevos squads (equipos de agentes especializados):
 
-Para crear una plantilla personalizada:
-1. Copia una plantilla existente de `.aios-core/product/templates/`
-2. Modifica la estructura YAML y secciones
-3. Referencia en el comando de agente apropiado
+| Plantilla | Archivo | Descripción |
+|-----------|---------|-------------|
+| **Definición de Agente** | `squad/agent-template.md` | Plantilla para definir un nuevo agente con rol, capacidades e instrucciones |
+| **Definición de Tarea** | `squad/task-template.md` | Plantilla para crear tareas reutilizables con entradas, salidas y pre/post-condiciones |
+| **Definición de Workflow** | `squad/workflow-template.yaml` | Plantilla YAML para definir flujos de trabajo automatizados multi-paso |
+| **Checklist** | `squad/checklist-template.md` | Plantilla para checklists de calidad con criterios de puntuación |
+| **Configuración de Datos** | `squad/data-template.yaml` | Plantilla YAML para datos y archivos de configuración de agentes |
+| **Script** | `squad/script-template.js` | Plantilla JavaScript para scripts de automatización |
+| **Herramienta** | `squad/tool-template.js` | Plantilla JavaScript para herramientas y utilidades de agentes |
+| **Plantilla** | `squad/template-template.md` | Meta-plantilla para crear nuevas plantillas |
+
+### Kit de Inicio de Squad
+
+El directorio `squad-template/` proporciona un kit de inicio completo para crear un nuevo squad desde cero:
+
+```
+squad-template/
+  agents/          # Archivos de definición de agentes
+  tasks/           # Archivos de definición de tareas
+  templates/       # Plantillas específicas del squad
+  workflows/       # Configuraciones de flujos de trabajo
+  tests/           # Archivos de test
+  squad.yaml       # Configuración del squad
+  package.json     # Dependencias
+  README.md        # Documentación
+```
+
+### Plantillas de Servicio
+
+El directorio `service-template/` contiene plantillas Handlebars (`.hbs`) para generar paquetes de servicio TypeScript:
+
+| Plantilla | Descripción |
+|-----------|-------------|
+| `client.ts.hbs` | Cliente HTTP con manejo de errores y lógica de reintento |
+| `errors.ts.hbs` | Clases de error personalizadas para el servicio |
+| `index.ts.hbs` | Punto de entrada del paquete y exports |
+| `types.ts.hbs` | Definiciones de tipos TypeScript |
+| `package.json.hbs` | Configuración del paquete |
+| `README.md.hbs` | Documentación auto-generada |
+
+---
+
+## Cómo Funcionan las Plantillas
+
+### Template Engine V2
+
+AIOS utiliza el sistema Template Engine V2, que procesa las plantillas a través de estos pasos:
+
+1. **Selección** -- El comando del agente selecciona la plantilla apropiada según el tipo de artefacto
+2. **Resolución de Variables** -- Las variables de la plantilla (nombre del proyecto, fecha, contexto del agente) son resueltas
+3. **Renderizado** -- La plantilla es renderizada con las variables resueltas
+4. **Validación** -- La salida es validada contra el esquema de la plantilla
+5. **Salida** -- El artefacto final es escrito en la ubicación correcta
+
+### Variables de Plantilla
+
+Las plantillas soportan variables estándar que se completan automáticamente:
+
+| Variable | Valor |
+|----------|-------|
+| `projectName` | Nombre del proyecto actual desde la configuración |
+| `date` | Fecha actual |
+| `agent` | Nombre del agente ejecutor |
+| `storyId` | Identificador de la historia actual (cuando aplica) |
+| `epicId` | Identificador de la épica actual (cuando aplica) |
+
+---
+
+## Uso de Plantillas
+
+### Crear Documentos
+
+Usa el comando `*create-doc` con cualquier agente para generar documentos desde plantillas:
+
+```bash
+# Crear un documento PRD
+@pm *create-doc prd
+
+# Crear un documento de arquitectura
+@architect *create-doc architecture
+
+# Crear una historia desde plantilla
+@sm *draft
+```
+
+### Crear un Nuevo Squad
+
+Para crear el scaffold de un nuevo squad con todos los archivos necesarios:
+
+```bash
+# Crear un squad desde el kit de inicio
+@aios-master *create-squad my-squad
+```
+
+Esto copia la estructura de `squad-template/` y la personaliza para tu squad.
+
+### Crear Plantillas Personalizadas
+
+1. Copiar una plantilla existente desde `.aios-core/development/templates/squad/`
+2. Modificar la estructura, secciones y variables placeholder
+3. Colocarla en el directorio `squad/` o en la carpeta `templates/` de tu squad
+4. Referenciarla en el comando del agente o definición de tarea apropiada
+
+Puedes usar `squad/template-template.md` como punto de partida -- es una meta-plantilla diseñada para crear nuevas plantillas.
+
+---
+
+## Resumen de Categorías de Plantillas
+
+| Categoría | Plantillas | Usado Por |
+|-----------|-----------|-----------|
+| **Documentos** | aios-doc, research-prompt, subagent-step-prompt | @pm, @analyst, todos los agentes |
+| **Artefactos de Squad** | agent, task, workflow, checklist, data, script, tool | @aios-master, creadores de squads |
+| **Generación de Servicios** | client, errors, index, types, package.json, README | @architect, @dev |
+| **Kit de Inicio** | Directorio completo squad-template | @aios-master |

@@ -1,32 +1,197 @@
-# Checklists
+# Checklists de Validação
 
-Checklists de qualidade para cada fase do desenvolvimento com AIOS.
+Checklists abrangentes de qualidade para cada fase do desenvolvimento com AIOS. Estes checklists são aplicados por agentes especializados em cada etapa do Ciclo de Desenvolvimento de Stories.
 
-## Validação de Story (10 Pontos)
+---
 
-1. Título claro e objetivo
-2. Descrição completa (problema/necessidade explicados)
-3. Critérios de aceitação testáveis (Given/When/Then preferível)
-4. Escopo bem definido (IN e OUT claramente listados)
-5. Dependências mapeadas (stories/recursos pré-requisito)
-6. Estimativa de complexidade (pontos ou T-shirt sizing)
-7. Valor de negócio (benefício para o usuário/negócio claro)
-8. Riscos documentados (problemas potenciais identificados)
-9. Critérios de Done (definição clara de conclusão)
-10. Alinhamento com PRD/Epic (consistência com documentos fonte)
+## Checklist de Validação de Story (10 Pontos)
 
-**Nota de Aprovação:** ≥ 7/10
+**Agente:** @po (Pax) | **Comando:** `@po *validate-story-draft` | **Nota de Aprovação:** ≥ 7/10
 
-## QA Gate (7 Verificações)
+O Product Owner executa este checklist durante a Fase 2 do Ciclo de Desenvolvimento de Stories. Cada item vale 1 ponto.
 
-1. Code review — padrões, legibilidade, manutenibilidade
-2. Testes unitários — cobertura adequada, todos passando
-3. Critérios de aceitação — todos atendidos conforme AC da story
-4. Sem regressões — funcionalidades existentes preservadas
-5. Performance — dentro dos limites aceitáveis
-6. Segurança — básicos do OWASP verificados
-7. Documentação — atualizada se necessário
+| # | Verificação | O que Observar |
+|---|-------------|----------------|
+| 1 | Título claro e objetivo | Descritivo, orientado a ação, sem ambiguidade |
+| 2 | Descrição completa | Problema ou necessidade totalmente explicados com contexto |
+| 3 | Critérios de aceitação testáveis | Formato Given/When/Then preferível; cada critério é verificável |
+| 4 | Escopo bem definido | IN scope e OUT of scope explicitamente listados |
+| 5 | Dependências mapeadas | Stories pré-requisito, APIs ou recursos identificados |
+| 6 | Estimativa de complexidade | Story points ou T-shirt sizing (S/M/L/XL) atribuídos |
+| 7 | Valor de negócio | Benefício claro para o usuário ou negócio declarado |
+| 8 | Riscos documentados | Problemas potenciais e estratégias de mitigação listados |
+| 9 | Definição de Done | Critérios explícitos que marcam a story como completa |
+| 10 | Alinhamento com PRD/Epic | Consistência com documentos fonte verificada |
 
-## Checklist de Arquiteto
+**Decisão:**
+- **GO** (≥ 7/10) -- Status da story muda de `Draft` para `Ready`
+- **NO-GO** (menor que 7) -- Correções necessárias listadas, story permanece `Draft`
 
-Execute com: `@architect *execute-checklist architect-checklist`
+---
+
+## Checklist de QA Gate (7 Pontos)
+
+**Agente:** @qa | **Comando:** `@qa *qa-gate` | **Fase:** Ciclo de Desenvolvimento de Stories Fase 4
+
+O agente de QA executa estas 7 verificações antes que qualquer story possa ser marcada como done.
+
+| # | Verificação | Descrição |
+|---|-------------|-----------|
+| 1 | Code review | Padrões, legibilidade e manutenibilidade avaliados |
+| 2 | Testes unitários | Cobertura adequada, todos os testes passando |
+| 3 | Critérios de aceitação | Cada AC da story é verificado como atendido |
+| 4 | Sem regressões | Funcionalidades existentes preservadas e testadas |
+| 5 | Performance | Tempos de resposta e uso de recursos dentro dos limites aceitáveis |
+| 6 | Segurança | Básicos do OWASP verificados (injeção, XSS, autenticação) |
+| 7 | Documentação | Atualizada se as mudanças de código afetam interfaces públicas ou comportamento |
+
+### Veredictos do Gate
+
+| Veredicto | Condição | Ação |
+|-----------|----------|------|
+| **PASS** | Todas as verificações OK | Aprovar; prosseguir para @devops fazer push |
+| **CONCERNS** | Apenas problemas menores | Aprovar com observações documentadas |
+| **FAIL** | Problemas HIGH ou CRITICAL encontrados | Retornar para @dev com feedback detalhado |
+| **WAIVED** | Problemas aceitos pelo stakeholder | Aprovar com waiver documentado (raro) |
+
+### Estrutura do Relatório do Gate
+
+Todo QA gate produz um relatório estruturado:
+
+```yaml
+storyId: STORY-42
+verdict: PASS
+issues:
+  - severity: low | medium | high
+    category: code | tests | requirements | performance | security | docs
+    description: "Descrição do problema"
+    recommendation: "Correção sugerida"
+```
+
+---
+
+## Definição de Done da Story
+
+Uma story é considerada **Done** quando todos os itens a seguir são verdadeiros:
+
+- [ ] Todos os critérios de aceitação verificados e passando
+- [ ] Código revisado e aprovado (CodeRabbit + revisão manual)
+- [ ] Testes unitários escritos e passando com cobertura adequada
+- [ ] Nenhuma regressão introduzida nas funcionalidades existentes
+- [ ] Performance dentro dos limites aceitáveis
+- [ ] Básicos de segurança verificados (OWASP)
+- [ ] Documentação atualizada (se aplicável)
+- [ ] Veredicto do QA Gate é PASS ou CONCERNS
+- [ ] Status da story atualizado para `Done` no arquivo da story
+- [ ] Alterações enviadas ao remoto via `@devops *push`
+
+---
+
+## Checklist de Revisão de Arquitetura
+
+**Agente:** @architect (Aria) | **Comando:** `@architect *execute-checklist architect-checklist`
+
+Use este checklist ao revisar decisões arquiteturais ou criar novos designs de sistema.
+
+- [ ] Componentes do sistema claramente identificados e documentados
+- [ ] Fluxo de dados entre componentes definido
+- [ ] Escolhas tecnológicas justificadas com análise de trade-offs
+- [ ] Contratos de API definidos (endpoints, schemas de request/response)
+- [ ] Design do schema do banco de dados revisado (se aplicável)
+- [ ] Considerações de escalabilidade documentadas
+- [ ] Arquitetura de segurança revisada (autenticação, autorização, criptografia)
+- [ ] Padrões de tratamento de erros e resiliência definidos
+- [ ] Pontos de integração com serviços externos mapeados
+- [ ] Arquitetura de deploy documentada
+- [ ] Estratégia de monitoramento e observabilidade definida
+- [ ] Conformidade com IDS verificada (REUSE sobre ADAPT sobre CREATE)
+
+---
+
+## Checklist de PM / Gestão de Mudanças
+
+**Agente:** @pm (Morgan) | **Usado durante:** Criação de epics e spec pipeline
+
+- [ ] Requisitos coletados de todos os stakeholders
+- [ ] Documento PRD completo com requisitos funcionais e não-funcionais
+- [ ] Epic devidamente delimitado com fronteiras claras
+- [ ] Stories derivadas do epic cobrem todos os requisitos
+- [ ] Dependências entre stories mapeadas
+- [ ] Avaliação de riscos concluída
+- [ ] Avaliação de complexidade feita (5 dimensões pontuadas de 1 a 5)
+- [ ] Timeline e marcos definidos
+- [ ] Métricas de sucesso identificadas
+- [ ] Aprovação dos stakeholders obtida
+
+### Dimensões de Avaliação de Complexidade
+
+O Spec Pipeline usa 5 dimensões, cada uma pontuada de 1 a 5:
+
+| Dimensão | O que Mede |
+|----------|-----------|
+| **Scope** | Número de arquivos e componentes afetados |
+| **Integration** | APIs externas e dependências de serviços |
+| **Infrastructure** | Mudanças de infraestrutura necessárias |
+| **Knowledge** | Familiaridade da equipe com o domínio |
+| **Risk** | Criticidade e raio de impacto das mudanças |
+
+**Classes de Complexidade:**
+
+| Pontuação Total | Classe | Fases Necessárias |
+|-----------------|--------|-------------------|
+| ≤ 8 | SIMPLE | Gather, Spec, Critique (3 fases) |
+| 9-15 | STANDARD | Todas as 6 fases |
+| ≥ 16 | COMPLEX | 6 fases + ciclo de revisão |
+
+---
+
+## Referência de Severidade do CodeRabbit
+
+O CodeRabbit realiza revisão automatizada de código em dois pontos do workflow. O tratamento de severidade difere por fase.
+
+### Fase Dev (Implementação da Story)
+
+| Severidade | Ação | Detalhes |
+|------------|------|----------|
+| **CRITICAL** | Auto-fix | Corrigido automaticamente; bloqueia se ainda presente após 2 iterações |
+| **HIGH** | Auto-fix / Documentar | Auto-fix se iteração menor que 2; caso contrário documentado como débito técnico |
+| **MEDIUM** | Documentar | Registrado como débito técnico |
+| **LOW** | Ignorar | Não acionável |
+
+**Máximo de iterações:** 2 | **Timeout:** 30 minutos
+
+### Fase QA (Pré-Revisão)
+
+| Severidade | Ação | Detalhes |
+|------------|------|----------|
+| **CRITICAL** | Auto-fix | Corrigido automaticamente; bloqueia se ainda presente após 3 iterações |
+| **HIGH** | Auto-fix | Corrigido automaticamente; documentado se a correção falhar |
+| **MEDIUM** | Documentar | Registrado como débito técnico |
+| **LOW** | Ignorar | Não acionável |
+
+**Máximo de iterações:** 3 | **Timeout:** 30 minutos
+
+### Fluxo de Self-Healing
+
+```
+EXECUTAR scan do CodeRabbit
+  CRITICAL encontrado?
+    SIM --> auto-fix (se limite de iterações não atingido) --> Re-scan
+    NÃO --> Documentar problemas HIGH restantes como débito, prosseguir
+  Após máximo de iterações com CRITICAL --> PARAR, intervenção manual necessária
+```
+
+---
+
+## Referência Rápida: Progressão de Status
+
+```
+Draft --> Ready --> InProgress --> InReview --> Done
+```
+
+| Transição | Gatilho | Agente Responsável |
+|-----------|---------|-------------------|
+| Draft para Ready | @po valida (veredicto GO) | @po |
+| Ready para InProgress | @dev inicia implementação | @dev |
+| InProgress para InReview | @dev completa, QA começa | @qa |
+| InReview para Done | @qa PASS, @devops faz push | @devops |

@@ -1,7 +1,7 @@
 export default {
   guides: 'Guías',
   agents: 'Agentes',
-  workflows: 'Flujos de Trabajo',
+  workflows: 'Workflows — Referencia',
   architecture: 'Arquitectura',
   reference: 'Referencia'
 }

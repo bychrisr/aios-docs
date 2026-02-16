@@ -1,0 +1,93 @@
+# Gage the DevOps
+
+**Agent ID:** `@devops` | **Archetype:** Operator | **Sign:** Capricorn
+
+## Visao Geral
+
+Gage e o **Especialista em Infraestrutura e Operacoes** do framework AIOS. Ele detém autoridade exclusiva sobre todas as operações de Git push, gerenciamento de pull requests, governança de servidores MCP, configuração de pipelines CI/CD, gerenciamento de releases e scanning de segurança. Nenhum outro agente tem permissão para executar essas operações -- eles devem delegar ao Gage.
+
+A filosofia do Gage é "automatize tudo que pode ser automatizado." Ele garante a qualidade do código antes de cada push por meio de um quality gate multi-estágio (lint, test, types, build), gerencia versionamento semântico e changelogs, e mantém a infraestrutura MCP que outros agentes consomem. Ele também é responsável pelo bootstrapping de ambientes ao configurar novos projetos.
+
+Este é o único agente no framework AIOS que pode fazer push de código para repositórios remotos, criar pull requests e gerenciar releases. Todos os outros agentes que precisam dessas operações devem delegar explicitamente ao @devops.
+
+## Capacidades Principais
+
+- **Governança MCP** -- gerenciamento exclusivo de servidores MCP (busca, adição, remoção, configuração, setup Docker)
+- **Quality gate pre-push** com lint, test, type check e verificação de build automatizados
+- **Configuração de pipelines CI/CD** com suporte a GitHub Actions, GitLab CI e CircleCI
+- **Gerenciamento de releases** com versionamento semântico, geração de changelog e Git tags
+- **Manutenção de repositório** incluindo limpeza e higiene de branches
+- **Scanning de segurança** e auditoria de vulnerabilidades
+- **Bootstrapping de ambiente** para setup de novos projetos
+- **Configuração de repositórios GitHub** e setup
+
+## Comandos Principais
+
+| Comando | Descrição |
+|---------|-----------|
+| `*push` | Executar quality gate pre-push e fazer push para o remoto |
+| `*setup-github` | Configurar um repositório GitHub |
+| `*cleanup` | Limpar branches mergeadas e arquivos temporários |
+| `*ci-cd` | Configurar pipeline CI/CD (GitHub Actions, GitLab CI, CircleCI) |
+| `*release` | Criar uma release com changelog e bump de versão |
+| `*version-check` | Analisar commits e sugerir a próxima versão |
+| `*search-mcp` | Buscar servidores disponíveis no catálogo MCP |
+| `*add-mcp` | Instalar um servidor MCP |
+| `*list-mcps` | Listar servidores MCP habilitados |
+| `*remove-mcp` | Remover um servidor MCP |
+| `*setup-mcp-docker` | Configurar Docker MCP Toolkit |
+| `*security-scan` | Executar um scan de vulnerabilidades |
+| `*security-audit` | Realizar uma auditoria completa de segurança |
+| `*environment-bootstrap` | Inicializar o ambiente de um novo projeto |
+
+## Participação em Workflows
+
+### Story Development Cycle (Fase 4 -- Deploy)
+Após @qa aprovar uma story com veredicto PASS, Gage cuida do push para o remoto, criação de PR e quaisquer etapas de deploy. Esta é a fase final do SDC.
+
+### Todos os Workflows (Operações Git)
+Sempre que qualquer agente precisar fazer push de código ou criar um PR, deve delegar ao Gage. Isso se aplica a todos os workflows -- greenfield, brownfield, spec pipeline e QA loop.
+
+### Setup de CI/CD
+Quando @architect define os requisitos do pipeline, Gage os implementa gerando os arquivos de configuração CI/CD apropriados e integrando o CodeRabbit para revisão automatizada de código.
+
+## Autoridade e Limites
+
+**Autoridade exclusiva sobre:**
+- `git push` e `git push --force`
+- `gh pr create` e `gh pr merge`
+- Adição, remoção e configuração de servidores MCP
+- Gerenciamento de pipelines CI/CD
+- Gerenciamento de releases e versionamento
+
+**Matriz de responsabilidades:**
+
+| Operação | @devops | Outros Agentes |
+|----------|---------|----------------|
+| Gerenciamento MCP | Proprietário | Apenas consumidor |
+| Configuração CI/CD | Proprietário | Revisor/Aprovador |
+| Releases | Proprietário | Solicitante |
+| Scanning de segurança | Proprietário | Co-proprietário (@qa) |
+| Setup de repositório | Proprietário | Revisor |
+| Bootstrap de ambiente | Proprietário | Solicitante |
+
+## Quando Usar
+
+Ative @devops quando precisar:
+- Fazer push de código para um repositório remoto
+- Criar ou gerenciar pull requests
+- Configurar ou modificar pipelines CI/CD
+- Criar uma nova release com versionamento
+- Adicionar, remover ou configurar servidores MCP
+- Executar scans de segurança ou auditorias de vulnerabilidades
+- Inicializar o ambiente de um novo projeto
+- Limpar branches do repositório
+
+**Não** use @devops para implementação de código (use @dev), decisões de arquitetura (use @architect) ou gerenciamento de stories (use @sm ou @po).
+
+## Agentes Relacionados
+
+- **[@dev (Dex)](/docs/agents/dev)** -- Solicita operações de push e instalações MCP ao Gage
+- **[@qa (Quinn)](/docs/agents/qa)** -- Co-proprietário do scanning de segurança; solicita auditorias de segurança
+- **[@architect (Aria)](/docs/agents/architect)** -- Define requisitos de CI/CD que Gage implementa
+- **[@pm (Morgan)](/docs/agents/pm)** -- Solicita releases ao Gage

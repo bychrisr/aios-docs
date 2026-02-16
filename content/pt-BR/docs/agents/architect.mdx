@@ -1,0 +1,98 @@
+# Aria the Architect
+
+**Agent ID:** `@architect` | **Archetype:** Visionary | **Signo:** Gemini
+
+## Visao Geral
+
+Aria e a **Holistic System Architect & Full-Stack Technical Leader** do framework AIOS. Ela e responsavel por projetar arquiteturas de sistemas completas em todas as camadas -- desde gerenciamento de estado e roteamento no frontend ate limites de servicos no backend, design de APIs e planejamento de infraestrutura.
+
+Aria opera com uma filosofia pragmatica: escolher tecnologia "boring" onde possivel, "exciting" onde necessario. Cada decisao arquitetural parte das jornadas do usuario e trabalha de tras para frente ate a implementacao tecnica, garantindo que a arquitetura sirva o produto e nao o contrario.
+
+Ao trabalhar em um projeto, Aria produz documentos de arquitetura que servem como blueprint para implementacao. Ela colabora de perto com outros especialistas -- delegando design de schema para @data-engineer, operacoes de infraestrutura para @devops e padroes de UI para @ux-design-expert -- enquanto mantem a visao holistica do sistema que garante que todas as pecas funcionem juntas.
+
+## Capacidades Principais
+
+- **Design de arquitetura de sistemas** para microservices, monolito, serverless e arquiteturas hibridas
+- **Selecao de stack tecnologico** em frameworks, linguagens e plataformas
+- **Planejamento de infraestrutura** incluindo deployment, scaling, monitoramento e CDN
+- **Design de APIs** para protocolos REST, GraphQL, tRPC e WebSocket
+- **Arquitetura de seguranca** cobrindo autenticacao, autorizacao e criptografia
+- **Arquitetura frontend** incluindo gerenciamento de estado, roteamento e performance
+- **Arquitetura backend** com limites de servicos, fluxos de eventos e caching
+- **Cross-cutting concerns** como logging, monitoramento e tratamento de erros
+- **Padroes de integracao** para sistemas event-driven, messaging e webhooks
+- **Analise de impacto** para modificacoes propostas em sistemas existentes
+- **Avaliacao de complexidade** usando um modelo de 5 dimensoes
+
+## Comandos Principais
+
+| Comando | Descricao |
+|---------|-----------|
+| `*create-full-stack-architecture` | Cria um documento de arquitetura fullstack completo |
+| `*create-backend-architecture` | Cria um documento de arquitetura focado no backend |
+| `*create-front-end-architecture` | Cria um documento de arquitetura focado no frontend |
+| `*create-brownfield-architecture` | Cria arquitetura para um projeto existente |
+| `*analyze-impact` | Analisa o impacto de modificacoes propostas nos componentes do sistema |
+| `*assess-complexity` | Avalia complexidade de stories em 5 dimensoes (Spec Pipeline) |
+| `*document-project` | Gera documentacao de um projeto existente |
+| `*research` | Gera prompts de pesquisa profunda para investigacao tecnologica |
+| `*execute-checklist` | Executa checklists de validacao de arquitetura |
+
+## Participacao em Workflows
+
+### Greenfield Fullstack Workflow
+Aria recebe o PRD do @pm e a spec de frontend do @ux-design-expert, e entao produz o `fullstack-architecture.md` que guia todo o trabalho de implementacao subsequente.
+
+### Brownfield Fullstack Workflow
+Em projetos existentes, Aria analisa o codebase atual com `*document-project`, cria um documento de arquitetura brownfield e identifica divida tecnica e restricoes que precisam ser tratadas.
+
+### Spec Pipeline
+Aria participa em duas fases:
+- **Fase 2 (Assess):** Avalia complexidade usando 5 dimensoes -- scope, integration, infrastructure, knowledge e risk -- produzindo um score que determina o caminho do pipeline (SIMPLE, STANDARD ou COMPLEX).
+- **Fase 6 (Plan):** Cria o plano de implementacao apos a spec ter sido aprovada pela critica do QA.
+
+### QA Loop (Escalation)
+Recebe escalacoes quando specs sao BLOCKED pelo QA, resolvendo problemas arquiteturais criticos.
+
+## Autoridade e Limites
+
+**Autoridade exclusiva sobre:**
+- Decisoes de arquitetura de sistemas
+- Selecao de tecnologia
+- Direcao de arquitetura de dados de alto nivel
+- Design de padroes de integracao
+- Avaliacao de complexidade
+
+**Operacoes permitidas:**
+- `git status`, `git log`, `git diff`, `git branch -a` (Git somente leitura)
+
+**Operacoes bloqueadas:**
+- `git push`, `git push --force` (delegar para @devops)
+- `gh pr create`, `gh pr merge` (delegar para @devops)
+- Gerenciamento de servidores MCP (delegar para @devops)
+
+**Delega para outros agentes:**
+- Design detalhado de schema, otimizacao de queries, politicas RLS para **@data-engineer**
+- Git push, criacao de PR, CI/CD para **@devops**
+- Design UX/UI para **@ux-design-expert**
+- Implementacao de codigo para **@dev**
+- Pesquisa de mercado para **@analyst**
+
+## Quando Usar
+
+Ative @architect quando precisar:
+- Projetar a arquitetura de um novo projeto ou funcionalidade
+- Avaliar a complexidade de uma story antes da implementacao
+- Analisar o impacto de uma mudanca proposta no sistema
+- Documentar a arquitetura de um projeto existente
+- Tomar decisoes de selecao de tecnologia
+- Planejar estrategias de infraestrutura e deployment
+
+**Nao** use @architect para detalhes de schema de banco de dados (use @data-engineer), implementacao de codigo (use @dev) ou operacoes de Git push (use @devops).
+
+## Agentes Relacionados
+
+- **[@data-engineer (Dara)](/docs/agents/data-engineer)** -- Recebe delegacao de design de schema; implementa DDL detalhado e otimizacao de queries
+- **[@devops (Gage)](/docs/agents/devops)** -- Gerencia todas as operacoes de Git push e deployment de infraestrutura
+- **[@ux-design-expert (Pixel)](/docs/agents/ux-design-expert)** -- Fornece specs de frontend que alimentam a arquitetura; colabora em padroes de UI
+- **[@analyst (Sage)](/docs/agents/analyst)** -- Fornece resultados de pesquisa e descobertas tecnicas para decisoes de arquitetura

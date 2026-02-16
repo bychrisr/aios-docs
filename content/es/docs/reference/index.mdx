@@ -1,20 +1,275 @@
 # Referencia
 
-Referencia de API, esquemas de configuración y especificaciones técnicas.
+Referencia técnica para la configuración, agentes, estructura de archivos y códigos de estado de Synkra AIOS.
 
-## Configuración
+---
 
-- **Configuración Central** — `.aios-core/core-config.yaml`
-- **Configuración del Proyecto** — `.aios/config.yaml`
-- **Definiciones de Agentes** — `.aios-core/agents/`
-- **Definiciones de Tareas** — `.aios-core/development/tasks/`
+## Referencia de Configuración
 
-## Esquemas
+AIOS utiliza un sistema de configuración por capas basado en archivos YAML.
 
-AIOS utiliza esquemas YAML para validar:
-- Definiciones de personas de agentes
-- Definiciones de flujos de trabajo de tareas
-- Formato de archivo de historia
-- Planes de ejecución de épicas
+### Configuración Central (`core-config.yaml`)
 
-> La documentación de referencia se sincroniza desde `aios-core/`.
+El archivo de configuración principal en `.aios-core/core-config.yaml` define las configuraciones a nivel de proyecto:
+
+| Sección | Clave | Descripción |
+|---------|-------|-------------|
+| `project` | `type` | Tipo de proyecto: `NEW_PROJECT`, `EXISTING_AIOS` |
+| `project` | `version` | Versión de AIOS instalada |
+| `project` | `installedAt` | Marca de tiempo de la instalación |
+| `user_profile` | — | Nivel de usuario: `beginner`, `intermediate`, `advanced` |
+| `qa` | `qaLocation` | Directorio de artefactos de QA |
+| `prd` | `prdFile` | Ruta al archivo PRD |
+| `prd` | `prdSharded` | Si el PRD está fragmentado en archivos más pequeños |
+| `prd` | `prdShardedLocation` | Directorio para archivos PRD fragmentados |
+| `architecture` | `architectureFile` | Ruta al documento de arquitectura |
+| `architecture` | `architectureSharded` | Si la arquitectura está fragmentada |
+| `devLoadAlwaysFiles` | — | Archivos cargados automáticamente para el agente @dev |
+| `devStoryLocation` | — | Directorio para archivos de historias |
+| `slashPrefix` | — | Identificador de prefijo de comando |
+| `toolsLocation` | — | Ruta a las herramientas de AIOS |
+| `scriptsLocation` | `core` | Ruta de scripts centrales |
+| `scriptsLocation` | `development` | Ruta de scripts de desarrollo |
+| `scriptsLocation` | `infrastructure` | Ruta de scripts de infraestructura |
+| `dataLocation` | — | Ruta de almacenamiento de datos |
+| `ide` | `selected` | Integraciones de IDE habilitadas |
+| `mcp` | `enabled` | Integración MCP habilitada |
+| `mcp` | `configLocation` | Ruta del archivo de configuración MCP |
+
+### Configuración del Proyecto (`.aios/config.yaml`)
+
+Sobrecargas específicas del proyecto que residen en el directorio del proyecto. Este archivo se crea durante la inicialización de AIOS y contiene configuraciones locales.
+
+### Definiciones de Agentes (`.aios-core/agents/`)
+
+Cada agente se define mediante un archivo YAML que contiene:
+- Nombre de persona y arquetipo
+- Descripción del rol y responsabilidades
+- Capacidades y restricciones
+- Permisos de acceso a herramientas
+- Reglas constitucionales
+
+### Definiciones de Tareas (`.aios-core/development/tasks/`)
+
+Las tareas se definen como archivos Markdown que especifican:
+- Requisitos de entrada y parámetros
+- Pre-condiciones y post-condiciones
+- Pasos de ejecución
+- Formato de salida y validación
+- Asignación de agente
+
+---
+
+## Referencia de Agentes
+
+AIOS incluye 12 agentes especializados, cada uno con una persona única y responsabilidades definidas.
+
+| ID del Agente | Persona | Arquetipo | Rol Principal |
+|---------------|---------|-----------|---------------|
+| `@aios-master` | Orion | Orquestador | Gobernanza del framework, coordinación de agentes, aplicación constitucional |
+| `@analyst` | Atlas | Investigador | Investigación profunda, análisis de datos, análisis competitivo |
+| `@architect` | Aria | Visionario | Arquitectura de sistemas, selección de tecnología, decisiones de diseño |
+| `@data-engineer` | Dara | Sabio de Datos | Diseño de esquemas, optimización de consultas, políticas RLS, migraciones |
+| `@dev` | Dex | Constructor | Implementación de código, operaciones git (locales), desarrollo de historias |
+| `@devops` | Gage | Guardián | Git push, gestión de PRs, CI/CD, gestión de MCP, despliegue |
+| `@pm` | Morgan | Estratega | Creación/ejecución de épicas, recopilación de requisitos, escritura de especificaciones |
+| `@po` | Pax | Validador | Validación de historias (checklist de 10 puntos), priorización del backlog |
+| `@qa` | Quinn | Guardián | Gates de calidad, revisión de código, QA loops, verificación de tests |
+| `@sm` | River | Facilitador | Creación de historias, selección de plantillas, facilitación de sprints |
+| `@squad-creator` | Nova | Creador | Creación de squads, composición de equipos, mapeo de capacidades |
+| `@ux-design-expert` | Uma | Diseñadora | Investigación UX, especificaciones de frontend, sistema de diseño, accesibilidad |
+
+### Relaciones entre Agentes
+
+Los agentes colaboran en una jerarquía definida:
+
+```
+@aios-master (orquestación)
+  ├── @analyst (investigación) → @pm (planificación)
+  ├── @pm → @architect (diseño) → @data-engineer (base de datos)
+  ├── @architect → @ux-design-expert (UX)
+  ├── @po (validación) → @sm (creación de historias)
+  └── @dev (implementación) → @qa (calidad) → @devops (despliegue)
+```
+
+### Matriz de Autoridad
+
+| Operación | Agente Exclusivo | Otros |
+|-----------|-----------------|-------|
+| `git push` / `git push --force` | @devops | Bloqueado |
+| `gh pr create` / `gh pr merge` | @devops | Bloqueado |
+| MCP add/remove/configure | @devops | Bloqueado |
+| Validación de historias (GO/NO-GO) | @po | Bloqueado |
+| Creación de historias desde épica | @sm | Bloqueado |
+| Orquestación de épicas | @pm | Bloqueado |
+| Gobernanza del framework | @aios-master | Bloqueado |
+
+---
+
+## Referencia de Estructura de Archivos
+
+El directorio `.aios-core/` contiene todos los archivos del framework:
+
+```
+.aios-core/
+├── agents/                     # Definiciones de personas de agentes (YAML)
+│   ├── aios-master.yaml
+│   ├── analyst.yaml
+│   ├── architect.yaml
+│   ├── data-engineer.yaml
+│   ├── dev.yaml
+│   ├── devops.yaml
+│   ├── pm.yaml
+│   ├── po.yaml
+│   ├── qa.yaml
+│   ├── sm.yaml
+│   ├── squad-creator.yaml
+│   └── ux-design-expert.yaml
+├── cli/                        # Punto de entrada CLI y comandos
+│   └── index.js
+├── core/                       # Lógica central del framework
+├── core-config.yaml            # Archivo de configuración principal
+├── data/                       # Almacenamiento de datos en tiempo de ejecución
+├── development/
+│   ├── scripts/                # Scripts de automatización de desarrollo
+│   ├── tasks/                  # Definiciones de tareas (Markdown)
+│   └── templates/              # Plantillas de historias, épicas y documentos
+├── docs/                       # Documentación del framework
+├── elicitation/                # Datos del motor de elicitación
+├── infrastructure/
+│   └── scripts/                # Automatización de infraestructura
+├── scripts/                    # Scripts legados
+└── tools/                      # Definiciones de herramientas AIOS
+```
+
+### Directorio del Proyecto (`.aios/`)
+
+El directorio `.aios/` almacena datos específicos del proyecto:
+
+```
+.aios/
+├── config.yaml                 # Configuración específica del proyecto
+├── data/                       # Datos de ejecución del proyecto
+│   ├── usage-stats.json        # Estadísticas de uso
+│   └── telemetry/              # Datos de telemetría
+└── backups/                    # Respaldos del proyecto
+```
+
+---
+
+## Códigos de Estado y Veredictos
+
+### Estado de la Historia
+
+| Estado | Descripción | Desencadenado Por |
+|--------|-------------|-------------------|
+| `Draft` | Historia creada, aún no validada | @sm crea la historia |
+| `Ready` | Historia validada, lista para implementación | @po valida (veredicto GO) |
+| `InProgress` | Implementación iniciada | @dev comienza el trabajo |
+| `InReview` | Implementación completa, bajo revisión de QA | @qa comienza la revisión |
+| `Done` | QA aprobado, cambios enviados | @devops envía los cambios |
+
+### Veredictos de Validación (Validación de Historia)
+
+| Veredicto | Puntuación | Acción |
+|-----------|------------|--------|
+| `GO` | ≥ 7/10 en el checklist | Historia marcada como Ready, proceder a implementación |
+| `NO-GO` | {'<'} 7/10 en el checklist | Historia devuelta con correcciones requeridas |
+
+### Veredictos del QA Gate
+
+| Veredicto | Condición | Acción |
+|-----------|-----------|--------|
+| `PASS` | Todas las 7 verificaciones OK | Aprobar, proceder al despliegue |
+| `CONCERNS` | Problemas menores encontrados | Aprobar con observaciones documentadas |
+| `FAIL` | Problemas HIGH/CRITICAL encontrados | Devolver a @dev con feedback específico |
+| `WAIVED` | Problemas aceptados (raro) | Aprobar con exención documentada |
+
+### Veredictos del QA Loop
+
+| Veredicto | Acción |
+|-----------|--------|
+| `APPROVE` | Loop completado, marcar historia como Done |
+| `REJECT` | @dev aplica correcciones, re-revisión |
+| `BLOCKED` | Escalar inmediatamente |
+
+### Disparadores de Escalamiento del QA Loop
+
+| Disparador | Descripción |
+|------------|-------------|
+| `max_iterations_reached` | 5 iteraciones sin resolución |
+| `verdict_blocked` | QA devolvió veredicto BLOCKED |
+| `fix_failure` | Intentos de corrección fallidos después de reintentos |
+| `manual_escalate` | Usuario ejecutó `*escalate-qa-loop` |
+
+### Veredictos del Spec Pipeline (Fase de Crítica)
+
+| Veredicto | Puntuación Promedio | Acción |
+|-----------|---------------------|--------|
+| `APPROVED` | ≥ 4.0 | Proceder a planificación de implementación |
+| `NEEDS_REVISION` | 3.0 - 3.9 | Revisar especificación y re-criticar |
+| `BLOCKED` | {'<'} 3.0 | Escalar a @architect |
+
+### Clases de Complejidad (Spec Pipeline)
+
+| Puntuación | Clase | Fases Ejecutadas |
+|------------|-------|------------------|
+| ≤ 8 | `SIMPLE` | gather, spec, critique (3 fases) |
+| 9 - 15 | `STANDARD` | Todas las 6 fases |
+| ≥ 16 | `COMPLEX` | 6 fases + ciclo de revisión |
+
+### Niveles de Severidad de CodeRabbit
+
+| Severidad | Fase Dev | Fase QA |
+|-----------|----------|---------|
+| `CRITICAL` | Auto-fix, bloquea si persiste | Auto-fix, bloquea si persiste |
+| `HIGH` | Auto-fix, documenta si falla | Auto-fix, documenta si falla |
+| `MEDIUM` | Documentar como deuda técnica | Documentar como deuda técnica |
+| `LOW` | Ignorar | Ignorar |
+
+---
+
+## Referencia de Esquemas YAML
+
+### Esquema del Archivo de Historia
+
+```yaml
+storyId: "STORY-{number}"
+title: "Título de la historia"
+status: Draft | Ready | InProgress | InReview | Done
+epic: "EPIC-{number}"
+description: "Descripción del problema/necesidad"
+acceptanceCriteria:
+  - "Given... When... Then..."
+scope:
+  in:
+    - "Lo que está incluido"
+  out:
+    - "Lo que está excluido"
+dependencies: []
+complexity: "S | M | L | XL"
+risks: []
+```
+
+### Esquema del Archivo de QA Gate
+
+```yaml
+storyId: "STORY-{number}"
+verdict: PASS | CONCERNS | FAIL | WAIVED
+issues:
+  - severity: low | medium | high
+    category: code | tests | requirements | performance | security | docs
+    description: "Descripción del problema"
+    recommendation: "Corrección sugerida"
+```
+
+### Esquema de Ejecución de Épica
+
+```yaml
+epicId: "EPIC-{number}"
+status: Planning | InProgress | Complete
+stories:
+  - storyId: "STORY-{number}"
+    status: Draft | Ready | InProgress | InReview | Done
+    assignedAgent: "@dev"
+```

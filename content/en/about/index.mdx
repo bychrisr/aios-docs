@@ -1,24 +1,74 @@
 # About Synkra AIOS
 
-**Synkra AIOS** (AI-Orchestrated System) is a meta-framework for full stack development that orchestrates 12 specialized AI agents to handle complex development workflows.
+**Synkra AIOS** (AI-Orchestrated System) is an AI-powered operating system for software development. It provides an intelligent orchestration layer that coordinates 13 specialized AI agents to handle complex development workflows -- from requirements gathering to deployment.
 
-## Vision
+---
 
-Transform software development by providing an intelligent orchestration layer that coordinates specialized AI agents, enabling teams to work faster, with higher quality, and with less cognitive overhead.
+## What is Synkra AIOS?
+
+Synkra AIOS is a meta-framework that transforms how software teams work. Instead of using AI as a simple code assistant, AIOS provides a structured system where specialized agents collaborate through defined workflows, quality gates, and governance rules.
+
+At its core, AIOS is built around the **meta-agent** concept: an AI that understands its own codebase and can analyze, generate, and improve code based on learned patterns and team conventions.
+
+---
+
+## Key Features
+
+- **13 Specialized Agents** -- Each agent has a distinct role: developer (@dev), architect (@architect), QA (@qa), project manager (@pm), product owner (@po), scrum master (@sm), DevOps (@devops), data engineer (@data-engineer), UX expert (@ux-design-expert), analyst (@analyst), squad creator (@squad-creator / Nova), and the framework governor (@aios-master)
+- **4 Primary Workflows** -- Story Development Cycle (SDC), QA Loop, Spec Pipeline, and Brownfield Discovery
+- **Automated Quality Gates** -- 10-point story validation, 7-point QA gate, and CodeRabbit self-healing integration
+- **Template Engine V2** -- Standardized templates for stories, epics, architecture docs, and agent definitions
+- **Constitutional Governance** -- Framework rules enforced consistently across all agents
+- **IDS Principles** -- Incremental Development System: REUSE over ADAPT over CREATE
+- **Memory Layer** -- Semantic indexing and context management for intelligent code understanding
+- **Multi-Agent Squads** -- Create custom teams of agents for domain-specific workflows
+
+---
+
+## Who is it For?
+
+| Audience | How AIOS Helps |
+|----------|---------------|
+| **Solo developers** | Provides structured workflows, automated quality checks, and AI-assisted code review |
+| **Development teams** | Coordinates work through stories, sprints, and quality gates with clear agent responsibilities |
+| **Enterprise teams** | Offers governance, traceability, and audit trails through constitutional rules and the IDS framework |
+| **Tech leads and architects** | Supports system design, brownfield assessment, and architectural decision-making |
+
+---
+
+## How it Works
+
+1. **Install** -- Initialize AIOS in your project with `npx @synkra/aios-core init`
+2. **Activate agents** -- Choose the agent for your current task (e.g., `@dev` for development, `@pm` for project management)
+3. **Execute workflows** -- Run structured workflows like the Story Development Cycle or Spec Pipeline
+4. **Quality gates** -- Automated checklists and code review ensure every artifact meets quality standards
+5. **Ship** -- Delegate push and deployment operations to @devops
+
+The meta-agent learns from your development patterns and improves its assistance over time.
+
+---
 
 ## Core Principles
 
-- **Agent Specialization** — Each agent has a distinct role and expertise
-- **Story-Driven Development** — All work is traceable through stories
-- **Quality First** — Automated quality gates at every stage
-- **Incremental Development (IDS)** — REUSE > ADAPT > CREATE
-- **Constitutional Governance** — Framework rules are enforced consistently
+- **Agent Specialization** -- Each agent has a distinct role and expertise with clear authority boundaries
+- **Story-Driven Development** -- All work is traceable through stories linked to epics and PRDs
+- **Quality First** -- Automated quality gates at every stage of the development lifecycle
+- **Incremental Development (IDS)** -- REUSE existing artifacts before adapting or creating new ones
+- **Constitutional Governance** -- Framework rules are enforced consistently, including the "No Invention" rule (Article IV)
+
+---
+
+## Get Started
+
+- [Quick Start Guide](/playbook/getting-started/quick-start) -- Get up and running in minutes
+- [Onboarding in 60 Minutes](/playbook/getting-started/onboarding-60min) -- Complete walkthrough
+- [Documentation](/docs) -- Technical reference
+- [Playbook](/playbook) -- Practical guides and workflows
 
 ## Links
 
 - [GitHub Repository](https://github.com/SynkraAI/aios-core)
-- [Documentation](/docs)
-- [Playbook](/playbook)
+- [Discord Community](https://discord.gg/gk8jAdXWmj)
 
 ---
 

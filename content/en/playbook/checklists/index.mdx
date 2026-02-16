@@ -1,32 +1,197 @@
-# Checklists
+# Validation Checklists
 
-Quality checklists for every phase of AIOS development.
+Comprehensive quality checklists for every phase of AIOS development. These checklists are enforced by specialized agents at each stage of the Story Development Cycle.
 
-## Story Validation (10-Point)
+---
 
-1. Clear and objective title
-2. Complete description (problem/need explained)
-3. Testable acceptance criteria (Given/When/Then preferred)
-4. Well-defined scope (IN and OUT clearly listed)
-5. Dependencies mapped (prerequisite stories/resources)
-6. Complexity estimate (points or T-shirt sizing)
-7. Business value (benefit to user/business clear)
-8. Risks documented (potential problems identified)
-9. Criteria of Done (clear definition of complete)
-10. Alignment with PRD/Epic (consistency with source docs)
+## Story Validation Checklist (10-Point)
 
-**Passing Score:** ≥ 7/10
+**Agent:** @po (Pax) | **Command:** `@po *validate-story-draft` | **Passing Score:** ≥ 7/10
 
-## QA Gate (7 Checks)
+The Product Owner runs this checklist during Phase 2 of the Story Development Cycle. Each item scores 1 point.
 
-1. Code review — patterns, readability, maintainability
-2. Unit tests — adequate coverage, all passing
-3. Acceptance criteria — all met per story AC
-4. No regressions — existing functionality preserved
-5. Performance — within acceptable limits
-6. Security — OWASP basics verified
-7. Documentation — updated if necessary
+| # | Check | What to Look For |
+|---|-------|------------------|
+| 1 | Clear and objective title | Descriptive, action-oriented, no ambiguity |
+| 2 | Complete description | Problem or need is fully explained with context |
+| 3 | Testable acceptance criteria | Given/When/Then format preferred; each criterion is verifiable |
+| 4 | Well-defined scope | IN scope and OUT of scope explicitly listed |
+| 5 | Dependencies mapped | Prerequisite stories, APIs, or resources identified |
+| 6 | Complexity estimate | Story points or T-shirt sizing (S/M/L/XL) assigned |
+| 7 | Business value | Clear benefit to user or business stated |
+| 8 | Risks documented | Potential problems and mitigation strategies listed |
+| 9 | Definition of Done | Explicit criteria that mark the story as complete |
+| 10 | Alignment with PRD/Epic | Consistency with source documents verified |
 
-## Architect Checklist
+**Decision:**
+- **GO** (≥ 7/10) -- Story status changes from `Draft` to `Ready`
+- **NO-GO** (fewer than 7) -- Required fixes listed, story remains `Draft`
 
-Run with: `@architect *execute-checklist architect-checklist`
+---
+
+## QA Gate Checklist (7-Point)
+
+**Agent:** @qa | **Command:** `@qa *qa-gate` | **Phase:** Story Development Cycle Phase 4
+
+The QA agent runs these 7 checks before any story can be marked as done.
+
+| # | Check | Description |
+|---|-------|-------------|
+| 1 | Code review | Patterns, readability, and maintainability assessed |
+| 2 | Unit tests | Adequate coverage, all tests passing |
+| 3 | Acceptance criteria | Every AC from the story is verified as met |
+| 4 | No regressions | Existing functionality preserved and tested |
+| 5 | Performance | Response times and resource usage within acceptable limits |
+| 6 | Security | OWASP basics verified (injection, XSS, authentication) |
+| 7 | Documentation | Updated if code changes affect public interfaces or behavior |
+
+### Gate Verdicts
+
+| Verdict | Condition | Action |
+|---------|-----------|--------|
+| **PASS** | All checks OK | Approve; proceed to @devops for push |
+| **CONCERNS** | Minor issues only | Approve with observations documented |
+| **FAIL** | HIGH or CRITICAL issues found | Return to @dev with detailed feedback |
+| **WAIVED** | Issues accepted by stakeholder | Approve with waiver documented (rare) |
+
+### Gate Report Structure
+
+Every QA gate produces a structured report:
+
+```yaml
+storyId: STORY-42
+verdict: PASS
+issues:
+  - severity: low | medium | high
+    category: code | tests | requirements | performance | security | docs
+    description: "Issue description"
+    recommendation: "Suggested fix"
+```
+
+---
+
+## Story Definition of Done
+
+A story is considered **Done** when all of the following are true:
+
+- [ ] All acceptance criteria verified and passing
+- [ ] Code reviewed and approved (CodeRabbit + manual review)
+- [ ] Unit tests written and passing with adequate coverage
+- [ ] No regressions introduced in existing functionality
+- [ ] Performance within acceptable limits
+- [ ] Security basics verified (OWASP)
+- [ ] Documentation updated (if applicable)
+- [ ] QA Gate verdict is PASS or CONCERNS
+- [ ] Story status updated to `Done` in story file
+- [ ] Changes pushed to remote via `@devops *push`
+
+---
+
+## Architecture Review Checklist
+
+**Agent:** @architect (Aria) | **Command:** `@architect *execute-checklist architect-checklist`
+
+Use this checklist when reviewing architectural decisions or creating new system designs.
+
+- [ ] System components clearly identified and documented
+- [ ] Data flow between components defined
+- [ ] Technology choices justified with trade-off analysis
+- [ ] API contracts defined (endpoints, request/response schemas)
+- [ ] Database schema design reviewed (if applicable)
+- [ ] Scalability considerations documented
+- [ ] Security architecture reviewed (authentication, authorization, encryption)
+- [ ] Error handling and resilience patterns defined
+- [ ] Integration points with external services mapped
+- [ ] Deployment architecture documented
+- [ ] Monitoring and observability strategy defined
+- [ ] IDS compliance verified (REUSE over ADAPT over CREATE)
+
+---
+
+## PM / Change Management Checklist
+
+**Agent:** @pm (Morgan) | **Used during:** Epic creation and spec pipeline
+
+- [ ] Requirements gathered from all stakeholders
+- [ ] PRD document complete with functional and non-functional requirements
+- [ ] Epic properly scoped with clear boundaries
+- [ ] Stories derived from epic cover all requirements
+- [ ] Dependencies between stories mapped
+- [ ] Risk assessment completed
+- [ ] Complexity assessment done (5 dimensions scored 1-5)
+- [ ] Timeline and milestones defined
+- [ ] Success metrics identified
+- [ ] Stakeholder sign-off obtained
+
+### Complexity Assessment Dimensions
+
+The Spec Pipeline uses 5 dimensions, each scored 1 to 5:
+
+| Dimension | What It Measures |
+|-----------|-----------------|
+| **Scope** | Number of files and components affected |
+| **Integration** | External APIs and service dependencies |
+| **Infrastructure** | Infrastructure changes required |
+| **Knowledge** | Team familiarity with the domain |
+| **Risk** | Criticality and blast radius of changes |
+
+**Complexity Classes:**
+
+| Total Score | Class | Phases Required |
+|-------------|-------|-----------------|
+| ≤ 8 | SIMPLE | Gather, Spec, Critique (3 phases) |
+| 9-15 | STANDARD | All 6 phases |
+| ≥ 16 | COMPLEX | 6 phases + revision cycle |
+
+---
+
+## CodeRabbit Severity Reference
+
+CodeRabbit performs automated code review at two points in the workflow. Severity handling differs by phase.
+
+### Dev Phase (Story Implementation)
+
+| Severity | Action | Details |
+|----------|--------|---------|
+| **CRITICAL** | Auto-fix | Automatically fixed; blocks if still present after 2 iterations |
+| **HIGH** | Auto-fix / Document | Auto-fixed if iteration is fewer than 2; otherwise documented as tech debt |
+| **MEDIUM** | Document | Recorded as technical debt |
+| **LOW** | Ignore | Not actionable |
+
+**Max iterations:** 2 | **Timeout:** 30 minutes
+
+### QA Phase (Pre-Review)
+
+| Severity | Action | Details |
+|----------|--------|---------|
+| **CRITICAL** | Auto-fix | Automatically fixed; blocks if still present after 3 iterations |
+| **HIGH** | Auto-fix | Automatically fixed; documented if fix fails |
+| **MEDIUM** | Document | Recorded as technical debt |
+| **LOW** | Ignore | Not actionable |
+
+**Max iterations:** 3 | **Timeout:** 30 minutes
+
+### Self-Healing Flow
+
+```
+RUN CodeRabbit scan
+  CRITICAL found?
+    YES --> auto-fix (if iteration limit not reached) --> Re-scan
+    NO  --> Document remaining HIGH issues as debt, proceed
+  After max iterations with CRITICAL --> HALT, manual intervention required
+```
+
+---
+
+## Quick Reference: Status Progression
+
+```
+Draft --> Ready --> InProgress --> InReview --> Done
+```
+
+| Transition | Trigger | Responsible Agent |
+|------------|---------|-------------------|
+| Draft to Ready | @po validates (GO verdict) | @po |
+| Ready to InProgress | @dev starts implementation | @dev |
+| InProgress to InReview | @dev completes, QA begins | @qa |
+| InReview to Done | @qa PASS, @devops pushes | @devops |

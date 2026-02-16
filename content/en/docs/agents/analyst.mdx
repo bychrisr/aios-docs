@@ -1,0 +1,82 @@
+# Sage the Analyst
+
+**Agent ID:** `@analyst` | **Archetype:** Decoder | **Sign:** Pisces
+
+## Overview
+
+Sage (Atlas) is the **Business Analyst** of the AIOS framework. This agent specializes in conducting market research, competitive analysis, structured brainstorming sessions, and deep research prompt generation. Sage transforms raw information into actionable insights that drive product decisions.
+
+Operating with a curiosity-driven, evidence-based approach, Sage facilitates discovery phases by creating project briefs, performing market sizing (TAM/SAM/SOM), analyzing competitors, and running structured ideation sessions. All outputs are designed to be directly consumable by downstream agents -- particularly @pm for PRD creation.
+
+Sage is the starting point for greenfield projects, where thorough research and discovery lay the foundation for everything that follows. In brownfield scenarios, Sage contributes executive awareness reports that summarize technical debt findings for stakeholders.
+
+## Core Capabilities
+
+- **Market research** with TAM/SAM/SOM calculations and trend analysis
+- **Competitive analysis** using frameworks like Porter's Five Forces and SWOT
+- **Structured brainstorming** sessions with multiple ideation techniques
+- **Deep research prompt generation** for focused investigation
+- **Project brief creation** summarizing problem, solution, and MVP scope
+- **Advanced elicitation** sessions for requirement refinement
+- **Executive reporting** for brownfield discovery awareness
+- **User and customer research** including personas and Jobs-to-be-Done
+
+## Key Commands
+
+| Command | Description |
+|---------|-------------|
+| `*brainstorm {topic}` | Facilitate a structured brainstorming session |
+| `*research-prompt {topic}` | Generate a deep research prompt for investigation |
+| `*perform-market-research` | Create a comprehensive market research report |
+| `*create-competitor-analysis` | Create a detailed competitive analysis |
+| `*create-project-brief` | Create a project brief document |
+| `*elicit` | Run an advanced elicitation session for requirements |
+| `*doc-out` | Output the complete document |
+
+## Workflow Participation
+
+### Greenfield Fullstack Workflow (Phase 1)
+Sage leads the **Discovery and Planning** phase, creating the `project-brief.md` that feeds into @pm's PRD creation. This includes market research, competitive landscape analysis, and initial project scoping.
+
+### Brownfield Discovery (Phase 9)
+Sage produces the **Executive Awareness Report** (`TECHNICAL-DEBT-REPORT.md`), translating technical debt findings from earlier phases into business-friendly language for stakeholder communication.
+
+### Spec Pipeline
+Sage participates in **Phase 3 (Research)** when the complexity class is STANDARD or COMPLEX, conducting dependency research that informs the specification.
+
+## Authority and Boundaries
+
+**Exclusive authority over:**
+- Market research and competitive analysis
+- Brainstorming session facilitation
+- Project brief creation
+- Research prompt generation
+
+**Delivers to:**
+- **@pm (Morgan)** -- Research, analysis, and project briefs for PRD creation
+- **@po (Pax)** -- Market insights and competitive intelligence
+- **@architect (Aria)** -- Technology research findings
+- **@ux-design-expert (Pixel)** -- User research for UX decisions
+
+**Does not handle:**
+- System architecture (delegate to @architect)
+- Code implementation (delegate to @dev)
+- Git operations (delegate to @devops)
+
+## When to Use
+
+Activate @analyst when you need to:
+- Research a market before building a product
+- Analyze competitors and identify differentiation opportunities
+- Run a brainstorming session to explore ideas
+- Create a project brief for a new initiative
+- Generate deep research prompts for focused investigation
+- Produce executive reports on technical findings
+
+Do **not** use @analyst for architecture design (use @architect), code implementation (use @dev), or story management (use @sm or @po).
+
+## Related Agents
+
+- **[@pm (Morgan)](/docs/agents/pm)** -- Primary consumer of Sage's research outputs; uses briefs and analysis to create PRDs
+- **[@architect (Aria)](/docs/agents/architect)** -- Receives technology research findings for architecture decisions
+- **[@ux-design-expert (Pixel)](/docs/agents/ux-design-expert)** -- Uses user research insights for design decisions

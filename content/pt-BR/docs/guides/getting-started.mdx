@@ -1,47 +1,242 @@
-# Começando com o AIOS
+# Introdução ao AIOS
 
-Este guia mostra como configurar o Synkra AIOS no seu projeto.
+O Synkra AIOS (AI Operating System) é um framework de meta-agentes que transforma o Claude em uma equipe completa de desenvolvimento de software. Este guia apresenta os conceitos fundamentais, a instalação e os primeiros passos com o sistema.
 
 ## Pré-requisitos
 
-- Node.js 18+
-- Git
-- GitHub CLI (`gh`)
+Antes de instalar o AIOS, verifique se seu ambiente atende aos requisitos mínimos:
+
+| Requisito | Versão Mínima | Observação |
+|-----------|---------------|------------|
+| Node.js | 18+ | Verifique com `node --version` |
+| npm | 9+ | Incluso com Node.js 18+ |
+| Git | Qualquer | Recomendado para controle de versão |
+| Espaço em disco | 1 GB | Para o framework e dependências |
+
+Você também precisa de uma chave de API de um provedor de IA compatível (OpenAI, Anthropic ou outro suportado).
 
 ## Instalação
 
-O AIOS é inicializado no seu projeto através da CLI do AIOS:
+Inicialize o AIOS em um novo projeto com um único comando:
 
 ```bash
-npx @synkra/aios-cli init
+npx @synkra/aios-core init my-project
 ```
 
-## Primeiros Passos
+Para instalar em um projeto existente, navegue até o diretório do projeto e execute:
 
-1. **Ative um agente:** Use a sintaxe `@nome-do-agente` (ex.: `@dev`, `@architect`)
-2. **Execute um comando:** Use o prefixo `*` (ex.: `*help`, `*create-story`)
-3. **Siga o workflow:** Stories são criadas, validadas, implementadas e revisadas
+```bash
+cd my-project
+npx @synkra/aios-core init .
+```
+
+O instalador cria a estrutura completa do framework e configura os arquivos necessários automaticamente.
+
+## Estrutura do Projeto
+
+Após a instalação, seu projeto terá a seguinte estrutura:
+
+```
+my-project/
+├── .aios/
+│   ├── config.json          # Configuração principal
+│   ├── data/                # Dados persistentes e memória
+│   └── cache/               # Cache de análises
+├── .aios-core/
+│   ├── agents/              # Definições dos 12 agentes
+│   ├── workflows/           # Workflows automatizados
+│   ├── tasks/               # Definições de tarefas
+│   ├── templates/           # Templates de stories e documentos
+│   ├── scripts/             # Scripts de automação
+│   └── docs/                # Documentação interna do framework
+├── docs/
+│   ├── stories/             # Stories e épicos do projeto
+│   └── qa/                  # Relatórios de QA
+└── .env                     # Chaves de API (não committar)
+```
+
+Os diretórios `.aios/` e `.aios-core/` contêm toda a lógica do framework. O diretório `docs/` é onde artefatos do projeto são gerados.
+
+## Configuração
+
+### Arquivo de Configuração Principal
+
+O arquivo `.aios/config.json` controla o comportamento do framework:
+
+```json
+{
+  "project": {
+    "name": "my-project",
+    "type": "web-app"
+  },
+  "ai": {
+    "provider": "anthropic",
+    "model": "claude-sonnet-4-20250514"
+  },
+  "features": {
+    "memory": true,
+    "learning": true,
+    "codeReview": true
+  }
+}
+```
+
+### Variáveis de Ambiente
+
+Configure suas chaves de API no arquivo `.env`:
+
+```bash
+# Provedor de IA (obrigatório)
+ANTHROPIC_API_KEY=sk-ant-...
+# ou
+OPENAI_API_KEY=sk-...
+
+# Opcional
+GITHUB_TOKEN=ghp_...
+```
+
+**Importante:** Nunca commite o arquivo `.env`. Ele já está no `.gitignore` por padrão.
+
+## Entendendo o Meta-Agente
+
+O AIOS opera como um **meta-agente** -- um sistema que coordena múltiplos agentes especializados. Suas capacidades incluem:
+
+- **Auto-análise:** Examina o codebase para entender padrões, dependências e arquitetura
+- **Geração de código:** Produz código seguindo os padrões identificados no projeto
+- **Aprendizado de padrões:** Detecta e registra padrões recorrentes para reutilização
+- **Auto-evolução:** Adapta suas estratégias com base no histórico de decisões
+
+O meta-agente não é apenas um assistente de código -- ele mantém contexto de longo prazo, gerencia o ciclo de vida completo de stories e garante consistência entre todos os agentes.
+
+## Comandos Básicos
+
+Todos os comandos do AIOS usam o prefixo `*` (asterisco):
+
+| Comando | Descrição |
+|---------|-----------|
+| `*help` | Lista todos os comandos disponíveis |
+| `*status` | Mostra o estado atual do projeto e agentes ativos |
+| `*config` | Exibe ou modifica a configuração |
+| `*list-agents` | Lista todos os agentes e seus status |
+| `*activate` | Ativa o pipeline de ativação de um agente |
+| `*analyze` | Executa análise do codebase |
+| `*suggest` | Gera sugestões de melhorias |
+| `*learn` | Inicia ciclo de aprendizado de padrões |
+
+Para ajuda detalhada sobre qualquer comando, use `*help {comando}`.
 
 ## Sistema de Agentes
 
-O AIOS disponibiliza 12 agentes especializados:
+O AIOS disponibiliza 12 agentes especializados, cada um com responsabilidades e autoridades específicas. Para ativar um agente, use a sintaxe `@nome-do-agente`.
 
-| Agente | Função | Ativação |
-|--------|--------|----------|
-| @dev | Desenvolvedor | `@dev` |
-| @architect | Arquiteto de Sistema | `@architect` |
-| @pm | Gerente de Projeto | `@pm` |
-| @po | Product Owner | `@po` |
-| @sm | Scrum Master | `@sm` |
-| @qa | Garantia de Qualidade | `@qa` |
-| @analyst | Analista de Negócios | `@analyst` |
-| @devops | Engenheiro DevOps | `@devops` |
-| @data-engineer | Engenheiro de Dados | `@data-engineer` |
-| @ux-design-expert | Designer UX | `@ux-design-expert` |
-| @aios-master | Governador do Framework | `@aios-master` |
+### Agentes de Gestão
+
+| Agente | Papel | Responsabilidades |
+|--------|-------|-------------------|
+| `@pm` | Gerente de Projeto | Criação de épicos, pipeline de especificação, orquestração geral |
+| `@po` | Product Owner | Validação de stories, priorização de backlog, rastreamento de contexto |
+| `@sm` | Scrum Master | Criação de stories, seleção de templates, facilitação |
+
+### Agentes Técnicos
+
+| Agente | Papel | Responsabilidades |
+|--------|-------|-------------------|
+| `@dev` | Desenvolvedor | Implementação de código, commits, execução de tarefas |
+| `@architect` | Arquiteto de Sistema | Decisões de arquitetura, seleção de tecnologia, avaliação de complexidade |
+| `@data-engineer` | Engenheiro de Dados | Design de schemas, otimização de queries, migrações |
+| `@devops` | Engenheiro DevOps | Git push, PRs, CI/CD, gerenciamento de MCP |
+
+### Agentes de Qualidade e Análise
+
+| Agente | Papel | Responsabilidades |
+|--------|-------|-------------------|
+| `@qa` | Garantia de Qualidade | Gate de qualidade, revisão de código, testes |
+| `@analyst` | Analista de Negócios | Pesquisa, análise de requisitos, relatórios |
+| `@ux-design-expert` | Designer UX | Especificações de frontend, avaliação de interfaces |
+
+### Agente de Governança
+
+| Agente | Papel | Responsabilidades |
+|--------|-------|-------------------|
+| `@aios-master` | Governador do Framework | Governança constitucional, pode executar qualquer tarefa, mediação de conflitos |
+
+## Camada de Memória
+
+O AIOS possui um sistema de memória persistente que permite busca semântica e por palavras-chave. A memória armazena decisões, padrões aprendidos e contexto do projeto.
+
+| Comando | Descrição |
+|---------|-----------|
+| `*memory status` | Verifica o estado da memória e estatísticas |
+| `*memory search {query}` | Busca na memória por termos relevantes |
+| `*memory rebuild` | Reconstrói os índices de memória |
+| `*memory clear-cache` | Limpa o cache sem apagar dados persistentes |
+
+A memória suporta dois modos de busca:
+
+- **Busca semântica:** Encontra conteúdo por significado, mesmo com termos diferentes
+- **Busca por palavras-chave:** Busca exata por termos específicos
+
+## Boas Práticas
+
+1. **Comece pequeno:** Inicie com um agente (`@dev`) e expanda gradualmente para workflows completos
+2. **Use nomes descritivos:** Stories, épicos e branches com nomes claros facilitam a navegação
+3. **Aproveite a memória:** Execute `*analyze` regularmente para manter o contexto do projeto atualizado
+4. **Análise frequente:** Use `*suggest` para identificar oportunidades de melhoria contínua
+5. **Siga os workflows:** O ciclo completo (criar, validar, implementar, revisar) existe para garantir qualidade
+6. **Documente decisões:** O log de decisões (`decision-log`) é fundamental para rastreabilidade
+
+## Solução de Problemas
+
+### Node.js não encontrado ou versão incorreta
+
+```bash
+# Verifique a versão instalada
+node --version
+
+# Se menor que 18, atualize via nvm
+nvm install 18
+nvm use 18
+```
+
+### Erro de chave de API
+
+Se receber erros de autenticação, verifique:
+
+1. O arquivo `.env` existe na raiz do projeto
+2. A chave está no formato correto para o provedor escolhido
+3. A chave tem créditos/quota disponível
+
+### Problemas de memória
+
+Se a memória estiver lenta ou retornando resultados incorretos:
+
+```bash
+# Reconstrua os índices
+*memory rebuild
+
+# Se persistir, limpe o cache
+*memory clear-cache
+```
+
+### Erro na inicialização
+
+Se `npx @synkra/aios-core init` falhar:
+
+```bash
+# Limpe o cache do npm
+npm cache clean --force
+
+# Tente novamente com a flag de verbose
+npx @synkra/aios-core init my-project --verbose
+```
 
 ## Próximos Passos
 
-- Leia o [Guia de Ativação de Agentes](/docs/guides/agent-activation)
-- Aprenda sobre [Desenvolvimento de Stories](/docs/guides/story-development)
-- Explore o [Playbook](/playbook) para guias práticos
+Agora que o AIOS está instalado e configurado, explore os recursos disponíveis:
+
+- **[Quick Start](/pt-BR/playbook/getting-started/quick-start)** -- Tutorial prático passo a passo
+- **[Ativação de Agentes](/pt-BR/docs/guides/agent-activation)** -- Como ativar e configurar agentes
+- **[Desenvolvimento de Stories](/pt-BR/docs/guides/story-development)** -- Ciclo completo de desenvolvimento
+- **[Workflows](/pt-BR/docs/workflows)** -- SDC, QA Loop, Spec Pipeline e mais
+- **[Referência de Comandos](/pt-BR/playbook/commands)** -- Lista completa de comandos
+- **[Playbook](/pt-BR/playbook)** -- Guias práticos para cenários reais

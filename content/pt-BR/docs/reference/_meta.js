@@ -1,3 +1,3 @@
 export default {
-  index: 'Visão Geral'
+  index: 'Referência de Configuração'
 }

@@ -1,0 +1,92 @@
+# Dara la Ingeniera de Datos
+
+**ID del Agente:** `@data-engineer` | **Arquetipo:** Sage | **Signo:** Scorpio
+
+## Descripcion General
+
+Dara es la **Arquitecta de Bases de Datos e Ingeniera de Operaciones** del marco AIOS. Es responsable del diseno de esquemas de bases de datos, migraciones, seguridad (Row-Level Security), optimizacion de rendimiento y operaciones DBA. Dara modela dominios de negocio en estructuras de datos, implementa migraciones seguras con snapshots y capacidades de rollback, y asegura la integridad y seguridad de los datos en cada capa.
+
+Dara opera con una filosofia de "correccion antes que velocidad" -- primero hacerlo bien, optimizar despues. Cada migracion es versionada y reversible a traves de snapshots automaticos. La seguridad esta integrada por defecto con politicas RLS, constraints y triggers. Todas las operaciones estan disenadas para ser idempotentes, lo que significa que son seguras de ejecutar multiples veces sin efectos secundarios no deseados.
+
+Trabajando aguas abajo de @architect, quien toma decisiones tecnologicas a alto nivel, Dara maneja la implementacion detallada de esquemas de bases de datos, optimizacion de consultas, estrategias de indices y politicas RLS. Sus salidas alimentan directamente a @dev para la implementacion de la capa de datos.
+
+## Capacidades Principales
+
+- **Modelado de dominio** a traves de sesiones interactivas que traducen conceptos de negocio en estructuras de datos
+- **Diseno de esquemas** con normalizacion apropiada, constraints y timestamps de auditoria
+- **Gestion de migraciones** con snapshots automaticos, advisory locks y soporte de rollback
+- **Diseno e implementacion de Row-Level Security (RLS)** (modos KISS y granular)
+- **Analisis de rendimiento** incluyendo EXPLAIN ANALYZE de consultas, deteccion de hotpaths y optimizacion interactiva
+- **Auditoria de seguridad** a traves de cobertura RLS, calidad de esquema y modos de auditoria completa
+- **Configuracion de bases de datos** soportando Supabase, PostgreSQL, MongoDB, MySQL y SQLite
+- **Operaciones de datos** incluyendo carga segura de CSV (staging-to-merge) y ejecucion transaccional de SQL
+- **Pruebas de humo** para validacion integral post-migracion
+
+## Comandos Clave
+
+| Comando | Descripcion |
+|---------|-------------|
+| `*model-domain` | Sesion interactiva de modelado de dominio |
+| `*setup-database [type]` | Configurar un proyecto de base de datos (supabase, postgresql, mongodb, mysql, sqlite) |
+| `*bootstrap` | Crear estructura estandar de proyecto Supabase |
+| `*apply-migration {path}` | Aplicar una migracion con snapshot automatico y advisory lock |
+| `*dry-run {path}` | Probar una migracion sin confirmar cambios |
+| `*snapshot {label}` | Crear un snapshot de esquema para respaldo |
+| `*rollback {target}` | Restaurar un snapshot o ejecutar script de rollback |
+| `*smoke-test {version}` | Ejecutar pruebas integrales post-migracion |
+| `*security-audit {scope}` | Ejecutar auditoria de seguridad (rls, schema, o full) |
+| `*analyze-performance {type}` | Analizar rendimiento (query, hotpaths, o interactive) |
+| `*policy-apply {table} {mode}` | Instalar politica RLS (modo KISS o granular) |
+| `*test-as-user {user_id}` | Emular un usuario para probar politicas RLS |
+| `*load-csv {table} {file}` | Cargar datos CSV de forma segura a traves de tabla staging |
+| `*run-sql {file_or_inline}` | Ejecutar SQL crudo dentro de una transaccion |
+| `*seed {path}` | Aplicar datos seed idempotentes |
+
+## Participacion en Workflows
+
+### Brownfield Discovery (Fases 2 y 5)
+Dara participa en dos fases criticas:
+- **Fase 2 (Recoleccion de Base de Datos):** Documenta el esquema existente incluyendo tablas, relaciones, indices, politicas RLS, vistas y funciones. Produce `SCHEMA.md` y `DB-AUDIT.md` identificando deuda tecnica a nivel de datos.
+- **Fase 5 (Validacion de Base de Datos):** Valida deudas identificadas, estima costos de remediacion, prioriza desde perspectiva de base de datos y responde preguntas de @architect.
+
+### Story Development Cycle
+Cuando una story involucra cambios de base de datos, Dara maneja el diseno de esquema, creacion de migraciones y pruebas antes de que @dev implemente la capa de acceso a datos.
+
+## Autoridad y Limites
+
+**Autoridad exclusiva sobre (delegada de @architect):**
+- Diseno de esquemas de base de datos (DDL detallado)
+- Optimizacion de consultas
+- Implementacion de politicas RLS
+- Ejecucion de estrategias de indices
+- Planificacion y ejecucion de migraciones
+
+**Operaciones permitidas:**
+- Todas las operaciones de base de datos (esquema, migraciones, RLS, rendimiento)
+- Generacion de documentacion de base de datos
+
+**No maneja:**
+- Decisiones de arquitectura de sistemas (manejado por @architect)
+- Implementacion de codigo de aplicacion (manejado por @dev)
+- Diseno de frontend/UI (manejado por @ux-design-expert)
+- Operaciones de git push (manejado por @devops)
+
+## Cuando Usar
+
+Activa @data-engineer cuando necesites:
+- Disenar o modificar un esquema de base de datos
+- Planificar y ejecutar migraciones de base de datos
+- Implementar o auditar politicas de Row-Level Security
+- Optimizar rendimiento de consultas o analizar hotpaths
+- Configurar un nuevo proyecto de base de datos
+- Cargar datos desde archivos CSV o ejecutar operaciones SQL
+- Conducir una auditoria de seguridad de tu base de datos
+
+**No** uses @data-engineer para decisiones de arquitectura de sistemas (usa @architect), codigo de aplicacion (usa @dev), u operaciones de despliegue (usa @devops).
+
+## Agentes Relacionados
+
+- **[@architect (Aria)](/docs/agents/architect)** -- Proporciona decisiones tecnologicas a alto nivel y delega trabajo de esquemas a Dara
+- **[@dev (Dex)](/docs/agents/dev)** -- Implementa la capa de acceso a datos basado en los disenos de esquema de Dara
+- **[@qa (Quinn)](/docs/agents/qa)** -- Valida cambios de base de datos durante la Puerta de QA y descubrimiento brownfield
+- **[@devops (Gage)](/docs/agents/devops)** -- Maneja el despliegue de cambios de base de datos a produccion

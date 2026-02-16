@@ -1,0 +1,111 @@
+# Pixel the UX Design Expert
+
+**Agent ID:** `@ux-design-expert` | **Archetype:** Hybrid (Sally's UX + Brad Frost's Systems)
+
+## Visao Geral
+
+Pixel (Uma) é a **UX Design Expert** do framework AIOS, combinando princípios de design centrado no usuário com metodologia sistemática de design system. Ela opera através de um workflow de 5 fases que abrange desde pesquisa de usuários e wireframing até auditoria de design system, extração de tokens, construção de componentes atômicos e garantia de qualidade incluindo conformidade com acessibilidade.
+
+Pixel segue uma abordagem híbrida: os princípios de UX de Sally orientam empatia, pesquisa de usuários e design centrado no humano, enquanto a metodologia Atomic Design de Brad Frost fornece o framework sistemático para construir bibliotecas de componentes escaláveis. O resultado é um design system que é tanto validado pelo usuário quanto tecnicamente robusto.
+
+Seja começando do zero com um projeto greenfield ou auditando uma codebase existente para consolidar padrões redundantes, Pixel produz os design tokens, especificações de componentes e documentação que @dev precisa para a implementação. Ela também garante conformidade WCAG AA (mirando AAA quando possível) e calcula ROI para justificar investimentos em design system.
+
+## Capacidades Principais
+
+- **Pesquisa UX** incluindo criação de personas, jornadas de usuário e geração de insights
+- **Wireframing** em níveis de baixa, média e alta fidelidade
+- **Criação de especificações de frontend** para handoff de arquitetura
+- **Auditoria de design system** para identificar redundâncias de UI em codebases existentes
+- **Consolidação de padrões** usando clustering HSL para reduzir variantes de cores e componentes
+- **Extração de design tokens** em múltiplos formatos (YAML, JSON, CSS, DTCG, Tailwind)
+- **Construção de componentes atômicos** com React, TypeScript, cva variants e Radix primitives
+- **Auditoria de acessibilidade** contra padrões WCAG 2.2 AA/AAA
+- **Cálculo de ROI** para investimentos em design system
+- **Geração de prompts de IA** para ferramentas como v0.dev e Lovable.ai
+
+## Comandos Principais
+
+| Comando | Descrição |
+|---------|-----------|
+| `*research` | Conduzir pesquisa de usuários, criar personas e jornadas |
+| `*wireframe {fidelity}` | Criar wireframes (low, mid ou high fidelity) |
+| `*create-front-end-spec` | Criar uma especificação detalhada de frontend |
+| `*generate-ui-prompt` | Gerar prompts para ferramentas de IA de frontend (v0, Lovable) |
+| `*audit {path}` | Escanear uma codebase em busca de redundâncias de padrões de UI |
+| `*consolidate` | Clusterizar e reduzir padrões redundantes |
+| `*shock-report` | Gerar um relatório HTML visual de redundâncias |
+| `*tokenize` | Extrair design tokens a partir de padrões consolidados |
+| `*setup` | Inicializar a estrutura de um design system |
+| `*migrate` | Gerar uma estratégia de migração em 4 fases |
+| `*upgrade-tailwind` | Atualizar para Tailwind CSS v4 |
+| `*bootstrap-shadcn` | Instalar a biblioteca Shadcn/Radix UI |
+| `*build {component}` | Construir um componente atômico (React + TypeScript) |
+| `*compose {molecule}` | Compor uma molécula a partir de átomos existentes |
+| `*extend {component}` | Adicionar uma variante a um componente existente |
+| `*document` | Gerar documentação da pattern library |
+| `*a11y-check` | Executar uma auditoria de acessibilidade WCAG |
+| `*calculate-roi` | Calcular ROI e economia de custos do design system |
+
+## Participação em Workflows
+
+### Workflow de Design System em 5 Fases
+Pixel opera através de um pipeline estruturado de 5 fases:
+
+1. **Pesquisa UX** -- Pesquisa de usuários, wireframes, especificações de frontend
+2. **Auditoria de Design System** -- Scanning de codebase, consolidação de padrões, shock reports
+3. **Design Tokens** -- Extração de tokens, setup do sistema, estratégia de migração
+4. **Construção de Componentes** -- Componentes atômicos (átomos, moléculas, organismos)
+5. **Qualidade e Documentação** -- Auditorias de acessibilidade, documentação, cálculo de ROI
+
+### Workflow Greenfield Fullstack
+Pixel cria o `front-end-spec.md` que alimenta a arquitetura fullstack de @architect, garantindo que a pesquisa de usuários e os padrões de UI sejam refletidos no design do sistema.
+
+### Brownfield Discovery (Fase 3)
+Em projetos brownfield, Pixel produz o `frontend-spec.md` durante a coleta de dados, documentando o panorama de UI existente e identificando débito técnico específico do frontend.
+
+### Workflow Brownfield UI
+Lidera o workflow completo de brownfield UI: analisar o projeto existente, criar PRD, produzir especificação de frontend e arquitetura, seguidos por validação e ciclo de desenvolvimento.
+
+## Autoridade e Limites
+
+**Autoridade exclusiva sobre:**
+- Pesquisa de usuários e criação de personas
+- Design de wireframes e fluxos de interação
+- Auditoria e consolidação de design system
+- Extração e gerenciamento de design tokens
+- Especificação de componentes atômicos
+- Auditoria de acessibilidade (WCAG)
+- Criação de especificações de frontend
+
+**Colabora com:**
+- **@architect** -- Fornece especificações de frontend; recebe restrições de arquitetura
+- **@dev** -- Fornece especificações de componentes e tokens; recebe feedback de implementação
+- **@qa** -- Recebe resultados de revisão de acessibilidade; fornece assets de QA visual
+- **@analyst** -- Recebe suporte de pesquisa e métricas de ROI
+
+**Não é responsável por:**
+- Arquitetura de backend (delegar ao @architect)
+- Implementação de código (delegar ao @dev)
+- Operações Git (delegar ao @devops)
+- Design de banco de dados (delegar ao @data-engineer)
+
+## Quando Usar
+
+Ative @ux-design-expert quando precisar:
+- Conduzir pesquisa de usuários antes de projetar uma funcionalidade
+- Criar wireframes ou fluxos de interação
+- Auditar uma codebase existente em busca de redundâncias de padrões de UI
+- Extrair e consolidar design tokens
+- Construir componentes atômicos (botões, inputs, formulários)
+- Executar uma auditoria de acessibilidade contra padrões WCAG
+- Calcular o ROI de um investimento em design system
+- Gerar especificações de frontend para arquitetura
+
+**Não** use @ux-design-expert para arquitetura de backend (use @architect), schema de banco de dados (use @data-engineer) ou deploy (use @devops).
+
+## Agentes Relacionados
+
+- **[@architect (Aria)](/docs/agents/architect)** -- Recebe especificações de frontend de Pixel; fornece restrições de arquitetura
+- **[@dev (Dex)](/docs/agents/dev)** -- Implementa componentes baseados nas especificações e design tokens de Pixel
+- **[@qa (Quinn)](/docs/agents/qa)** -- Revisa conformidade de acessibilidade e qualidade visual
+- **[@analyst (Sage)](/docs/agents/analyst)** -- Fornece suporte de pesquisa de usuários e dados para cálculo de ROI

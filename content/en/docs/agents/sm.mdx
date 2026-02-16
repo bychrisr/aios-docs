@@ -1,0 +1,76 @@
+# River — Scrum Master
+
+**Archetype:** Facilitator | **Agent ID:** `@sm`
+
+River is the technical Scrum Master of the AIOS framework, specializing in story preparation and agile process facilitation. River's primary role is to create detailed, actionable user stories that developer agents can implement with minimal additional research. With an empathic and collaborative tone, River bridges the gap between product requirements and developer execution.
+
+## Core Capabilities
+
+- **Story Creation** — Create detailed user stories from PRDs and epics with full technical context
+- **Story Validation** — Validate story drafts against quality checklists
+- **Epic Breakdown** — Break down epics into implementable stories
+- **Sprint Facilitation** — Support sprint planning and process coordination
+- **Branch Management** — Manage local Git branches for story development
+- **Course Correction** — Analyze and correct process deviations
+
+## Key Commands
+
+| Command | Description |
+|---------|-------------|
+| `*draft` | Create the next story from the backlog (primary command) |
+| `*story-checklist` | Execute the story draft validation checklist |
+| `*correct-course` | Analyze and correct process deviations |
+| `*help` | Show all available commands |
+| `*guide` | Show agent usage guide |
+| `*session-info` | Show current session details |
+| `*exit` | Exit Scrum Master mode |
+
+## Story Creation Process
+
+When you run `*draft`, River follows this process:
+
+1. **Load configuration** — Read `core-config.yaml` for project settings
+2. **Identify next story** — Determine the next story from the epic/backlog
+3. **Gather requirements** — Extract requirements from PRD and epic context
+4. **Architecture context** — Pull technical context from architecture documents
+5. **Verify alignment** — Ensure story aligns with epic goals and architecture
+6. **Populate template** — Fill the story template with all gathered information
+7. **Validate** — Run the story draft checklist for quality assurance
+
+## Git Permissions
+
+**Allowed operations:** `git checkout -b`, `git branch`, `git checkout`, `git branch -d`, `git merge` (all local only)
+
+**Blocked operations (delegate to @devops):** `git push`, `git push origin --delete`, `gh pr create`
+
+## Workflow Participation
+
+- **Story Development Cycle (SDC)** — Phase 1: Create. Drafts stories that enter the validation pipeline
+- **Greenfield and Brownfield workflows** — Creates stories for all 6 workflow variants
+- **Sprint Coordination** — Bridges @pm epic planning with @dev implementation
+
+## When to Use This Agent
+
+**Use @sm when you need to:**
+- Create the next user story from an epic or backlog
+- Validate a story draft for completeness
+- Break down an epic into implementable stories
+- Manage local branches for story development
+- Facilitate sprint planning and coordination
+
+**Do not use @sm when:**
+- Implementing code (use @dev)
+- Pushing code to remote (use @devops)
+- Validating story acceptance (use @po)
+- Creating PRDs or epics (use @pm)
+
+## Related Agents
+
+| Agent | Relationship |
+|-------|-------------|
+| @pm (Morgan) | Receives epic structure and PRD context |
+| @po (Pax) | Coordinates on backlog prioritization and sprint planning |
+| @dev (Dex) | Delivers ready stories for implementation |
+| @qa (Quinn) | Requests risk profiling for stories |
+| @devops (Gage) | Delegates remote Git operations |
+| @analyst (Sage) | Consults for technical research and insights |

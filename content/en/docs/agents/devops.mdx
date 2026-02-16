@@ -1,0 +1,93 @@
+# Gage the DevOps
+
+**Agent ID:** `@devops` | **Archetype:** Operator | **Sign:** Capricorn
+
+## Overview
+
+Gage is the **Infrastructure & Operations Specialist** of the AIOS framework. He holds exclusive authority over all Git push operations, pull request management, MCP server governance, CI/CD pipeline configuration, release management, and security scanning. No other agent is permitted to perform these operations -- they must delegate to Gage.
+
+Gage's philosophy is "automate everything that can be automated." He ensures code quality before every push through a multi-stage quality gate (lint, test, types, build), manages semantic versioning and changelogs, and maintains the MCP infrastructure that other agents consume. He is also responsible for environment bootstrapping when setting up new projects.
+
+This is the only agent in the AIOS framework that can push code to remote repositories, create pull requests, and manage releases. All other agents that need these operations must explicitly delegate to @devops.
+
+## Core Capabilities
+
+- **MCP governance** -- exclusive management of MCP servers (search, add, remove, configure, Docker setup)
+- **Pre-push quality gate** with automated lint, test, type check, and build verification
+- **CI/CD pipeline configuration** supporting GitHub Actions, GitLab CI, and CircleCI
+- **Release management** with semantic versioning, changelog generation, and Git tags
+- **Repository maintenance** including branch cleanup and hygiene
+- **Security scanning** and vulnerability auditing
+- **Environment bootstrapping** for new project setup
+- **GitHub repository configuration** and setup
+
+## Key Commands
+
+| Command | Description |
+|---------|-------------|
+| `*push` | Run pre-push quality gate then push to remote |
+| `*setup-github` | Configure a GitHub repository |
+| `*cleanup` | Clean up merged branches and temporary files |
+| `*ci-cd` | Configure CI/CD pipeline (GitHub Actions, GitLab CI, CircleCI) |
+| `*release` | Create a release with changelog and version bump |
+| `*version-check` | Analyze commits and suggest next version |
+| `*search-mcp` | Search the MCP catalog for available servers |
+| `*add-mcp` | Install an MCP server |
+| `*list-mcps` | List currently enabled MCP servers |
+| `*remove-mcp` | Remove an MCP server |
+| `*setup-mcp-docker` | Configure Docker MCP Toolkit |
+| `*security-scan` | Run a vulnerability scan |
+| `*security-audit` | Perform a comprehensive security audit |
+| `*environment-bootstrap` | Bootstrap a new project environment |
+
+## Workflow Participation
+
+### Story Development Cycle (Phase 4 -- Deployment)
+After @qa approves a story with a PASS verdict, Gage handles the push to remote, PR creation, and any deployment steps. This is the final phase of the SDC.
+
+### All Workflows (Git Operations)
+Any time any agent needs to push code or create a PR, they must delegate to Gage. This applies across all workflows -- greenfield, brownfield, spec pipeline, and QA loop.
+
+### CI/CD Setup
+When @architect defines the pipeline requirements, Gage implements them by generating the appropriate CI/CD configuration files and integrating CodeRabbit for automated code review.
+
+## Authority and Boundaries
+
+**Exclusive authority over:**
+- `git push` and `git push --force`
+- `gh pr create` and `gh pr merge`
+- MCP server add, remove, and configure
+- CI/CD pipeline management
+- Release management and versioning
+
+**Responsibilities matrix:**
+
+| Operation | @devops | Other Agents |
+|-----------|---------|-------------|
+| MCP management | Owner | Consumer only |
+| CI/CD configuration | Owner | Reviewer/Approver |
+| Releases | Owner | Requester |
+| Security scanning | Owner | Co-owner (@qa) |
+| Repository setup | Owner | Reviewer |
+| Environment bootstrap | Owner | Requester |
+
+## When to Use
+
+Activate @devops when you need to:
+- Push code to a remote repository
+- Create or manage pull requests
+- Set up or modify CI/CD pipelines
+- Create a new release with versioning
+- Add, remove, or configure MCP servers
+- Run security scans or vulnerability audits
+- Bootstrap a new project environment
+- Clean up repository branches
+
+Do **not** use @devops for code implementation (use @dev), architecture decisions (use @architect), or story management (use @sm or @po).
+
+## Related Agents
+
+- **[@dev (Dex)](/docs/agents/dev)** -- Requests push operations and MCP installations from Gage
+- **[@qa (Quinn)](/docs/agents/qa)** -- Co-owns security scanning; requests security audits
+- **[@architect (Aria)](/docs/agents/architect)** -- Defines CI/CD requirements that Gage implements
+- **[@pm (Morgan)](/docs/agents/pm)** -- Requests releases from Gage
