@@ -1,231 +1,107 @@
-# Synkra AIOS Development Rules for Claude Code
+# Synkra AIOS Docs — Claude Code Configuration
 
-You are working with Synkra AIOS, an AI-Orchestrated System for Full Stack Development.
+This is the **public documentation site** for Synkra AIOS, built with Nextra 4 + Next.js 15 App Router.
 
-<!-- AIOS-MANAGED-START: core-framework -->
-## Core Framework Understanding
+## Tech Stack
 
-Synkra AIOS is a meta-framework that orchestrates AI agents to handle complex development workflows. Always recognize and work within this architecture.
-<!-- AIOS-MANAGED-END: core-framework -->
+- **Framework:** Next.js 15 (App Router)
+- **Docs Engine:** Nextra 4 (`nextra` + `nextra-theme-docs`)
+- **Search:** Pagefind (post-build HTML indexing)
+- **i18n:** 3 locales — `pt-BR` (default), `en`, `es`
+- **Deployment:** Static site (SSG)
 
-<!-- AIOS-MANAGED-START: agent-system -->
-## Agent System
-
-### Agent Activation
-- Agents are activated with @agent-name syntax: @dev, @qa, @architect, @pm, @po, @sm, @analyst
-- The master agent is activated with @aios-master
-- Agent commands use the * prefix: *help, *create-story, *task, *exit
-
-### Agent Context
-When an agent is active:
-- Follow that agent's specific persona and expertise
-- Use the agent's designated workflow patterns
-- Maintain the agent's perspective throughout the interaction
-<!-- AIOS-MANAGED-END: agent-system -->
-
-## Development Methodology
-
-### Story-Driven Development
-1. **Work from stories** - All development starts with a story in `docs/stories/`
-2. **Update progress** - Mark checkboxes as tasks complete: [ ] → [x]
-3. **Track changes** - Maintain the File List section in the story
-4. **Follow criteria** - Implement exactly what the acceptance criteria specify
-
-### Code Standards
-- Write clean, self-documenting code
-- Follow existing patterns in the codebase
-- Include comprehensive error handling
-- Add unit tests for all new functionality
-- Use TypeScript/JavaScript best practices
-
-### Testing Requirements
-- Run all tests before marking tasks complete
-- Ensure linting passes: `npm run lint`
-- Verify type checking: `npm run typecheck`
-- Add tests for new features
-- Test edge cases and error scenarios
-
-<!-- AIOS-MANAGED-START: framework-structure -->
-## AIOS Framework Structure
+## Project Structure
 
 ```
-aios-core/
-├── agents/         # Agent persona definitions (YAML/Markdown)
-├── tasks/          # Executable task workflows
-├── workflows/      # Multi-step workflow definitions
-├── templates/      # Document and code templates
-├── checklists/     # Validation and review checklists
-└── rules/          # Framework rules and patterns
-
-docs/
-├── stories/        # Development stories (numbered)
-├── prd/            # Product requirement documents
-├── architecture/   # System architecture documentation
-└── guides/         # User and developer guides
-```
-<!-- AIOS-MANAGED-END: framework-structure -->
-
-## Workflow Execution
-
-### Task Execution Pattern
-1. Read the complete task/workflow definition
-2. Understand all elicitation points
-3. Execute steps sequentially
-4. Handle errors gracefully
-5. Provide clear feedback
-
-### Interactive Workflows
-- Workflows with `elicit: true` require user input
-- Present options clearly
-- Validate user responses
-- Provide helpful defaults
-
-## Best Practices
-
-### When implementing features:
-- Check existing patterns first
-- Reuse components and utilities
-- Follow naming conventions
-- Keep functions focused and testable
-- Document complex logic
-
-### When working with agents:
-- Respect agent boundaries
-- Use appropriate agent for each task
-- Follow agent communication patterns
-- Maintain agent context
-
-### When handling errors:
-```javascript
-try {
-  // Operation
-} catch (error) {
-  console.error(`Error in ${operation}:`, error);
-  // Provide helpful error message
-  throw new Error(`Failed to ${operation}: ${error.message}`);
-}
+aios-docs/
+├── app/
+│   ├── layout.tsx              # Root layout (metadata, CSS imports)
+│   ├── custom.css              # CSS overrides (sidebar locale switch hidden)
+│   └── [lang]/
+│       ├── layout.tsx          # Locale-aware layout (navbar, sidebar, footer, i18n)
+│       └── [[...mdxPath]]/
+│           └── page.tsx        # Dynamic MDX page renderer
+├── content/
+│   ├── pt-BR/                  # Portuguese content (default locale)
+│   ├── en/                     # English content
+│   └── es/                     # Spanish content
+├── middleware.ts                # Nextra locale proxy (auto-detect + redirect)
+├── next.config.mjs             # Nextra config + i18n locales
+├── mdx-components.tsx          # MDX component overrides
+└── public/_pagefind/           # Search index (generated at build time)
 ```
 
-## Git & GitHub Integration
+## Content Structure (per locale)
 
-### Commit Conventions
-- Use conventional commits: `feat:`, `fix:`, `docs:`, `chore:`, etc.
-- Reference story ID: `feat: implement IDE detection [Story 2.1]`
-- Keep commits atomic and focused
+Each locale directory (`content/{locale}/`) mirrors the same structure:
 
-### GitHub CLI Usage
-- Ensure authenticated: `gh auth status`
-- Use for PR creation: `gh pr create`
-- Check org access: `gh api user/memberships`
-
-<!-- AIOS-MANAGED-START: aios-patterns -->
-## AIOS-Specific Patterns
-
-### Working with Templates
-```javascript
-const template = await loadTemplate('template-name');
-const rendered = await renderTemplate(template, context);
+```
+{locale}/
+├── _meta.js                    # Root navigation labels
+├── index.mdx                   # Landing page
+├── about/                      # About section
+├── docs/                       # Technical documentation
+│   ├── guides/                 # Getting started, agent activation, etc.
+│   ├── agents/                 # Agent overview
+│   ├── workflows/              # SDC, QA Loop, Spec Pipeline
+│   ├── architecture/           # System architecture
+│   └── reference/              # Reference docs
+└── playbook/                   # Practical playbook
+    ├── getting-started/        # Quick start, onboarding
+    ├── workflows/              # Sprint planning, PR, greenfield, brownfield
+    ├── templates/              # Template reference
+    ├── checklists/             # Validation checklists
+    ├── commands/               # Command reference
+    └── trails/                 # Role-based learning trails
 ```
 
-### Agent Command Handling
-```javascript
-if (command.startsWith('*')) {
-  const agentCommand = command.substring(1);
-  await executeAgentCommand(agentCommand, args);
-}
-```
+## Key Files
 
-### Story Updates
-```javascript
-// Update story progress
-const story = await loadStory(storyId);
-story.updateTask(taskId, { status: 'completed' });
-await story.save();
-```
-<!-- AIOS-MANAGED-END: aios-patterns -->
+| File | Purpose |
+|------|---------|
+| `app/[lang]/layout.tsx` | Navbar (logo + subtitle + LocaleSwitch), sidebar, footer, i18n config |
+| `app/layout.tsx` | Root layout — imports `nextra-theme-docs/style.css` and `custom.css` |
+| `middleware.ts` | `export { proxy as middleware } from 'nextra/locales'` |
+| `next.config.mjs` | Nextra config (`search: true`, `latex: true`) + i18n locales |
+| `app/custom.css` | Hides LocaleSwitch from sidebar (kept in navbar only) |
 
-## Environment Setup
-
-### Required Tools
-- Node.js 18+
-- GitHub CLI
-- Git
-- Your preferred package manager (npm/yarn/pnpm)
-
-### Configuration Files
-- `.aios/config.yaml` - Framework configuration
-- `.env` - Environment variables
-- `aios.config.js` - Project-specific settings
-
-<!-- AIOS-MANAGED-START: common-commands -->
 ## Common Commands
 
-### AIOS Master Commands
-- `*help` - Show available commands
-- `*create-story` - Create new story
-- `*task {name}` - Execute specific task
-- `*workflow {name}` - Run workflow
-
-### Development Commands
-- `npm run dev` - Start development
-- `npm test` - Run tests
-- `npm run lint` - Check code style
-- `npm run build` - Build project
-<!-- AIOS-MANAGED-END: common-commands -->
-
-## Debugging
-
-### Enable Debug Mode
 ```bash
-export AIOS_DEBUG=true
+npm run dev          # Development server (search won't work)
+npm run build        # Production build + Pagefind indexing
+npm run start        # Serve production build (search works here)
 ```
 
-### View Agent Logs
-```bash
-tail -f .aios/logs/agent.log
-```
+The `build` script runs: `next build && pagefind --site .next/server/app --output-path public/_pagefind`
 
-### Trace Workflow Execution
-```bash
-npm run trace -- workflow-name
-```
+## i18n Rules
 
-## Claude Code Specific Configuration
+- Default locale: `pt-BR` (root `/` redirects to `/pt-BR`)
+- All 3 locales must have matching file structures in `content/`
+- `_meta.js` labels must be translated per locale
+- Navigation: `_meta.js` keys map to `.mdx` filenames — every key MUST have a corresponding file
+- Locale switcher shows abbreviated names: PT-BR, EN, ES
 
-### Performance Optimization
-- Prefer batched tool calls when possible for better performance
-- Use parallel execution for independent operations
-- Cache frequently accessed data in memory during sessions
+## MDX Gotchas
 
-### Tool Usage Guidelines
-- Always use the Grep tool for searching, never `grep` or `rg` in bash
-- Use the Task tool for complex multi-step operations
-- Batch file reads/writes when processing multiple files
-- Prefer editing existing files over creating new ones
+- **Never use `<=` or `>=` in MDX** — use `≤` and `≥` (unicode) instead
+- **Never use bare `<` before text** — MDX interprets it as JSX; use `{'<'}` if needed
+- **Every `_meta.js` key needs a matching `.mdx` file** — missing files cause build errors
+- **`sourceCode` prop is required** — `importPage()` returns it, must pass to `<Wrapper>`
 
-### Session Management
-- Track story progress throughout the session
-- Update checkboxes immediately after completing tasks
-- Maintain context of the current story being worked on
-- Save important state before long-running operations
+## Git Conventions
 
-### Error Recovery
-- Always provide recovery suggestions for failures
-- Include error context in messages to user
-- Suggest rollback procedures when appropriate
-- Document any manual fixes required
+- Use conventional commits: `feat:`, `fix:`, `docs:`, `chore:`
+- Keep commits atomic and focused
+- Don't commit `.env` (contains API keys template)
 
-### Testing Strategy
-- Run tests incrementally during development
-- Always verify lint and typecheck before marking complete
-- Test edge cases for each new feature
-- Document test scenarios in story files
+## Build Verification
 
-### Documentation
-- Update relevant docs when changing functionality
-- Include code examples in documentation
-- Keep README synchronized with actual behavior
-- Document breaking changes prominently
+After changes, always verify:
+1. `npm run build` succeeds (check for MDX compilation errors)
+2. Pagefind indexes all expected pages across all languages
+3. `npm run start` serves correctly on all locale routes
 
 ---
-*Synkra AIOS Claude Code Configuration v2.0*
+*Synkra AIOS Docs — Claude Code Configuration v3.0*
