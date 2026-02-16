@@ -1,3 +1,3 @@
 export default {
-  index: 'Visão Geral'
+  index: 'Os 12 Agentes do AIOS'
 }

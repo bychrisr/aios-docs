@@ -11,5 +11,14 @@ export default withNextra({
   i18n: {
     locales: ['pt-BR', 'en', 'es'],
     defaultLocale: 'pt-BR'
+  },
+  async redirects() {
+    return [
+      {
+        source: '/:lang(pt-BR|en|es)',
+        destination: '/:lang/docs',
+        permanent: false
+      }
+    ]
   }
 })

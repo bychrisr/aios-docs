@@ -1,7 +1,7 @@
 export default {
   index: 'Overview',
   'getting-started': 'Getting Started',
-  workflows: 'Workflows',
+  workflows: 'Workflow Guides',
   templates: 'Templates',
   checklists: 'Checklists',
   commands: 'Commands',

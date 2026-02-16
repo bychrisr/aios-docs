@@ -1,18 +1,134 @@
-# Architecture
+# System Architecture
 
-System architecture documentation for the Synkra AIOS framework.
+The AIOS Method is a **meta-framework** that provides agentic modes, tasks, and templates for repeatable workflows. It operates as a layer on top of your development environment, facilitating the entire software lifecycle — from ideation to delivery.
 
-## Core Architecture
+## Overview
 
-AIOS is a meta-framework that operates as a layer on top of your development environment. It provides:
+The framework operates across three major areas:
 
-- **Agent Orchestration** — 12 specialized agents coordinated through defined workflows
-- **Task System** — Atomic, executable task definitions with pre/post conditions
-- **Story-Driven Development** — All work flows through validated stories
-- **Quality Gates** — Automated and manual quality checks at every stage
+1. **Ideation & Planning** — Transform informal requirements into executable specifications
+2. **Architecture & Design** — Define technical structure with specialized agents
+3. **Development Execution** — Continuous SM → Dev → QA cycle until delivery
 
-## Architecture Documents
+```mermaid
+flowchart TD
+    A[Ideation & Planning] --> B[Architecture & Design]
+    B --> C[Development Execution]
+    C --> D{Story Complete?}
+    D -- No --> C
+    D -- Yes --> E{More Stories?}
+    E -- Yes --> C
+    E -- No --> F[Delivery]
+```
 
-Architecture documents for specific projects are created by the `@architect` agent using the `*create-full-stack-architecture` command.
+## Core Components
 
-> Core architecture definitions are synced from `aios-core/`.
+All components reside in the `aios-core/` directory and are organized as follows:
+
+### Agents (`aios-core/agents/`)
+
+Markdown files defining persona, capabilities, and dependencies for each agent. Each agent has a specific role in the workflow — from the Product Manager (`@pm`) who orchestrates epics to QA (`@qa`) who validates quality.
+
+### Agent Teams (`aios-core/agent-teams/`)
+
+Bundles of agents grouped for specific purposes. A team combines the agents needed to execute a complete workflow, such as the development team (SM + Dev + QA) or the planning team (PM + Architect + PO).
+
+### Workflows (`aios-core/workflows/`)
+
+YAML sequences of steps and agent interactions. They define execution order, entry/exit conditions, and decision points. The main workflows are:
+
+- **Story Development Cycle (SDC)** — Full development cycle
+- **QA Loop** — Iterative review-fix cycle
+- **Spec Pipeline** — Pre-implementation specification pipeline
+- **Brownfield Discovery** — Existing project assessment
+
+### Reusable Resources
+
+| Directory | Contents |
+|-----------|----------|
+| `templates/` | Document templates with placeholders |
+| `tasks/` | Atomic task definitions with pre/post conditions |
+| `checklists/` | Verification lists for quality gates |
+| `data/` | Reference data and configurations |
+
+## Template Processing System
+
+AIOS features a three-layer template system:
+
+- **template-format.md** — Markup language with `{{placeholders}}` for dynamic values and `[[LLM: instructions]]` for AI generation
+- **create-doc.md** — Orchestration engine for document generation from templates
+- **advanced-elicitation.md** — Interactive refinement layer that collects user information in a structured way
+
+## Technical Preferences System
+
+The `technical-preferences.md` file allows customizing agent behavior per project. It influences technology decisions, code patterns, and naming conventions across all agents participating in the project.
+
+## Build & Delivery
+
+AIOS supports two usage modes:
+
+| Mode | How It Works |
+|------|-------------|
+| **IDE** | Direct use of agent markdown files in your editor |
+| **Web UI** | Pre-built bundles from the `dist/` directory |
+
+## Planning Workflow
+
+Planning follows 8 sequential phases before development begins:
+
+```mermaid
+flowchart LR
+    P1[1. Optional\nAnalysis] --> P2[2. Project\nBrief]
+    P2 --> P3[3. PRD\nCreation PM]
+    P3 --> P4[4. Architecture\nDesign]
+    P4 --> P5[5. Validation\nPO]
+    P5 --> P6[6. Refinement]
+    P6 --> P7[7. Environment\nTransition]
+    P7 --> P8[8. Document\nPreparation]
+```
+
+| Phase | Owner | Output |
+|-------|-------|--------|
+| 1. Analysis (optional) | Analyst | Analysis report |
+| 2. Project Brief | User/PM | Briefing document |
+| 3. PRD Creation | PM | Product Requirements Document |
+| 4. Architecture Design | Architect | Architecture document |
+| 5. Validation & Alignment | PO | Validated PRD |
+| 6. Refinement | PM + PO | Refined PRD |
+| 7. Environment Transition | DevOps | Web → IDE migration |
+| 8. Document Preparation | PO | PRD shards for stories |
+
+## Core Development Cycle
+
+After planning, development follows a continuous, disciplined cycle:
+
+```mermaid
+flowchart LR
+    S1[PO Shards] --> S2[SM Drafts\nStory]
+    S2 --> S3[User\nApproval]
+    S3 --> S4[Dev\nImplements]
+    S4 --> S5[QA\nReview]
+    S5 --> S6{Approved?}
+    S6 -- Yes --> S7[Done]
+    S6 -- No --> S4
+    S7 --> S8{More Stories?}
+    S8 -- Yes --> S2
+    S8 -- No --> S9[Delivery\nComplete]
+```
+
+1. **PO shards the PRD** into executable fragments
+2. **SM drafts the story** from the shard
+3. **User approves** the story draft
+4. **Dev implements** with code self-healing (CodeRabbit)
+5. **QA reviews** applying 7 quality checks
+6. **Story complete** — cycle repeats for the next story
+
+Each story passes through well-defined states: `Draft → Ready → InProgress → InReview → Done`.
+
+## Architectural Principles
+
+- **Task-First** — Workflows are composed of connected tasks, not connected agents
+- **Agents as Executors** — Agents execute tasks, but the sequence and rules come from task definitions
+- **Quality Gates** — Every state transition has automated verifications
+- **IDS (Incremental Development System)** — REUSE {">"} ADAPT {">"} CREATE hierarchy to avoid duplication
+- **Traceability** — Every artifact must be traceable to a documented requirement

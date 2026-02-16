@@ -1,3 +1,3 @@
 export default {
-  index: 'Resumen'
+  index: 'Arquitectura del Sistema'
 }
