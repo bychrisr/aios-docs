@@ -1,4 +1,4 @@
-import { Footer, Layout, LocaleSwitch, Navbar } from 'nextra-theme-docs'
+import { Footer, Layout, LocaleSwitch, Navbar, ThemeSwitch } from 'nextra-theme-docs'
 import { Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 
@@ -60,6 +60,7 @@ export default async function LangLayout({ children, params }: { children: React
               }
               projectLink="https://github.com/SynkraAI/aios-core"
             >
+              <ThemeSwitch />
               <LocaleSwitch />
             </Navbar>
           }

@@ -1,5 +1,11 @@
-/* Hide LocaleSwitch from sidebar footer (kept in navbar only) */
+/* Hide LocaleSwitch from sidebar footer (desktop) */
 .nextra-sidebar-footer > :first-child {
+  display: none !important;
+}
+
+/* Hide LocaleSwitch from mobile sidebar (bottom of complementary) */
+aside[role="complementary"] > button[aria-haspopup="listbox"],
+complementary > button[aria-haspopup="listbox"] {
   display: none !important;
 }
 
