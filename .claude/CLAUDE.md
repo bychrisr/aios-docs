@@ -33,13 +33,13 @@ aios-docs/
 ├── content/
 │   ├── pt-BR/                  # Conteúdo em Português (locale padrão)
 │   │   ├── docs/               # 110 arquivos .mdx sincronizados de docs/pt/
-│   │   └── playbook/           # 11 arquivos .mdx do playbook
+│   │   └── playbook/           # 13 arquivos .mdx do playbook (mantido manualmente)
 │   ├── en/                     # Conteúdo em Inglês
 │   │   ├── docs/               # 136 arquivos .mdx sincronizados de docs/ (raiz)
-│   │   └── playbook/           # 11 arquivos .mdx do playbook
+│   │   └── playbook/           # 13 arquivos .mdx do playbook (mantido manualmente)
 │   └── es/                     # Conteúdo em Espanhol
 │       ├── docs/               # 135 arquivos .mdx sincronizados de docs/es/
-│       └── playbook/           # 11 arquivos .mdx do playbook
+│       └── playbook/           # 13 arquivos .mdx do playbook (mantido manualmente)
 ├── scripts/
 │   ├── sync-content.sh         # Script de sync v4.1 (espelha SynkraAI/aios-core)
 │   └── mdx-sanitizer.js        # Sanitizador Node.js: MD → MDX compatível com Nextra
@@ -212,15 +212,24 @@ Script Node.js que processa cada arquivo `.md` via `stdin` → `stdout`, tornand
    - Links quebrados `/playbook/workflows` corrigidos em EN, PT-BR e ES
    - Redirecionados para `/docs/guides/workflows` onde os arquivos reais estão
 
+4. ~~**Reescrita completa do Playbook para AIOS v4.2**~~ ✅ **FEITO** (2026-02-21)
+   - Novos arquivos: `cheat-sheet.mdx` e `agents.mdx` nos 3 locales
+   - `index.mdx` reescrito com navigator por persona (6 perfis → links diretos)
+   - `onboarding-60min.mdx`: 12 agentes corretos (era 13), nomes incluídos
+   - `specialized-commands.mdx`: comandos reais por agente (todos os 12)
+   - `trails/index.mdx`: links verificados para `/docs/guides/workflows/*`
+   - `_meta.js` atualizado nos 3 locales com novas entradas
+   - 33 testes Playwright passando (Chromium, Firefox, WebKit)
+
 ### Prioridade Média
 
 4. ~~**Adicionar `_meta.js` dinâmico para navegação**~~ ✅ **FEITO** (2026-02-21)
    - `_meta.js` criado nas raízes de `content/{en,pt-BR,es}/docs/`
    - Controla labels traduzidos e ordem das seções principais na sidebar
 
-5. ~~**Expandir cobertura de testes E2E**~~ ✅ **FEITO** (2026-02-21)
-   - 5 testes: render básico, doc sincronizado, workflow EN, navegação multi-idioma, playbook sem links quebrados
-   - Adicionado teste de regressão para links `/playbook/workflows`
+5. ~~**Expandir cobertura de testes E2E**~~ ✅ **FEITO** (2026-02-21 → atualizado 2026-02-21)
+   - 11 testes, 33 variantes (3 browsers): render, sync, workflow, multi-idioma, playbook, cheat-sheet, agents (todos os 12), onboarding, trails sem links quebrados
+   - Seletores escopados a `article/main` para evitar falsos positivos da sidebar
 
 6. **Melhorar tratamento dos arquivos Mermaid excluídos**
    - Implementar fallback: se arquivo tem mermaid incompatível, gerar versão simplificada sem o diagrama
@@ -269,8 +278,10 @@ O script `build` executa: `next build && pagefind --site .next/server/app --outp
 
 ## Métricas de Build Atuais (2026-02-21)
 
-- **Páginas estáticas:** 423+ geradas com sucesso
-- **Arquivos MDX sincronizados:** 423 (en: 150, pt-BR: 124, es: 149)
+- **Páginas estáticas:** 432 geradas com sucesso
+- **Arquivos MDX sincronizados (docs):** 381 (en: 136, pt-BR: 110, es: 135)
+- **Arquivos MDX do playbook:** 39 (13 por locale × 3 locales)
+- **Testes E2E:** 11 testes, 33 variantes (Chromium + Firefox + WebKit)
 - **Idiomas:** 3 (pt-BR, en, es)
 - **Sync automático:** diariamente às 06:00 UTC via GitHub Actions
 - **Branch de trabalho:** sempre via PR — nunca direto em `main`
@@ -323,6 +334,8 @@ NEXT_PUBLIC_SITE_URL=https://docs.synkraaios.site
 - **Tags HTML em blocos Mermaid** — o parser MDX analisa o interior dos blocos; `<br/>` deve virar `<br />`
 - **URLs em angle brackets `<https://...>`** — converter para `[url](url)` ou `[url]`
 - **Todo `_meta.js` precisa de arquivo `.mdx` correspondente** — arquivos faltando causam erros de build
+- **Arquivos MDX escritos manualmente** não passam pelo sanitizador — `{texto}` fora de backticks DEVE ser escapado manualmente (ex: `` `EPIC-{ID}-EXECUTION.yaml` `` em vez de `EPIC-{ID}-EXECUTION.yaml`)
+- **Chaves em `_meta.js`** mapeiam para arquivos/dirs commitados no git — nunca adicionar chave para conteúdo gerado por sync local
 
 ---
 
@@ -372,5 +385,5 @@ NEXT_PUBLIC_SITE_URL=https://docs.synkraaios.site
 
 ---
 
-_Synkra AIOS Docs — CLAUDE.md v4.3_
+_Synkra AIOS Docs — CLAUDE.md v4.4_
 _Última atualização: 2026-02-21 — Sanitizador melhorado, BROWNFIELD habilitado, playbook corrigido, `_meta.js` de navegação, 5 testes E2E_
