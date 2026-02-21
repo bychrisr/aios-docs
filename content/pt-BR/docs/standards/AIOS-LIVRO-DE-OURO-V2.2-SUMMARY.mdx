@@ -392,7 +392,7 @@ Result:
 
 ```yaml
 1. Step Skipping:
-   IF task_complexity  0.95:
+   IF task_complexity < 0.3 AND historical_success > 0.95:
      SKIP extensive testing
      REASON: Simple + proven pattern = safe to skip
 
@@ -1175,9 +1175,9 @@ NEW: .aios-core/infrastructure/integrations/clones-marketplace/
 
 NEW: .aios-core/infrastructure/cli/commands/clones.js
   - aios clone list (browse clones)
-  - aios clone trial  --days 7
-  - aios clone subscribe 
-  - aios clone activate 
+  - aios clone trial <name> --days 7
+  - aios clone subscribe <name>
+  - aios clone activate <name>
 
 Available Clones:
   - Pedro Valério (Systems Architecture)

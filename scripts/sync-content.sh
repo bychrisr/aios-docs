@@ -65,15 +65,13 @@ for lang_src in "${!LANG_MAP[@]}"; do
     filename=$(basename "$md_file" .md)
     title=$(echo "$filename" | sed 's/-/ /g' | awk '{for(i=1;i<=NF;i++){ $i=toupper(substr($i,1,1)) tolower(substr($i,2)) }}1')
 
-    # Criar o arquivo .mdx com frontmatter e limpeza agressiva de HTML
+    # Criar o arquivo .mdx com frontmatter e adicionar o conteúdo sanitizado pelo Node.js
     {
       echo "---"
       echo "title: \"$title\""
       echo "---"
       echo ""
-      # Remove todas as tags HTML que podem quebrar o parser MDX
-      # Transforma `<` seguido de numero em `&lt;numero`
-      sed -e 's/<[^>]*>//g' -e 's/<\([0-9]\)/\&lt;\1/g' "$md_file"
+      cat "$md_file" | node scripts/mdx-sanitizer.js
     } > "$dest_file_mdx"
     
     echo "Processed: $relative_path"

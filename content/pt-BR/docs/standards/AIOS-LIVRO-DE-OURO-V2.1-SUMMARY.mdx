@@ -389,10 +389,10 @@ $ aios workers use json-parser --task my-task
 2. **Discovery CLI**
    ```bash
    aios workers list                    # List all
-   aios workers search           # Semantic search
-   aios workers info         # Details
-   aios workers find-for-task     # Find suitable Worker
-   aios workers validate     # Check compliance
+   aios workers search <query>          # Semantic search
+   aios workers info <worker-id>        # Details
+   aios workers find-for-task <task>    # Find suitable Worker
+   aios workers validate <worker-id>    # Check compliance
    ```
 
 3. **Task Compatibility Layer**
@@ -403,8 +403,8 @@ $ aios workers use json-parser --task my-task
 4. **Contribution System**
    ```bash
    aios workers create                  # Generate template
-   aios workers test         # Run validation
-   aios workers submit       # Submit to registry
+   aios workers test <worker-id>        # Run validation
+   aios workers submit <worker-id>      # Submit to registry
    ```
 
 #### Impact
@@ -532,7 +532,7 @@ Result: Final 20% of issues caught (100% total)
 - 80% of issues caught automatically
 - Average human review time: 30 minutes per PR
 - Human reviewers focus on strategy
-- Issue escape rate: < 5%
+- Issue escape rate: &lt; 5%
 
 **Time Savings:**
 - 75% reduction in human review time

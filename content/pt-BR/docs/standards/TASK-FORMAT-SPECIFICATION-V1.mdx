@@ -738,8 +738,8 @@ any           # Any type (avoid when possible)
 
 ```yaml
 array         # Array of items
-array # Array of strings
-array # Array of numbers
+array<string> # Array of strings
+array<number> # Array of numbers
 
 object        # Generic object
 object { key: type, key: type }  # Object with defined keys
@@ -767,7 +767,7 @@ AdAnalysis             # References schemas/AdAnalysis.json
   tipo: object { title: string, body: string, cta: string }
 
 - campo: faces
-  tipo: array
+  tipo: array<object { top: number, left: number, bottom: number, right: number }>
 
 - campo: ready_copy
   tipo: object { title?: string, body?: string, cta?: string } | null
@@ -1057,7 +1057,7 @@ atomic_layer: Page
   obrigatório: true
 
 - campo: quality_criteria
-  tipo: array
+  tipo: array<string>
   origem: config
   obrigatório: true
   padrão: ["brand_alignment", "text_legibility", "visual_appeal", "no_face_coverage"]
@@ -1156,7 +1156,7 @@ atomic_layer: Atom
 
 **Saída:**
 - campo: validation_result
-  tipo: object { valid: boolean, violations: array }
+  tipo: object { valid: boolean, violations: array<object { rule, severity, message }> }
   destino: state (ad-spec.json)
   persistido: true
 

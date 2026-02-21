@@ -58,7 +58,7 @@ This document defines HOW to choose the appropriate executor type (Agente, Worke
 - Calculate spacing based on safe zones
 
 **Cost:** $ Low ($0 - $0.001 per execution)  
-**Speed:** Fast (< 1 second)  
+**Speed:** Fast (&lt; 1 second)  
 **Deterministic:** ✅ Yes (same input → same output)
 
 ---
@@ -111,25 +111,25 @@ This document defines HOW to choose the appropriate executor type (Agente, Worke
 
 ```mermaid
 graph TD
-    Start[Task to Execute] --> Q1{RequiresCreativity orSubjectivity?}
+    Start[Task to Execute] --> Q1{Requires<br/>Creativity or<br/>Subjectivity?}
     
-    Q1 -->|No| Q2{DeterministicAlgorithmExists?}
-    Q1 -->|Yes| Q3{HumanJudgmentRequired?}
+    Q1 -->|No| Q2{Deterministic<br/>Algorithm<br/>Exists?}
+    Q1 -->|Yes| Q3{Human<br/>Judgment<br/>Required?}
     
-    Q2 -->|Yes| Q4{ExternalAPI Call?}
+    Q2 -->|Yes| Q4{External<br/>API Call?}
     Q2 -->|No| Q3
     
-    Q3 -->|Yes| Q5{CriticalDecisionwith Legal/FinancialImpact?}
-    Q3 -->|No| Q6{SpecificMethodologyRequired?}
+    Q3 -->|Yes| Q5{Critical<br/>Decision<br/>with Legal/Financial<br/>Impact?}
+    Q3 -->|No| Q6{Specific<br/>Methodology<br/>Required?}
     
-    Q4 -->|Yes| Worker[Workerwith API]
-    Q4 -->|No| Worker2[WorkerScript]
+    Q4 -->|Yes| Worker[Worker<br/>with API]
+    Q4 -->|No| Worker2[Worker<br/>Script]
     
     Q5 -->|Yes| Humano[Humano]
     Q5 -->|No| Q6
     
-    Q6 -->|YesBrad Frost,Alex Hormozi,etc.| Clone[Clonewith Heuristics]
-    Q6 -->|No| Agente[AgenteGeneric AI]
+    Q6 -->|Yes<br/>Brad Frost,<br/>Alex Hormozi,<br/>etc.| Clone[Clone<br/>with Heuristics]
+    Q6 -->|No| Agente[Agente<br/>Generic AI]
     
     Worker --> End[Execute Task]
     Worker2 --> End
@@ -250,10 +250,10 @@ graph TD
 
 | Executor | Cost per Execution | Speed | Deterministic | When to Use |
 |----------|-------------------|-------|---------------|-------------|
-| **Worker** | $ Low($0 - $0.001) | ⚡ Fast(- File I/O- Simple calculations- API calls (non-AI) |
-| **Agente** | $$$$ High($0.001 - $0.01) | 🐌 Slow(3-10s) | ❌ No | - Creative tasks- Analysis- Generation- AI API calls |
-| **Humano** | $$$ Medium($5 - $50) | 🐢 Very Slow(minutes-hours) | ❌ No | - Legal/financial decisions- Quality gates- Strategic decisions- Edge cases |
-| **Clone** | $$$$ High($0.002 - $0.015) | 🐌 Slow(5-15s) | ⚠️ Partial | - Methodology validation- Expert review- Domain-specific tasks- Personality-driven execution |
+| **Worker** | $ Low<br/>($0 - $0.001) | ⚡ Fast<br/>(&lt; 1s) | ✅ Yes | - Config loading<br/>- File I/O<br/>- Simple calculations<br/>- API calls (non-AI) |
+| **Agente** | $$$$ High<br/>($0.001 - $0.01) | 🐌 Slow<br/>(3-10s) | ❌ No | - Creative tasks<br/>- Analysis<br/>- Generation<br/>- AI API calls |
+| **Humano** | $$$ Medium<br/>($5 - $50) | 🐢 Very Slow<br/>(minutes-hours) | ❌ No | - Legal/financial decisions<br/>- Quality gates<br/>- Strategic decisions<br/>- Edge cases |
+| **Clone** | $$$$ High<br/>($0.002 - $0.015) | 🐌 Slow<br/>(5-15s) | ⚠️ Partial | - Methodology validation<br/>- Expert review<br/>- Domain-specific tasks<br/>- Personality-driven execution |
 
 ### ROI Calculation
 
@@ -327,12 +327,12 @@ Decision: Depends on use case:
 | Capability | Agente | Worker | Humano | Clone |
 |------------|--------|--------|--------|-------|
 | **AI Model Calls** | ✅ Yes | ❌ No | ❌ No | ✅ Yes |
-| **Script Execution** | ⚠️ Limited(via tools) | ✅ Yes | ❌ No | ⚠️ Limited(via tools) |
-| **File I/O** | ⚠️ Limited(via tools) | ✅ Yes | ❌ No | ⚠️ Limited(via tools) |
-| **Database Access** | ⚠️ Limited(via tools) | ✅ Yes | ✅ Yes(via UI) | ⚠️ Limited(via tools) |
-| **External APIs** | ✅ Yes(AI APIs) | ✅ Yes(Non-AI) | ❌ No | ✅ Yes(AI APIs) |
-| **Creative Thinking** | ✅ Yes | ❌ No | ✅ Yes | ✅ Yes(guided by heuristics) |
-| **Subjective Judgment** | ⚠️ Simulated | ❌ No | ✅ Yes | ✅ Yes(via axioms) |
+| **Script Execution** | ⚠️ Limited<br/>(via tools) | ✅ Yes | ❌ No | ⚠️ Limited<br/>(via tools) |
+| **File I/O** | ⚠️ Limited<br/>(via tools) | ✅ Yes | ❌ No | ⚠️ Limited<br/>(via tools) |
+| **Database Access** | ⚠️ Limited<br/>(via tools) | ✅ Yes | ✅ Yes<br/>(via UI) | ⚠️ Limited<br/>(via tools) |
+| **External APIs** | ✅ Yes<br/>(AI APIs) | ✅ Yes<br/>(Non-AI) | ❌ No | ✅ Yes<br/>(AI APIs) |
+| **Creative Thinking** | ✅ Yes | ❌ No | ✅ Yes | ✅ Yes<br/>(guided by heuristics) |
+| **Subjective Judgment** | ⚠️ Simulated | ❌ No | ✅ Yes | ✅ Yes<br/>(via axioms) |
 | **Deterministic** | ❌ No | ✅ Yes | ❌ No | ⚠️ Partial |
 | **Legal Accountability** | ❌ No | ❌ No | ✅ Yes | ❌ No |
 

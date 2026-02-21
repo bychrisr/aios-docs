@@ -141,9 +141,9 @@ Generated content contains: {{AGENT_NAME}} instead of actual value
    ```
 
 3. Validate template syntax:
-   - Opening tag: `{{#IF_VARIABLE}}`
-   - Closing tag: `{{/IF_VARIABLE}}`
-   - Variable: `{{VARIABLE_NAME}}`
+   - Opening tag: `[{#IF_VARIABLE]}`
+   - Closing tag: `[{/IF_VARIABLE]}`
+   - Variable: `[{VARIABLE_NAME]}`
 
 ### Issue: Malformed output
 
@@ -253,7 +253,7 @@ Generated content contains: {{AGENT_NAME}} instead of actual value
 
 **Solutions:**
 1. Avoid code in descriptions:
-   - ❌ Bad: `Executes alert('hi')`
+   - ❌ Bad: `Executes <script>alert('hi')</script>`
    - ✅ Good: `Processes user alerts`
 
 2. Use plain text:

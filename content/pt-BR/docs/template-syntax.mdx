@@ -54,11 +54,11 @@ Loops iterate over arrays to generate repeated content:
 ```
 
 ### Loop Variables:
-- `{{ITEM}}` - Current item value
-- `{{INDEX}}` - Current item index (0-based)
-- `{{#IF_FIRST}}` - True for first item
-- `{{#IF_LAST}}` - True for last item
-- `{{#UNLESS_LAST}}` - True for all except last item
+- `[{ITEM]}` - Current item value
+- `[{INDEX]}` - Current item index (0-based)
+- `[{#IF_FIRST]}` - True for first item
+- `[{#IF_LAST]}` - True for last item
+- `[{#UNLESS_LAST]}` - True for all except last item
 
 ### Example with Objects:
 ```yaml
@@ -209,7 +209,7 @@ services:
 ## Error Handling
 
 The template engine handles errors gracefully:
-- Missing variables are left as-is: `{{MISSING_VAR}}`
+- Missing variables are left as-is: `[{MISSING_VAR]}`
 - Malformed conditionals are preserved in output
 - Empty arrays result in no output for that section
 - Null/undefined values are converted to empty strings

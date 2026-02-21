@@ -421,10 +421,10 @@ const designTokens = await loadDesignTokens(formatConfig);  // Cache!
 
 | Item | Cache Key | TTL | Rationale |
 |------|-----------|-----|-----------|
-| Format Config | `format_${format_id}_${orientation}` | Infinite | Never changes |
-| Brand Config | `brand_${brand_id}` | 1 hour | Might update |
-| Design Tokens | `tokens_${format_id}` | Infinite | Per format, static |
-| Templates | `template_${template_id}_v${version}` | Infinite | Versioned |
+| Format Config | `format_$[format_id]_$[orientation]` | Infinite | Never changes |
+| Brand Config | `brand_$[brand_id]` | 1 hour | Might update |
+| Design Tokens | `tokens_$[format_id]` | Infinite | Per format, static |
+| Templates | `template_$[template_id]_v$[version]` | Infinite | Versioned |
 
 ### Early Exit Strategy
 
