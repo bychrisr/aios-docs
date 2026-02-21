@@ -2,53 +2,100 @@
 
 /**
  * mdx-sanitizer.js
- * Utilitário em Node.js para sanitizar conteúdo Markdown (MD)
- * proveniente do repositório fonte para que não quebre a build do Nextra (MDX).
+ * Converte Markdown do repositório SynkraAI/aios-core em MDX
+ * compatível com Nextra 4 (parser MDX + Acorn).
  *
- * Ele resolve dois problemas principais:
- * 1. Uso de chaves `{...}` no corpo do texto (ex: `author: {name}`) que o Acorn
- *    tenta parsear como expressões JavaScript inválidas (erro: "Could not parse expression with acorn")
- * 2. Símbolos de "menor que" `<` que confundem o parser JSX achando ser uma tag HTML.
+ * Estratégia:
+ * 1. Pré-processamento global: remove comentários HTML <!-- -->
+ * 2. Pré-processamento por blocos: sanitiza o CONTEÚDO de blocos Mermaid
+ *    (substituindo tags HTML e chaves por entidades/alternativas seguras)
+ * 3. Processamento linha a linha: sanitiza texto normal fora de código
  *
- * O script lê no formato string (stdin) e imprime (stdout) sanitizado.
+ * Lê via stdin, escreve via stdout.
  */
 
-const fs = require('fs');
+/**
+ * Sanitiza o conteúdo interno de um bloco mermaid.
+ * No Nextra 4, o parser MDX ainda analisa o interior de blocos mermaid,
+ * então precisamos escapar tags HTML e outras sintaxes que conflitam com JSX.
+ */
+function sanitizeMermaidBlock(blockContent) {
+  // Dentro de blocos mermaid, as chaves {} são sintaxe do diagrama (nós de decisão).
+  // O MDX as interpreta como expressões JavaScript → precisamos escapar o < e { de forma segura.
 
-function sanitizeLine(line, inCodeBlock) {
-  if (inCodeBlock) return line;
+  // 1. Escapar tags HTML dentro de labels de nós Mermaid
+  //    ex: F{texto<br/>mais} → F{texto / mais}
+  //    ex: <b>texto</b> → texto
+  blockContent = blockContent
+    // <br/> e variantes: substituir por barra simples (legível em diagramas)
+    .replace(/<br\s*\/?>/gi, ' / ')
+    // Tags HTML com conteúdo: remover as tags, manter o texto
+    .replace(/<([a-zA-Z][a-zA-Z0-9]*)[^>]*>(.*?)<\/\1>/gi, '$2')
+    // Tags HTML avulsas (sem fechamento correspondente)
+    .replace(/<\/?[a-zA-Z][a-zA-Z0-9]*[^>]*\/?>/g, '');
 
-  // 1. Remover âncoras antigas do HTML e links names que quebram o parsing MDX
-  // ex: <a name="essay-1"></a>
-  line = line.replace(/<a name="[^"]*"><\/a>/g, '');
-  line = line.replace(/&lt;a name="[^"]*"&gt;<\/a>/g, '');
+  return blockContent;
+}
 
-  // 2. Escapar chaves literais problemáticas (expressões JSX/Acorn espúrias fora de código)
-  let sanitized = line.replace(/\{([^}]+)\}/g, (match, innerText) => {
-    return `[${innerText}]`;
+/**
+ * Sanitiza uma linha de texto normal (fora de qualquer bloco de código).
+ */
+function sanitizeLine(line) {
+  // 1. Remover âncoras HTML de navegação interna
+  line = line.replace(/<a\s+name="[^"]*"\s*><\/a>/gi, '');
+
+  // 2. Converter URLs em angle brackets para links Markdown
+  //    ex: <https://exemplo.com> → [https://exemplo.com]
+  line = line.replace(/<(https?:\/\/[^>]+)>/g, '[$1]');
+
+  // 3. Escapar <= (comparador "menor ou igual") que JSX lê como tag
+  line = line.replace(/<=/g, '&lt;=');
+
+  // 4. Escapar tags HTML que podem confundir o parser MDX
+  //    Cobre: <br>, <br/>, <img>, <p>, <div>, <b>, <i>, etc.
+  line = line.replace(/<(\/?)([a-zA-Z][a-zA-Z0-9]*)(\s[^>]*)?\/?>/g, (match) => {
+    return match.replace(/</g, '&lt;').replace(/>/g, '&gt;');
   });
 
-  // 3. Escapar `<` perdidos (e.g. "<500ms" -> "&lt;500ms")
-  // Protege `<` que são seguidos por qualquer dígito ou espaço (não match para letras maiusculas e minusculas
-  // assumindo que <letra pode ser tag valida, a nao ser que seja algo como <1ms).
-  // E remove qualquer tag </ fechadora solta q for match com </a> etc, deixamos assim:
-  sanitized = sanitized.replace(/<(?=[0-9 ])/g, '&lt;');
+  // 5. Escapar < seguido de número ou espaço (ex: <1ms, < 500)
+  line = line.replace(/<(?=[0-9 ])/g, '&lt;');
 
-  return sanitized;
+  // 6. Escapar chaves { } que o Acorn tenta executar como JS
+  line = line.replace(/\{([^}]+)\}/g, (_, inner) => `[${inner}]`);
+
+  return line;
 }
 
 function processMdxContent(content) {
+  // Passo 1: Remover comentários HTML multi-linha
+  content = content.replace(/<!--[\s\S]*?-->/g, '');
+
+  // Passo 2: Processar blocos mermaid inteiros com regex global
+  content = content.replace(
+    /(```\s*mermaid\s*\n)([\s\S]*?)(```)/gi,
+    (_, open, body, close) => {
+      return open + sanitizeMermaidBlock(body) + close;
+    }
+  );
+
+  // Passo 3: Processar linha por linha para texto normal
   const lines = content.split('\n');
   let inCodeBlock = false;
-  
+
   const processedLines = lines.map(line => {
-    // Detecta início ou fim de blockquote/código Markdown
-    if (line.trim().startsWith('```')) {
+    const trimmed = line.trim();
+
+    // Detectar início/fim de bloco de código genérico
+    if (/^\s*```/.test(trimmed)) {
       inCodeBlock = !inCodeBlock;
       return line;
     }
 
-    return sanitizeLine(line, inCodeBlock);
+    // Dentro de bloco de código: não tocar
+    if (inCodeBlock) return line;
+
+    // Texto normal
+    return sanitizeLine(line);
   });
 
   return processedLines.join('\n');
