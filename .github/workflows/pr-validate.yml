@@ -26,6 +26,7 @@ jobs:
         run: npx next build
         env:
           NEXT_PUBLIC_SITE_URL: https://docs.synkraaios.site
+          NODE_OPTIONS: "--max-old-space-size=6144"
 
       - name: Build success
         run: echo "✓ All ${{ github.event.pull_request.head.ref }} MDX pages compiled successfully."
