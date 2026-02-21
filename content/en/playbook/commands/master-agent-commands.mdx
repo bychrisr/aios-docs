@@ -1,0 +1,76 @@
+# Master Agent Commands (@aios-master)
+
+The Master Agent, or Orion, acts as the central orchestrator of the AIOS framework. Its commands are focused on framework management, workflow execution, and meta-operations.
+
+---
+
+## Framework Component Management
+
+Commands to create and manage the building blocks of AIOS.
+
+| Command | Description |
+|---------|-------------|
+| `*create` | Creates a new AIOS component (e.g., `*create agent {name}`, `*create task {name}`). |
+| `*modify` | Modifies an existing AIOS component. |
+| `*deprecate-component` | Marks a component as obsolete and sets a migration path. |
+| `*validate-component` | Validates the security and standards of a component. |
+| `*validate-agents` | Validates the definition of all agents. |
+| `*list-components` | Lists all framework components. |
+
+---
+
+## Workflow and Document Orchestration
+
+Commands to execute plans, workflows, and manage project documentation.
+
+| Command | Description |
+|---------|-------------|
+| `*plan` | Initiates workflow planning (subcommands: `create`, `status`, `update`). |
+| `*workflow {name}` | Starts a workflow (modes: `guided` for manual, `engine` for real sub-agents). |
+| `*run-workflow {name}` | Executes a workflow (synonym for `*workflow`). |
+| `*validate-workflow {name}`| Validates the YAML structure, agents, and logic of a workflow. |
+| `*create-doc {template}` | Creates a document from a template. |
+| `*document-project` | Generates documentation for the entire project. |
+| `*add-tech-doc` | Creates a technical preset from a documentation file. |
+| `*index-docs` | Indexes the documentation for the search functionality. |
+
+---
+
+## Story Lifecycle and Analysis
+
+Commands focused on story development and framework analysis.
+
+| Command | Description |
+|---------|-------------|
+| `*create-next-story` | Creates the next user story in the logical sequence. |
+| `*advanced-elicitation` | Executes an advanced requirements elicitation process. |
+| `*analyze-framework` | Analyzes the structure and patterns of the codebase. |
+| `*correct-course` | Analyzes and proposes corrections for process or quality deviations. |
+
+---
+
+## Incremental Development System (IDS)
+
+Commands to interact with the "Incremental Development System," which governs component reuse and impact.
+
+| Command | Description |
+|---------|-------------|
+| `*ids check {intent}` | Recommends whether a new component should be **Reused**, **Adapted**, or **Created**. |
+| `*ids impact {entity-id}`| Analyzes the impact (direct/indirect consumers) of modifying an entity. |
+| `*ids register {file-path}` | Registers a new entity in the IDS. |
+| `*ids health` | Runs a health check on the IDS registry. |
+| `*ids stats` | Shows registry statistics (entity count, etc.). |
+
+---
+
+## Administration and Utilities
+
+Commands for general system and agent management.
+
+| Command | Description |
+|---------|-------------|
+| `*update-manifest` | Updates the team manifest. |
+| `*update-source-tree`| Validates the governance of data files. |
+| `*agent {name}` | Gets information about a specialized agent. |
+| `*propose-modification`| Proposes modifications to the AIOS framework itself. |
+| `*undo-last` | Undoes the last framework modification. |

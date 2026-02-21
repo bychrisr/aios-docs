@@ -1,3 +1,6 @@
 export default {
-  index: 'Essential Commands'
+  index: 'Overview',
+  'universal-commands': 'Universal Commands',
+  'master-agent-commands': 'Master Agent Commands',
+  'specialized-commands': 'Specialized Commands'
 }

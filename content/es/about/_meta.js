@@ -1,3 +1,4 @@
 export default {
-  index: 'Acerca de AIOS'
+  index: 'Acerca de AIOS',
+  'readme': 'Acerca de Este Sitio'
 }

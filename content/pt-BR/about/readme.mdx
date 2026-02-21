@@ -1,0 +1,65 @@
+---
+title: Sobre Este Site de Documentação
+---
+
+# Sobre Este Site de Documentação AIOS
+
+> **Documentação oficial para Synkra AIOS** — Framework Universal de Agentes de IA
+
+🌐 **Site Online:** [https://docs.synkraaios.site](https://docs.synkraaios.site)
+
+Este site é uma plataforma de documentação abrangente e multilíngue para o [Framework Synkra AIOS](https://github.com/SynkraAI/aios-core), construído com Nextra 4 e Next.js 15.
+
+### Funcionalidades Destacadas
+
+- 📚 **3 Idiomas:** Português (padrão), Inglês e Espanhol.
+- 🔍 **Busca Completa:** Pesquisa alimentada por Pagefind, com 87 páginas indexadas.
+- 📱 **Design Responsivo:** Documentação acessível e otimizada para dispositivos móveis.
+- 🔄 **Sincronização Automática:** Atualização diária de conteúdo a partir do repositório `aios-core`.
+- ⚡ **Rápido:** Geração de site estático com Next.js App Router.
+- 🎨 **UI Moderna:** Tema Nextra 4 com suporte a modo escuro.
+
+## Primeiros Passos para Contribuir
+
+Para configurar o ambiente de desenvolvimento local deste site, siga os passos abaixo:
+
+```bash
+# Instalar dependências
+npm install
+
+# Desenvolvimento (a busca não funcionará)
+npm run dev
+
+# Build de produção (inclui indexação Pagefind)
+npm run build
+
+# Servir a versão de produção localmente (com busca)
+npm start
+```
+
+## Sincronização de Conteúdo
+
+Este site sincroniza automaticamente o conteúdo do repositório oficial [`SynkraAI/aios-core`](https://github.com/SynkraAI/aios-core).
+
+- **Agendamento:** Diariamente às 6:00 UTC
+- **Workflow:** `.github/workflows/sync-content.yml`
+- **Script:** `scripts/sync-content.sh` (conversão de MD para MDX e adição de frontmatter)
+
+## Como Contribuir
+
+Para sugerir edições no conteúdo da documentação (guias, arquitetura, etc.), por favor, contribua diretamente para o [repositório `aios-core`](https://github.com/SynkraAI/aios-core). As alterações serão automaticamente sincronizadas com este site.
+
+Para melhorias na infraestrutura do site (layout, busca, i18n, funcionalidades), abra uma *issue* ou *Pull Request* neste repositório.
+
+## Créditos
+
+**Criador Original:** [@bychrisr](https://github.com/bychrisr) (Christian)
+**Doado para:** Comunidade SynkraAI AIOS
+**Data:** Fevereiro de 2026
+
+**Mantido por:** Comunidade AIOS
+**Licença:** MIT © 2026 Synkra AI
+
+---
+
+*Construído com ❤️ usando Synkra AIOS*

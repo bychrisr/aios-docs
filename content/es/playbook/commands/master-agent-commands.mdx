@@ -1,0 +1,76 @@
+# Comandos del Agente Maestro (@aios-master)
+
+El Agente Maestro, u Orion, actúa como el orquestador central del framework AIOS. Sus comandos se centran en la gestión del framework, la ejecución de flujos de trabajo y las operaciones meta.
+
+---
+
+## Gestión de Componentes del Framework
+
+Comandos para crear y gestionar los bloques de construcción de AIOS.
+
+| Comando | Descripción |
+|---------|-------------|
+| `*create` | Crea un nuevo componente de AIOS (ej: `*create agent {nombre}`, `*create task {nombre}`). |
+| `*modify` | Modifica un componente de AIOS existente. |
+| `*deprecate-component` | Marca un componente como obsoleto y establece una ruta de migración. |
+| `*validate-component` | Valida la seguridad y los estándares de un componente. |
+| `*validate-agents` | Valida la definición de todos los agentes. |
+| `*list-components` | Lista todos los componentes del framework. |
+
+---
+
+## Orquestación de Flujos de Trabajo y Documentos
+
+Comandos para ejecutar planes, flujos de trabalho y gestionar la documentación del proyecto.
+
+| Comando | Descripción |
+|---------|-------------|
+| `*plan` | Inicia la planificación de un flujo de trabajo (subcomandos: `create`, `status`, `update`). |
+| `*workflow {nombre}` | Inicia un flujo de trabajo (modos: `guided` para manual, `engine` para sub-agentes reales). |
+| `*run-workflow {nombre}` | Ejecuta un flujo de trabajo (sinónimo de `*workflow`). |
+| `*validate-workflow {nombre}`| Valida la estructura YAML, los agentes y la lógica de un flujo de trabajo. |
+| `*create-doc {plantilla}` | Crea un documento a partir de una plantilla. |
+| `*document-project` | Genera documentación para todo el proyecto. |
+| `*add-tech-doc` | Crea un preset técnico a partir de un archivo de documentación. |
+| `*index-docs` | Indexa la documentación para la funcionalidad de búsqueda. |
+
+---
+
+## Ciclo de Vida de Historias y Análisis
+
+Comandos centrados en el desarrollo de historias y el análisis del framework.
+
+| Comando | Descripción |
+|---------|-------------|
+| `*create-next-story` | Crea la siguiente historia de usuario en la secuencia lógica. |
+| `*advanced-elicitation` | Ejecuta un proceso avanzado de elicitación de requisitos. |
+| `*analyze-framework` | Analiza la estructura y los patrones del código base. |
+| `*correct-course` | Analiza y propone correcciones para desviaciones de proceso o calidad. |
+
+---
+
+## Sistema de Desarrollo Incremental (IDS)
+
+Comandos para interactuar con el "Incremental Development System", que gobierna la reutilización y el impacto de los componentes.
+
+| Comando | Descripción |
+|---------|-------------|
+| `*ids check {intent}` | Recomienda si un nuevo componente debe ser **Reutilizado**, **Adaptado** o **Creado**. |
+| `*ids impact {entity-id}`| Analiza el impacto (consumidores directos/indirectos) de modificar una entidad. |
+| `*ids register {file-path}` | Registra una nueva entidad en el IDS. |
+| `*ids health` | Ejecuta una verificación de salud en el registro del IDS. |
+| `*ids stats` | Muestra estadísticas del registro (recuento de entidades, etc.). |
+
+---
+
+## Administración y Utilidades
+
+Comandos para la gestión general del sistema y del agente.
+
+| Comando | Descripción |
+|---------|-------------|
+| `*update-manifest` | Actualiza el manifiesto del equipo. |
+| `*update-source-tree`| Valida la gobernanza de los archivos de datos. |
+| `*agent {nombre}` | Obtiene información sobre un agente especializado. |
+| `*propose-modification`| Propone modificaciones al propio framework AIOS. |
+| `*undo-last` | Deshace la última modificación realizada en el framework. |

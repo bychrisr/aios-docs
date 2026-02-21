@@ -1,0 +1,65 @@
+---
+title: About This Documentation Site
+---
+
+# About This AIOS Documentation Site
+
+> **Official documentation for Synkra AIOS** — Universal AI Agent Framework
+
+🌐 **Live Site:** [https://docs.synkraaios.site](https://docs.synkraaios.site)
+
+This site is a comprehensive, multilingual documentation platform for the **[Synkra AIOS framework](https://github.com/SynkraAI/aios-core)**, built with Nextra 4 and Next.js 15.
+
+### Key Features
+
+- 📚 **3 Languages:** Portuguese (default), English, and Spanish.
+- 🔍 **Full-text Search:** Pagefind-powered search, with 87 indexed pages.
+- 📱 **Responsive Design:** Accessible and optimized documentation for mobile devices.
+- 🔄 **Automatic Synchronization:** Daily content updates from the `aios-core` repository.
+- ⚡ **Fast:** Static site generation with Next.js App Router.
+- 🎨 **Modern UI:** Nextra 4 theme with dark mode support.
+
+## Quick Start for Contribution
+
+To set up the local development environment for this site, follow these steps:
+
+```bash
+# Install dependencies
+npm install
+
+# Development (search will not work)
+npm run dev
+
+# Production build (includes Pagefind indexing)
+npm run build
+
+# Serve production build locally (with search)
+npm start
+```
+
+## Content Synchronization
+
+This site automatically syncs content from the official [`SynkraAI/aios-core`](https://github.com/SynkraAI/aios-core) repository.
+
+- **Schedule:** Daily at 6:00 UTC
+- **Workflow:** `.github/workflows/sync-content.yml`
+- **Script:** `scripts/sync-content.sh` (MD → MDX conversion and frontmatter addition)
+
+## How to Contribute
+
+To suggest edits to documentation content (guides, architecture, etc.), please contribute directly to the [`aios-core` repository](https://github.com/SynkraAI/aios-core). Changes will be automatically synced with this site.
+
+For site infrastructure improvements (layout, search, i18n, functionalities), open an *issue* or *Pull Request* in this repository.
+
+## Credits
+
+**Original Creator:** [@bychrisr](https://github.com/bychrisr) (Christian)
+**Donated to:** SynkraAI AIOS Community
+**Date:** February 2026
+
+**Maintained by:** AIOS Community
+**License:** MIT © 2026 Synkra AI
+
+---
+
+*Built with ❤️ using Synkra AIOS*

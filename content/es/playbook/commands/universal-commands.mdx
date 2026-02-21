@@ -1,0 +1,40 @@
+# Comandos Universales
+
+Estos comandos son la base de la interacción con AIOS y están disponibles en todos los agentes en cualquier momento. Están diseñados para proporcionar ayuda contextual, estado del sistema y control básico de la sesión.
+
+## Ayuda y Estado
+
+| Comando | Descripción |
+|---------|---------------|
+| `*help` | Muestra la lista de comandos disponibles para el agente actual. |
+| `*status` | Muestra un resumen del contexto actual, el agente activo y el estado de la tarea. |
+| `*guide` | Muestra una guía de uso detallada para el agente actualmente activo. |
+| `*kb` | Activa o desactiva el modo "Base de Conocimiento", permitiendo al agente consultar una base de conocimiento extendida para obtener respuestas más detalladas. |
+
+### Ejemplo de Uso
+```bash
+# Ver qué comandos puede ejecutar el agente @dev
+*help
+
+# Comprobar en qué historia estás trabajando
+*status
+```
+
+---
+
+## Control de Sesión
+
+| Comando | Descripción |
+|---------|---------------|
+| `*exit` | Finaliza la sesión con el agente actual y vuelve a la shell predeterminada. |
+| `*yolo` | Cambia el modo de permiso del agente, ciclando entre `ask` (pedir confirmación para cada acción), `auto` (ejecutar sin confirmación) y `explore` (modo de descubrimiento). |
+| `*chat-mode`| Inicia un modo de conversación más libre, ideal para lluvia de ideas y preguntas que no encajan en un comando específico. |
+
+### Ejemplo de Uso
+```bash
+# Permitir que el agente ejecute tareas sin pedir confirmación
+*yolo
+
+# Finalizar la interacción con el agente
+*exit
+```

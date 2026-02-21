@@ -4,83 +4,95 @@
 
 set -euo pipefail
 
-SOURCE="${1:?Usage: sync-content.sh <path-to-aios-core>}"
-TARGET="content/docs"
+# --- Configuration ---
+SOURCE_REPO_PATH="${1:-/tmp/aios-core-clone}"
+declare -A LANG_MAP
+LANG_MAP=(
+  ["pt"]="pt-BR"
+  ["en"]="en"
+  ["es"]="es"
+)
+CONTENT_BASE_DIR="content"
 
-echo "=== AIOS Content Sync ==="
-echo "Source: $SOURCE"
-echo "Target: $TARGET"
+# --- Main Logic ---
 
-# Validate source
-if [ ! -d "$SOURCE" ]; then
-  echo "ERROR: Source directory not found: $SOURCE"
+echo "=== AIOS Content Sync v3.1 (Opt-in + Cleanup) ==="
+echo "Source Repository: $SOURCE_REPO_PATH"
+echo "Target Base: $CONTENT_BASE_DIR"
+echo ""
+
+if [ ! -d "$SOURCE_REPO_PATH" ] || [ ! -d "$SOURCE_REPO_PATH/docs" ]; then
+  echo "❌ ERROR: Source directory not found or is invalid: '$SOURCE_REPO_PATH'"
+  echo "Please clone 'SynkraAI/aios-core' first or provide the correct path."
   exit 1
 fi
 
-# Create target directories
-mkdir -p "$TARGET/guides"
-mkdir -p "$TARGET/agents"
-mkdir -p "$TARGET/workflows"
-mkdir -p "$TARGET/architecture"
-mkdir -p "$TARGET/reference"
-
-# Sync documentation directories
-# Guides
-if [ -d "$SOURCE/docs" ]; then
-  echo "Syncing docs/ → guides/"
-  find "$SOURCE/docs" -name "*.md" -exec cp {} "$TARGET/guides/" \; 2>/dev/null || true
-fi
-
-# Agent definitions
-if [ -d "$SOURCE/agents" ]; then
-  echo "Syncing agents/"
-  find "$SOURCE/agents" -name "*.md" -o -name "*.yaml" | while read -r file; do
-    basename=$(basename "$file")
-    name="${basename%.*}"
-    # Convert YAML agent files to MDX stubs
-    if [[ "$file" == *.yaml ]]; then
-      echo "---" > "$TARGET/agents/${name}.mdx"
-      echo "title: ${name}" >> "$TARGET/agents/${name}.mdx"
-      echo "---" >> "$TARGET/agents/${name}.mdx"
-      echo "" >> "$TARGET/agents/${name}.mdx"
-      echo "# ${name}" >> "$TARGET/agents/${name}.mdx"
-      echo "" >> "$TARGET/agents/${name}.mdx"
-      echo "> Agent definition synced from aios-core." >> "$TARGET/agents/${name}.mdx"
-    else
-      cp "$file" "$TARGET/agents/" 2>/dev/null || true
-    fi
-  done
-fi
-
-# Workflows and tasks
-if [ -d "$SOURCE/workflows" ]; then
-  echo "Syncing workflows/"
-  find "$SOURCE/workflows" -name "*.md" -exec cp {} "$TARGET/workflows/" \; 2>/dev/null || true
-fi
-
-# Architecture docs
-if [ -d "$SOURCE/architecture" ] || [ -d "$SOURCE/docs/architecture" ]; then
-  echo "Syncing architecture/"
-  find "$SOURCE" -path "*/architecture/*.md" -exec cp {} "$TARGET/architecture/" \; 2>/dev/null || true
-fi
-
-# Reference (schemas, configs)
-if [ -d "$SOURCE/schemas" ]; then
-  echo "Syncing schemas → reference/"
-  find "$SOURCE/schemas" -name "*.md" -o -name "*.yaml" | while read -r file; do
-    basename=$(basename "$file")
-    cp "$file" "$TARGET/reference/" 2>/dev/null || true
-  done
-fi
-
-# Rename .md files to .mdx for Nextra compatibility
-find "$TARGET" -name "*.md" -not -name "_meta.js" | while read -r file; do
-  mv "$file" "${file%.md}.mdx" 2>/dev/null || true
+echo "Cleaning all target docs directories..."
+for lang_dest in "${LANG_MAP[@]}"; do
+    rm -rf "$CONTENT_BASE_DIR/$lang_dest/docs"
 done
 
-# Count synced files
-TOTAL=$(find "$TARGET" -name "*.mdx" | wc -l)
+# Sincronizar conteúdo para cada idioma
+for lang_src in "${!LANG_MAP[@]}"; do
+  lang_dest="${LANG_MAP[$lang_src]}"
+  
+  # A documentação principal está na raiz, o resto em subpastas
+  SRC_DOCS_PATH="$SOURCE_REPO_PATH/docs"
+  if [ "$lang_src" != "pt" ]; then
+      SRC_DOCS_PATH="$SOURCE_REPO_PATH/docs/$lang_src"
+  fi
+
+  DEST_PATH_BASE="$CONTENT_BASE_DIR/$lang_dest/docs"
+
+  echo "---"
+  echo "Syncing language: '$lang_src' -> '$lang_dest'"
+  echo "From: $SRC_DOCS_PATH"
+  echo "To:   $DEST_PATH_BASE"
+
+  if [ ! -d "$SRC_DOCS_PATH" ]; then
+    echo "⚠️ WARNING: Source language directory not found, skipping: $SRC_DOCS_PATH"
+    continue
+  fi
+
+  # Usar find para localizar apenas arquivos .md e processá-los um a um
+  find "$SRC_DOCS_PATH" -type f -name "*.md" | while read -r md_file; do
+    relative_path="${md_file#$SRC_DOCS_PATH/}"
+    dest_file_mdx="$DEST_PATH_BASE/$relative_path"
+    dest_file_mdx="${dest_file_mdx%.md}.mdx"
+    
+    mkdir -p "$(dirname "$dest_file_mdx")"
+
+    filename=$(basename "$md_file" .md)
+    title=$(echo "$filename" | sed 's/-/ /g' | awk '{for(i=1;i<=NF;i++){ $i=toupper(substr($i,1,1)) tolower(substr($i,2)) }}1')
+
+    # Criar o arquivo .mdx com frontmatter e limpeza agressiva de HTML
+    {
+      echo "---"
+      echo "title: \"$title\""
+      echo "---"
+      echo ""
+      # Remove todas as tags HTML que podem quebrar o parser MDX
+      sed 's/<[^>]*>//g' "$md_file"
+    } > "$dest_file_mdx"
+    
+    echo "Processed: $relative_path"
+  done
+  
+  echo "✅ Sync for '$lang_dest' complete."
+done
+
+# Restaurar os diretórios de docs para 'en' e 'es' que foram removidos
+echo "---"
+echo "Restoring 'en' and 'es' docs directories before sync..."
+mkdir -p "content/en/docs"
+mkdir -p "content/es/docs"
+
+# Sincronizar novamente para garantir que tudo está no lugar
+# (Esta execução será mais rápida pois a maioria dos arquivos já existe)
+echo "---"
+echo "Re-running sync to ensure consistency..."
+bash "$0" "$SOURCE_REPO_PATH"
+
+
 echo ""
-echo "=== Sync Complete ==="
-echo "Total MDX files: $TOTAL"
-echo "Target: $TARGET"
+echo "=== Sync Finished Successfully ==="
