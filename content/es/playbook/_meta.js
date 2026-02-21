@@ -1,8 +1,10 @@
 export default {
-  index: 'Resumen',
-  'getting-started': 'Comenzando',
-  templates: 'Plantillas',
-  checklists: 'Listas de Verificación',
+  index: 'Descripción General',
+  'cheat-sheet': 'Cheat Sheet',
+  agents: 'Agentes',
+  'getting-started': 'Primeros Pasos',
   commands: 'Comandos',
-  trails: 'Rutas por Perfil'
+  checklists: 'Checklists',
+  templates: 'Plantillas',
+  trails: 'Rutas por Rol',
 }

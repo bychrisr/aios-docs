@@ -1,0 +1,144 @@
+# Cheat Sheet
+
+Copy-paste command sequences for daily AIOS use. For full explanations, see [Commands](/playbook/commands) or [Agents at a Glance](/playbook/agents).
+
+---
+
+## Daily Essentials
+
+```
+*help          # Show available commands for the active agent
+*status        # Show current context, story, and agent state
+*guide         # Show detailed usage guide for the active agent
+```
+
+---
+
+## Full Story Development Cycle (SDC)
+
+The complete 4-phase workflow from story creation to shipping:
+
+```
+# Phase 1 — Create (Scrum Master)
+@sm *draft
+
+# Phase 2 — Validate (Product Owner)
+@po *validate-story-draft
+# GO = ≥ 7/10 → status moves Draft → Ready
+# NO-GO = < 7/10 → fix and retry
+
+# Phase 3 — Implement (Developer)
+@dev *develop {story-id}
+
+# Phase 4 — QA Gate (QA Agent)
+@qa *qa-gate
+# Verdicts: PASS | CONCERNS | FAIL | WAIVED
+
+# Ship (DevOps — only @devops can push)
+@devops *push
+```
+
+---
+
+## QA & Quality
+
+```
+@qa *qa-gate                   # Run 7-point quality gate on current story
+*qa-loop {storyId}             # Start automated review-fix cycle (max 5 iterations)
+*qa-loop-review                # Resume loop from review step
+*qa-loop-fix                   # Resume loop from fix step
+*stop-qa-loop                  # Pause loop and save state
+*resume-qa-loop                # Resume loop from saved state
+*escalate-qa-loop              # Force manual escalation
+```
+
+---
+
+## Planning & Epics
+
+```
+@pm *create-epic               # Create a new epic from requirements
+@pm *execute-epic              # Execute an epic (triggers story creation flow)
+@pm *create-doc prd            # Generate a PRD document from template
+@sm *draft                     # Create a new story from epic/PRD
+@po *validate-story-draft      # Validate story (10-point checklist)
+```
+
+---
+
+## Architecture & Research
+
+```
+@architect *create-full-stack-architecture    # Generate full architecture docs
+@architect *execute-checklist architect-checklist  # Run architecture review
+@analyst *research                            # Run structured research task
+```
+
+---
+
+## IDS (Incremental Development System)
+
+```
+*ids check {intent}            # Should this be REUSE, ADAPT, or CREATE?
+*ids impact {entity-id}        # Analyze impact of modifying an entity
+*ids register {file-path}      # Register a new entity in the IDS registry
+*ids health                    # Health check on the IDS registry
+```
+
+---
+
+## Framework Management (@aios-master / Orion)
+
+```
+*workflow SDC                  # Start the Story Development Cycle workflow
+*workflow spec-pipeline        # Start the Spec Pipeline workflow
+*list-agents                   # List all available agents
+*validate-agents               # Validate all agent definitions
+*ids stats                     # Show IDS registry statistics
+```
+
+---
+
+## Execution Modes
+
+When calling `@dev *develop`, you can specify the execution mode:
+
+| Mode | Prompts | Best For |
+|------|---------|---------|
+| **Interactive** (default) | 5-10, with checkpoints | Learning, complex decisions |
+| **YOLO** | 0-1, fully autonomous | Simple tasks, trusted context |
+| **Pre-Flight** | 10-15 upfront, then zero | Ambiguous requirements, critical work |
+
+```
+@dev *develop {story-id}              # Interactive (default)
+@dev *develop {story-id} --yolo       # YOLO mode
+@dev *develop {story-id} --pre-flight # Pre-Flight mode
+```
+
+---
+
+## Story Status Progression
+
+```
+Draft → Ready → InProgress → InReview → Done
+```
+
+| Transition | Who | How |
+|------------|-----|-----|
+| Draft → Ready | @po | `*validate-story-draft` (GO verdict) |
+| Ready → InProgress | @dev | `*develop {story-id}` |
+| InProgress → InReview | @qa | `*qa-gate` |
+| InReview → Done | @devops | `*push` |
+
+---
+
+## CodeRabbit Self-Healing (Dev Phase)
+
+AIOS runs CodeRabbit automatically during `@dev *develop`. You do not need to invoke it manually.
+
+| Severity | Dev Phase | QA Phase |
+|----------|-----------|---------|
+| CRITICAL | Auto-fix (max 2 iterations) | Auto-fix (max 3 iterations) |
+| HIGH | Auto-fix or document as debt | Auto-fix or document as debt |
+| MEDIUM | Document as tech debt | Document as tech debt |
+| LOW | Ignored | Ignored |

@@ -1,8 +1,8 @@
 # Guía de Inicio Rápido
 
-Empieza con AIOS en minutos.
+Empieza a usar AIOS en 5 pasos.
 
-## Paso 1: Inicializa AIOS
+## Paso 1: Inicializar AIOS
 
 En la raíz de tu proyecto:
 
@@ -10,59 +10,86 @@ En la raíz de tu proyecto:
 npx @synkra/aios-core init
 ```
 
-Esto configura el directorio `.aios-core/` con todos los archivos del framework.
+Esto crea el directorio `.aios-core/` con todos los archivos del framework, agentes, tareas y flujos de trabajo.
 
-## Paso 2: Activa tu Primer Agente
+## Paso 2: Activar Tu Primer Agente
 
-En Claude Code (o tu IDE de IA), escribe:
+En Claude Code (o tu IDE de IA):
 
 ```
 @dev
 ```
 
-Esto activa el agente Developer (Dex) con todas las capacidades de desarrollo.
+Esto activa a Dex, el agente Developer, con todas las capacidades de desarrollo. Puedes dirigirte a cualquiera de los 12 agentes por su handle.
 
-## Paso 3: Ejecuta tu Primer Comando
+## Paso 3: Ejecutar Tu Primer Comando
 
 ```
 *help
 ```
 
-Muestra todos los comandos disponibles para el agente activo.
+Muestra todos los comandos disponibles para el agente activo. Todos los agentes admiten `*help`, `*status` y `*guide`.
 
-## Paso 4: Crea tu Primera Historia
+## Paso 4: Crear Tu Primera Historia
 
-Activa el Scrum Master:
+Activa a River, el Scrum Master, y crea una historia:
 
 ```
 @sm *draft
 ```
 
-Sigue los indicadores interactivos para crear tu primera historia de desarrollo.
+Sigue los prompts interactivos para crear tu primera historia de desarrollo. El resultado es un archivo `{epicNum}.{storyNum}.story.md` con estado `Draft`.
 
-## Paso 5: Empieza a Desarrollar
+Luego valídala con Pax, el Product Owner:
 
-Con una historia creada y validada:
+```
+@po *validate-story-draft
+```
+
+Una puntuación de ≥ 7/10 mueve la historia de `Draft` a `Ready`.
+
+## Paso 5: Empezar a Desarrollar
+
+Con una historia en estado `Ready`:
 
 ```
 @dev *develop story-1.1
 ```
 
-El agente developer te guiará a través de la implementación.
+Dex te guía a través de la implementación en modo Interactive por defecto. CodeRabbit escanea automáticamente y auto-corrige los problemas CRITICAL y HIGH.
 
-## Comandos Esenciales
+Cuando la implementación esté completa:
+
+```
+@qa *qa-gate
+```
+
+Quinn ejecuta el gate de calidad de 7 puntos. Al obtener PASS, publica con:
+
+```
+@devops *push
+```
+
+Solo Gage (@devops) puede hacer push — todos los demás agentes le delegan las operaciones de push.
+
+---
+
+## Comandos Esenciales de un Vistazo
 
 | Comando | Agente | Descripción |
 |---------|--------|-------------|
-| `*help` | Cualquiera | Muestra comandos disponibles |
-| `*draft` | @sm | Crea una nueva historia |
-| `*validate-story-draft` | @po | Valida una historia |
-| `*develop` | @dev | Empieza a implementar una historia |
-| `*qa-gate` | @qa | Ejecuta verificaciones de calidad |
-| `*push` | @devops | Sube cambios al remoto |
+| `*help` | Cualquiera | Mostrar comandos disponibles |
+| `@sm *draft` | River | Crear una nueva historia |
+| `@po *validate-story-draft` | Pax | Validar una historia (checklist de 10 puntos) |
+| `@dev *develop {id}` | Dex | Iniciar la implementación de una historia |
+| `@qa *qa-gate` | Quinn | Ejecutar verificaciones de calidad (gate de 7 puntos) |
+| `@devops *push` | Gage | Enviar cambios al remoto |
 
-## Siguientes Pasos
+---
 
-- Completa la [incorporación de 60 minutos](/playbook/getting-started/onboarding-60min)
-- Aprende sobre [Patrones de Flujo de Trabajo](/playbook/workflows)
-- Explora [Referencia de Comandos](/playbook/commands)
+## Próximos Pasos
+
+- Completa la [Incorporación en 60 Minutos](/playbook/getting-started/onboarding-60min) para una inmersión más profunda
+- Conoce los 12 agentes en [Agentes](/playbook/agents)
+- Encuentra tu rol en [Rutas por Rol](/playbook/trails)
+- Explora la [Referencia de Comandos](/playbook/commands) completa

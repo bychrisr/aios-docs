@@ -1,0 +1,232 @@
+# Agentes
+
+O AIOS conta com 12 agentes especializados nomeados. Cada um tem um papel definido, limites de autoridade e um conjunto de comandos. Use esta página como referência rápida para encontrar o agente certo para qualquer tarefa.
+
+---
+
+## Tabela de Referência Rápida
+
+| Handle | Nome | Papel | Comando Principal |
+|--------|------|-------|------------------|
+| `@dev` | Dex | Implementação de software | `@dev *develop {story-id}` |
+| `@qa` | Quinn | Quality gates e revisão | `@qa *qa-gate` |
+| `@po` | Pax | Validação de stories | `@po *validate-story-draft` |
+| `@pm` | Morgan | Epics e spec pipeline | `@pm *create-epic` |
+| `@sm` | River | Criação de stories | `@sm *draft` |
+| `@architect` | Aria | Arquitetura de sistemas | `@architect *create-full-stack-architecture` |
+| `@analyst` | Atlas | Pesquisa e análise | `@analyst *research` |
+| `@ux-design-expert` | Uma | UX e revisão de design | `@ux-design-expert *design-review` |
+| `@data-engineer` | Dara | Banco de dados e schema | `@data-engineer *audit-db` |
+| `@devops` | Gage | CI/CD e operações Git | `@devops *push` |
+| `@docs` | Ajax | Documentação | `@docs *create-doc` |
+| `@aios-master` | Orion | Orquestração do framework | `*workflow SDC` |
+
+---
+
+## Fichas dos Agentes
+
+### @dev — Dex (Desenvolvedor)
+
+**Quando usar:** Implementar stories, escrever código, executar CodeRabbit self-healing.
+
+**Comandos principais:**
+
+| Comando | Descrição |
+|---------|-----------|
+| `@dev *develop {story-id}` | Iniciar implementação de uma story (modo Interactive por padrão) |
+| `@dev *develop {story-id} --yolo` | Modo YOLO — autônomo, 0-1 prompts |
+| `@dev *develop {story-id} --pre-flight` | Modo Pre-Flight — todas as perguntas antecipadas |
+| `@dev *help` | Mostrar todos os comandos do desenvolvedor |
+
+**Autoridade:** Pode `git add`, `git commit`, `git branch`, `git checkout`. Não pode `git push` — delegar ao @devops.
+
+**Delega para:** @devops nas operações de push e PR.
+
+---
+
+### @qa — Quinn (Engenheiro de QA)
+
+**Quando usar:** Executar quality gates, iniciar QA loops, revisar qualidade de código.
+
+**Comandos principais:**
+
+| Comando | Descrição |
+|---------|-----------|
+| `@qa *qa-gate` | Executar quality gate de 7 pontos na story atual |
+| `*qa-loop {storyId}` | Iniciar ciclo automatizado de revisão-correção |
+| `*stop-qa-loop` | Pausar o ciclo e salvar estado |
+| `*resume-qa-loop` | Retomar do estado salvo |
+| `*escalate-qa-loop` | Forçar escalação para revisão manual |
+
+**Veredictos do QA gate:** PASS, CONCERNS, FAIL, WAIVED
+
+**Gatilhos de escalação:** `max_iterations_reached`, `verdict_blocked`, `fix_failure`, `manual_escalate`
+
+---
+
+### @po — Pax (Product Owner)
+
+**Quando usar:** Validar rascunhos de stories, gerenciar prioridades do backlog, garantir qualidade das stories.
+
+**Comandos principais:**
+
+| Comando | Descrição |
+|---------|-----------|
+| `@po *validate-story-draft` | Executar checklist de validação de story de 10 pontos |
+
+**Decisão:** GO (≥ 7/10) move a story de Draft → Ready. NO-GO lista as correções necessárias.
+
+**Autoridade:** Pode atualizar o status da story e registrar transições. Não pode editar critérios de aceitação após a validação.
+
+---
+
+### @pm — Morgan (Gerente de Projetos)
+
+**Quando usar:** Criar epics, executar o spec pipeline, gerar PRDs, coletar requisitos.
+
+**Comandos principais:**
+
+| Comando | Descrição |
+|---------|-----------|
+| `@pm *create-epic` | Criar um novo epic a partir de requisitos |
+| `@pm *execute-epic` | Executar um plano de epic (dispara criação de stories) |
+| `@pm *create-doc prd` | Gerar um documento PRD a partir do template |
+| `@pm *advanced-elicitation` | Executar elicitação avançada de requisitos |
+
+**Responsabilidade:** Gestão do `EPIC-{ID}-EXECUTION.yaml`, orquestração do spec pipeline.
+
+---
+
+### @sm — River (Scrum Master)
+
+**Quando usar:** Criar rascunhos de stories a partir de um epic ou PRD.
+
+**Comandos principais:**
+
+| Comando | Descrição |
+|---------|-----------|
+| `@sm *draft` | Criar uma nova story (criação guiada interativa) |
+| `@sm *create-story` | Comando alternativo de criação de story |
+
+**Saída:** `{epicNum}.{storyNum}.story.md` com status `Draft`.
+
+---
+
+### @architect — Aria (Arquiteto de Software)
+
+**Quando usar:** Design de sistemas, decisões de arquitetura, avaliação de complexidade, brownfield discovery.
+
+**Comandos principais:**
+
+| Comando | Descrição |
+|---------|-----------|
+| `@architect *create-full-stack-architecture` | Gerar documentação completa de arquitetura |
+| `@architect *execute-checklist architect-checklist` | Executar checklist de revisão de arquitetura |
+
+**Autoridade:** Responsável pelas decisões de arquitetura de sistemas e seleção de tecnologia. Delega DDL detalhado e otimização de queries ao @data-engineer.
+
+---
+
+### @analyst — Atlas (Analista)
+
+**Quando usar:** Tarefas de pesquisa, validação de dependências, análise competitiva. Usado no Spec Pipeline (Fase 3) para classes de complexidade STANDARD e COMPLEX.
+
+**Comandos principais:**
+
+| Comando | Descrição |
+|---------|-----------|
+| `@analyst *research` | Executar tarefa de pesquisa estruturada |
+
+**Usado em:** Spec Pipeline Fase 3 (Pesquisa) para classes de complexidade STANDARD/COMPLEX.
+
+---
+
+### @ux-design-expert — Uma (Designer de UX)
+
+**Quando usar:** Revisões de design, especificação de frontend, avaliação de UX no brownfield discovery.
+
+**Comandos principais:**
+
+| Comando | Descrição |
+|---------|-----------|
+| `@ux-design-expert *design-review` | Executar revisão de design UX |
+
+**Usado em:** Brownfield Discovery Fase 3 (spec de frontend) e Fase 6 (revisão especialista de UX).
+
+---
+
+### @data-engineer — Dara (Engenheiro de Dados)
+
+**Quando usar:** Design de schema, otimização de queries, políticas RLS, migrações. Recebe delegação do @architect para toda implementação de banco de dados.
+
+**Comandos principais:**
+
+| Comando | Descrição |
+|---------|-----------|
+| `@data-engineer *audit-db` | Auditar schema do banco de dados e gerar relatório |
+
+**Autoridade:** DDL detalhado, estratégia de índices, planejamento de migrações. Não é responsável pela arquitetura do sistema ou código de aplicação.
+
+---
+
+### @devops — Gage (Engenheiro de DevOps)
+
+**Quando usar:** Fazer push de código, criar PRs, gerenciar CI/CD, releases.
+
+**Comandos principais:**
+
+| Comando | Descrição |
+|---------|-----------|
+| `@devops *push` | Fazer push das alterações commitadas para o remoto |
+| `@devops *create-pr` | Criar um pull request |
+
+**Autoridade exclusiva:** Único agente que pode `git push`, `gh pr create` e `gh pr merge`. Todos os outros agentes DEVEM delegar operações de push ao @devops.
+
+---
+
+### @docs — Ajax (Agente de Documentação)
+
+**Quando usar:** Criar documentação, atualizar docs técnicos, gerar documentação do projeto.
+
+**Comandos principais:**
+
+| Comando | Descrição |
+|---------|-----------|
+| `@docs *create-doc` | Criar documentação a partir do template |
+| `@docs *document-project` | Gerar docs para o projeto inteiro |
+
+---
+
+### @aios-master — Orion (Orquestrador do Framework)
+
+**Quando usar:** Governança do framework, orquestração de workflows, meta-operações, sobrepor limites de agentes quando necessário.
+
+**Comandos principais:**
+
+| Comando | Descrição |
+|---------|-----------|
+| `*workflow SDC` | Iniciar o Story Development Cycle |
+| `*workflow spec-pipeline` | Iniciar o Spec Pipeline |
+| `*list-agents` | Listar todos os agentes |
+| `*validate-agents` | Validar todas as definições de agentes |
+| `*ids check {intent}` | Verificar recomendação do IDS |
+
+**Autoridade:** Pode executar qualquer tarefa diretamente. Sem restrições. Governança do framework e aplicação constitucional.
+
+---
+
+## Padrões de Delegação
+
+Os fluxos de delegação mais comuns:
+
+```
+@sm *draft → @po *validate-story-draft → @dev *develop → @qa *qa-gate → @devops *push
+
+@pm *create-epic → @pm *execute-epic → @sm *draft (por story)
+
+@architect (decisão de arquitetura) → @data-engineer (implementação de banco de dados)
+
+QUALQUER agente (precisa fazer push) → @devops *push
+```
+
+Para caminhos de aprendizado específicos por papel, veja [Trilhas por Papel](/playbook/trails).

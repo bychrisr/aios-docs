@@ -1,21 +1,59 @@
 # AIOS Playbook
 
-Practical guides for daily AIOS usage. This playbook covers everything you need to operate the AIOS framework effectively.
+Practical guides for daily AIOS usage. Choose your path based on who you are.
 
-## Sections
+---
 
-| Section | Description |
-|---------|-------------|
-| **[Getting Started](/playbook/getting-started)** | Quick start, onboarding, first steps |
-| **[Workflows](/playbook/workflows)** | Sprint planning, PR workflow, crisis management |
-| **[Templates](/playbook/templates)** | Ready-to-use templates for stories, PRDs, and more |
-| **[Checklists](/playbook/checklists)** | Quality checklists for every phase |
-| **[Commands](/playbook/commands)** | Essential commands reference |
-| **[Trails by Profile](/playbook/trails)** | Personalized learning paths by role |
+## Who Are You?
 
-## How to Use This Playbook
+| I am... | Start here |
+|---------|-----------|
+| **New to AIOS** — never used it before | [Quick Start](/playbook/getting-started/quick-start) → [60-min Onboarding](/playbook/getting-started/onboarding-60min) |
+| **Power user** — I want copy-paste command sequences | [Cheat Sheet](/playbook/cheat-sheet) |
+| **Developer** — I implement stories daily | [Developer Trail](/playbook/trails#developer-trail) |
+| **Project Manager / PO** — I manage epics and stories | [PM Trail](/playbook/trails#project-manager-trail) |
+| **QA Engineer** — I run quality gates | [QA Trail](/playbook/trails#qa-engineer-trail) |
+| **Architect / Tech Lead** — I design systems | [Architect Trail](/playbook/trails#architect-trail) |
 
-1. **New to AIOS?** Start with [Getting Started](/playbook/getting-started)
-2. **Need a specific workflow?** Check [Workflows](/playbook/workflows)
-3. **Looking for a template?** Browse [Templates](/playbook/templates)
-4. **Quick command reference?** See [Commands](/playbook/commands)
+---
+
+## What Is AIOS?
+
+Synkra AIOS is an AI-powered development framework that orchestrates 12 specialized agents through structured workflows. Instead of a general-purpose AI assistant, AIOS gives each role a named agent with defined authority, commands, and quality gates.
+
+Every feature follows the same lifecycle: a Scrum Master creates the story, a Product Owner validates it, a Developer implements it, a QA agent verifies it, and a DevOps agent ships it. Each agent knows its boundaries and delegates to others when needed.
+
+---
+
+## The 4 Core Workflows
+
+| Workflow | When to Use | Entry Point |
+|----------|-------------|-------------|
+| **Story Development Cycle (SDC)** | All development work | `@sm *draft` → `@po *validate-story-draft` → `@dev *develop` → `@qa *qa-gate` → `@devops *push` |
+| **QA Loop** | Iterative review after QA gate | `*qa-loop {storyId}` |
+| **Spec Pipeline** | Complex features needing formal spec | `@pm *create-epic` → `@pm *execute-epic` |
+| **Brownfield Discovery** | Joining an existing codebase | `@architect *create-full-stack-architecture` |
+
+---
+
+## Playbook Sections
+
+| Section | Best For |
+|---------|---------|
+| **[Cheat Sheet](/playbook/cheat-sheet)** | Power users wanting copy-paste sequences |
+| **[Agents at a Glance](/playbook/agents)** | Learning which agent does what |
+| **[Getting Started](/playbook/getting-started)** | First-time users and installation |
+| **[Commands](/playbook/commands)** | Full command reference by agent |
+| **[Checklists](/playbook/checklists)** | Quality gates, story validation, CodeRabbit severity |
+| **[Templates](/playbook/templates)** | Available templates and how to use them |
+| **[Trails by Role](/playbook/trails)** | Role-specific learning paths |
+
+---
+
+## Workflow Deep Dives
+
+For detailed workflow documentation, see the workflow guides in the docs:
+
+- [Story Development Cycle Workflow](/docs/guides/workflows/STORY-DEVELOPMENT-CYCLE-WORKFLOW)
+- [QA Loop Workflow](/docs/guides/workflows/QA-LOOP-WORKFLOW)
+- [Spec Pipeline Workflow](/docs/guides/workflows/SPEC-PIPELINE-WORKFLOW)

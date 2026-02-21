@@ -157,7 +157,6 @@ done < <(find "$EN_SRC" -type f -name "*.md" \
   -not -path "*/guides/workflows/WORKFLOW-TASK-AGENT-ANALYSIS.md" \
   -not -name "00-shared-activation-pipeline*" \
   -not -name "00-shared-activation-pipeline.v1-act8.md" \
-  -not -path "*/guides/workflows/BROWNFIELD-SERVICE-WORKFLOW.md" \
   | sort)
 
 echo "  Fonte: $EN_COUNT arquivos"

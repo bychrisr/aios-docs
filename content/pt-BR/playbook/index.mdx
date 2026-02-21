@@ -1,21 +1,59 @@
 # Playbook AIOS
 
-Guias práticos para o uso diário do AIOS. Este playbook cobre tudo o que você precisa para operar o framework AIOS de forma eficaz.
+Guias práticos para o uso diário do AIOS. Escolha seu caminho com base em quem você é.
 
-## Seções
+---
 
-| Seção | Descrição |
-|-------|-----------|
-| **[Começando](/playbook/getting-started)** | Início rápido, onboarding, primeiros passos |
-| **[Fluxos de Trabalho](/playbook/workflows)** | Planejamento de sprint, fluxo de PR, gestão de crises |
-| **[Modelos](/playbook/templates)** | Modelos prontos para uso em stories, PRDs e mais |
-| **[Checklists](/playbook/checklists)** | Checklists de qualidade para cada fase |
-| **[Comandos](/playbook/commands)** | Referência de comandos essenciais |
-| **[Trilhas por Perfil](/playbook/trails)** | Caminhos de aprendizado personalizados por papel |
+## Quem é Você?
 
-## Como Usar Este Playbook
+| Eu sou... | Comece aqui |
+|-----------|-------------|
+| **Novo no AIOS** — nunca usei antes | [Início Rápido](/playbook/getting-started/quick-start) → [Onboarding em 60 Minutos](/playbook/getting-started/onboarding-60min) |
+| **Usuário avançado** — quero sequências de comandos para copiar e colar | [Cheat Sheet](/playbook/cheat-sheet) |
+| **Desenvolvedor** — implemento stories diariamente | [Trilha do Desenvolvedor](/playbook/trails#trilha-do-desenvolvedor) |
+| **Gerente de Projetos / PO** — gerencio epics e stories | [Trilha do PM](/playbook/trails#trilha-do-gerente-de-projetos) |
+| **Engenheiro de QA** — executo quality gates | [Trilha do QA](/playbook/trails#trilha-do-engenheiro-de-qa) |
+| **Arquiteto / Tech Lead** — projeto sistemas | [Trilha do Arquiteto](/playbook/trails#trilha-do-arquiteto) |
 
-1. **Novo no AIOS?** Comece com [Começando](/playbook/getting-started)
-2. **Precisa de um fluxo de trabalho específico?** Veja [Fluxos de Trabalho](/playbook/workflows)
-3. **Procurando um modelo?** Navegue em [Modelos](/playbook/templates)
-4. **Referência rápida de comandos?** Veja [Comandos](/playbook/commands)
+---
+
+## O que é o AIOS?
+
+O Synkra AIOS é um framework de desenvolvimento com IA que orquestra 12 agentes especializados por meio de workflows estruturados. Em vez de um assistente de IA de uso geral, o AIOS atribui a cada papel um agente nomeado com autoridade definida, comandos e quality gates.
+
+Cada funcionalidade segue o mesmo ciclo de vida: um Scrum Master cria a story, um Product Owner a valida, um Desenvolvedor a implementa, um agente de QA a verifica e um agente de DevOps a entrega. Cada agente conhece seus limites e delega para outros quando necessário.
+
+---
+
+## Os 4 Workflows Principais
+
+| Workflow | Quando Usar | Ponto de Entrada |
+|----------|-------------|------------------|
+| **Story Development Cycle (SDC)** | Todo trabalho de desenvolvimento | `@sm *draft` → `@po *validate-story-draft` → `@dev *develop` → `@qa *qa-gate` → `@devops *push` |
+| **QA Loop** | Revisão iterativa após o QA gate | `*qa-loop {storyId}` |
+| **Spec Pipeline** | Funcionalidades complexas que precisam de spec formal | `@pm *create-epic` → `@pm *execute-epic` |
+| **Brownfield Discovery** | Ingressar em um codebase existente | `@architect *create-full-stack-architecture` |
+
+---
+
+## Seções do Playbook
+
+| Seção | Melhor Para |
+|-------|-------------|
+| **[Cheat Sheet](/playbook/cheat-sheet)** | Usuários avançados que querem sequências para copiar e colar |
+| **[Agentes](/playbook/agents)** | Aprender qual agente faz o quê |
+| **[Primeiros Passos](/playbook/getting-started)** | Novos usuários e instalação |
+| **[Comandos](/playbook/commands)** | Referência completa de comandos por agente |
+| **[Checklists](/playbook/checklists)** | Quality gates, validação de stories, severidade CodeRabbit |
+| **[Templates](/playbook/templates)** | Templates disponíveis e como usá-los |
+| **[Trilhas por Papel](/playbook/trails)** | Caminhos de aprendizado específicos por papel |
+
+---
+
+## Aprofundamento nos Workflows
+
+Para documentação detalhada de cada workflow, veja os guias na seção de docs:
+
+- [Story Development Cycle Workflow](/docs/guides/workflows/STORY-DEVELOPMENT-CYCLE-WORKFLOW)
+- [QA Loop Workflow](/docs/guides/workflows/QA-LOOP-WORKFLOW)
+- [Spec Pipeline Workflow](/docs/guides/workflows/SPEC-PIPELINE-WORKFLOW)

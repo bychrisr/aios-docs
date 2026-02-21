@@ -1,6 +1,6 @@
-# Learning Trails by Role
+# Trails by Role
 
-Personalized learning paths based on your role in the team. Each trail is a curated sequence of topics that takes you from basics to proficiency in the areas most relevant to your work.
+Curated learning paths based on your role. Each trail links to verified content — no duplicated documentation.
 
 ---
 
@@ -8,38 +8,34 @@ Personalized learning paths based on your role in the team. Each trail is a cura
 
 **For:** Anyone new to Synkra AIOS | **Time:** 1-2 hours
 
-Start here if you have never used AIOS before. This trail covers installation, core concepts, and your first workflow.
+Start here if you have never used AIOS before.
 
-1. [Quick Start Guide](/playbook/getting-started/quick-start) -- Install AIOS and run your first command
-2. [Onboarding in 60 Minutes](/playbook/getting-started/onboarding-60min) -- Structured walkthrough of all key features
-3. [Introduction to AIOS](/docs/guides/getting-started) -- Understand the meta-agent and framework concepts
-4. [The 12 AIOS Agents](/docs/agents) -- Meet the specialized agents and their roles
-5. [Command Reference](/playbook/commands) -- Browse available commands
+1. [Quick Start Guide](/playbook/getting-started/quick-start) — Install AIOS and run your first command (5 steps, under 10 min)
+2. [Onboarding in 60 Minutes](/playbook/getting-started/onboarding-60min) — Complete walkthrough: all 12 agents, SDC, quality gates
+3. [Agents at a Glance](/playbook/agents) — Meet all agents, their names, and commands
+4. [Cheat Sheet](/playbook/cheat-sheet) — Copy-paste sequences for daily use
 
-**After completing this trail,** choose a role-specific trail below to deepen your knowledge.
+After completing this trail, choose a role-specific trail below.
 
 ---
 
 ## Developer Trail
 
-**For:** Software developers and engineers | **Agent focus:** @dev (Dex)
+**For:** Software developers | **Agent focus:** @dev (Dex)
 
-Learn how to use AIOS for daily development work: activating agents, implementing stories, running quality checks, and shipping code.
+Learn daily AIOS development: activating agents, implementing stories, running quality checks, shipping code.
 
-1. [Agent Activation](/docs/guides/agent-activation) -- How to activate and switch between agents
-2. [Story Development Cycle](/docs/workflows/story-development-cycle) -- The primary 4-phase development workflow
-3. [Command Reference](/playbook/commands) -- Commands you will use daily (`*develop`, `*status`, `*diff`)
-4. [QA Loop](/docs/workflows/qa-loop) -- Iterative review-fix cycle after implementation
-5. [PR Workflow](/playbook/workflows/pr-workflow) -- From local changes to merged pull request
-6. [Validation Checklists](/playbook/checklists) -- Quality standards your code must meet
-7. [Template Reference](/playbook/templates) -- Templates for stories and documentation
+1. [Agents at a Glance](/playbook/agents) — Focus on Dex (@dev), Gage (@devops), Quinn (@qa)
+2. [Story Development Cycle](/docs/guides/workflows/STORY-DEVELOPMENT-CYCLE-WORKFLOW) — The primary 4-phase workflow
+3. [Specialized Commands](/playbook/commands/specialized-commands) — @dev, @qa, and @devops commands
+4. [QA Loop](/docs/guides/workflows/QA-LOOP-WORKFLOW) — Automated review-fix cycle
+5. [Validation Checklists](/playbook/checklists) — Quality standards your code must meet
+6. [Cheat Sheet](/playbook/cheat-sheet) — Daily command sequences
 
 **Key commands to learn:**
-- `@dev *develop {story-id}` -- Start story implementation
-- `@qa *qa-gate` -- Run quality checks
-- `@devops *push` -- Push changes to remote (delegated)
-
-**Execution modes:** Interactive (default), YOLO (autonomous), Pre-Flight (plan-first)
+- `@dev *develop {story-id}` — Start implementation (Interactive, YOLO, or Pre-Flight mode)
+- `@qa *qa-gate` — Run the 7-point quality gate
+- `@devops *push` — Ship (delegated, only Gage can push)
 
 ---
 
@@ -47,46 +43,42 @@ Learn how to use AIOS for daily development work: activating agents, implementin
 
 **For:** Project managers and product managers | **Agent focus:** @pm (Morgan)
 
-Learn how to manage epics, run the spec pipeline, and coordinate sprints using AIOS.
+Learn to manage epics, run the spec pipeline, and coordinate sprints.
 
-1. [Introduction to AIOS](/docs/guides/getting-started) -- Framework overview and core concepts
-2. [Spec Pipeline](/docs/workflows/spec-pipeline) -- Transform requirements into executable specifications
-3. [Sprint Planning](/playbook/workflows/sprint-planning) -- Plan and track sprints with AIOS agents
-4. [The 12 AIOS Agents](/docs/agents) -- Understand which agent handles what
-5. [Validation Checklists](/playbook/checklists) -- PM/Change Management checklist and complexity scoring
-6. [Template Reference](/playbook/templates) -- PRD and documentation templates
+1. [Agents at a Glance](/playbook/agents) — Focus on Morgan (@pm), River (@sm), Pax (@po)
+2. [Spec Pipeline](/docs/guides/workflows/SPEC-PIPELINE-WORKFLOW) — Transform requirements into executable specs
+3. [Specialized Commands](/playbook/commands/specialized-commands) — @pm, @sm commands
+4. [Validation Checklists](/playbook/checklists) — PM/Change Management checklist and complexity scoring
+5. [Template Reference](/playbook/templates) — PRD and documentation templates
 
 **Key commands to learn:**
-- `@pm *create-epic` -- Create a new epic
-- `@pm *execute-epic` -- Execute an epic plan
-- `@pm *create-doc prd` -- Generate a PRD from template
+- `@pm *create-epic` — Create a new epic
+- `@pm *execute-epic` — Execute an epic plan
+- `@pm *create-doc prd` — Generate a PRD
 
-**Spec Pipeline complexity classes:** SIMPLE (≤ 8 points), STANDARD (9-15), COMPLEX (≥ 16)
+**Spec Pipeline complexity classes:** SIMPLE (≤ 8 pts), STANDARD (9-15), COMPLEX (≥ 16)
 
 ---
 
 ## QA Engineer Trail
 
-**For:** Quality assurance engineers and testers | **Agent focus:** @qa
+**For:** Quality assurance engineers | **Agent focus:** @qa (Quinn)
 
-Learn how to use AIOS quality gates, the QA loop, and CodeRabbit integration to ensure code quality.
+Learn quality gates, the QA loop, and CodeRabbit integration.
 
-1. [Story Development Cycle](/docs/workflows/story-development-cycle) -- Understand the full cycle (focus on Phase 4: QA Gate)
-2. [QA Loop](/docs/workflows/qa-loop) -- Automated review-fix cycle (up to 5 iterations)
-3. [Validation Checklists](/playbook/checklists) -- QA Gate 7-point checklist and verdict criteria
-4. [System Architecture](/docs/architecture) -- Understand the system you are testing
-5. [Command Reference](/playbook/commands) -- QA-specific commands
+1. [Agents at a Glance](/playbook/agents) — Focus on Quinn (@qa)
+2. [Story Development Cycle](/docs/guides/workflows/STORY-DEVELOPMENT-CYCLE-WORKFLOW) — Focus on Phase 4: QA Gate
+3. [QA Loop](/docs/guides/workflows/QA-LOOP-WORKFLOW) — Automated review-fix cycle (up to 5 iterations)
+4. [Validation Checklists](/playbook/checklists) — 7-point QA gate checklist, verdict criteria, CodeRabbit severity
+5. [Specialized Commands](/playbook/commands/specialized-commands) — @qa commands
 
 **Key commands to learn:**
-- `@qa *qa-gate` -- Run the 7-point quality gate
-- `*qa-loop {storyId}` -- Start automated review-fix loop
-- `*stop-qa-loop` -- Pause the loop
-- `*resume-qa-loop` -- Resume from saved state
-- `*escalate-qa-loop` -- Force manual escalation
+- `@qa *qa-gate` — 7-point quality gate
+- `*qa-loop {storyId}` — Automated review-fix loop
+- `*stop-qa-loop` / `*resume-qa-loop` — Pause and resume
+- `*escalate-qa-loop` — Force manual escalation
 
-**QA gate verdicts:** PASS, CONCERNS, FAIL, WAIVED
-
-**Escalation triggers:** `max_iterations_reached`, `verdict_blocked`, `fix_failure`, `manual_escalate`
+**Gate verdicts:** PASS, CONCERNS, FAIL, WAIVED
 
 ---
 
@@ -94,18 +86,17 @@ Learn how to use AIOS quality gates, the QA loop, and CodeRabbit integration to 
 
 **For:** Tech leads and software architects | **Agent focus:** @architect (Aria)
 
-Learn how to design systems, assess existing codebases, and guide technical decisions using AIOS.
+Learn system design, brownfield assessment, and technical guidance using AIOS.
 
-1. [System Architecture](/docs/architecture) -- AIOS architecture overview and diagrams
-2. [Spec Pipeline](/docs/workflows/spec-pipeline) -- Complexity assessment and implementation planning
-3. [Greenfield Project](/playbook/workflows/greenfield-project) -- Starting a project from scratch
-4. [Brownfield Project](/playbook/workflows/brownfield-project) -- 10-phase technical debt assessment for existing codebases
-5. [Validation Checklists](/playbook/checklists) -- Architecture review checklist
-6. [The 12 AIOS Agents](/docs/agents) -- Agent specialization and delegation patterns
+1. [Agents at a Glance](/playbook/agents) — Focus on Aria (@architect), Dara (@data-engineer), Atlas (@analyst)
+2. [Spec Pipeline](/docs/guides/workflows/SPEC-PIPELINE-WORKFLOW) — Complexity assessment and implementation planning
+3. [Validation Checklists](/playbook/checklists) — Architecture review checklist
+4. [Master Agent Commands](/playbook/commands/master-agent-commands) — IDS commands for REUSE/ADAPT/CREATE decisions
 
 **Key commands to learn:**
-- `@architect *create-full-stack-architecture` -- Generate full architecture documentation
-- `@architect *execute-checklist architect-checklist` -- Run the architecture review checklist
+- `@architect *create-full-stack-architecture` — Generate full architecture docs
+- `@architect *execute-checklist architect-checklist` — Architecture review
+- `*ids check {intent}` — Should this be REUSE, ADAPT, or CREATE?
 
 **Brownfield Discovery phases:** Data Collection (1-3), Draft and Validation (4-7), Finalization (8-10)
 
@@ -115,17 +106,16 @@ Learn how to design systems, assess existing codebases, and guide technical deci
 
 **For:** Product owners responsible for story quality | **Agent focus:** @po (Pax)
 
-Learn how to validate stories, manage backlog priorities, and ensure alignment with business goals.
+Learn to validate stories, manage backlog priorities, and ensure alignment with business goals.
 
-1. [Introduction to AIOS](/docs/guides/getting-started) -- Core concepts and agent roles
-2. [Story Development Cycle](/docs/workflows/story-development-cycle) -- Focus on Phase 2: Validation
-3. [Validation Checklists](/playbook/checklists) -- The 10-point story validation checklist
-4. [Sprint Planning](/playbook/workflows/sprint-planning) -- Backlog prioritization and sprint coordination
-5. [Template Reference](/playbook/templates) -- Story templates and documentation standards
+1. [Agents at a Glance](/playbook/agents) — Focus on Pax (@po)
+2. [Story Development Cycle](/docs/guides/workflows/STORY-DEVELOPMENT-CYCLE-WORKFLOW) — Focus on Phase 2: Validation
+3. [Validation Checklists](/playbook/checklists) — The 10-point story validation checklist
+4. [Template Reference](/playbook/templates) — Story templates and documentation standards
 
 **Key commands to learn:**
-- `@po *validate-story-draft` -- Run the 10-point validation checklist
-- Decision: GO (≥ 7/10) or NO-GO (with required fixes)
+- `@po *validate-story-draft` — Run the 10-point validation checklist
+- Decision: GO (≥ 7/10) → story moves to `Ready`; NO-GO → fixes required
 
 ---
 
@@ -133,17 +123,16 @@ Learn how to validate stories, manage backlog priorities, and ensure alignment w
 
 **For:** Scrum masters and team facilitators | **Agent focus:** @sm (River)
 
-Learn how to create stories, facilitate sprint planning, and coordinate the development workflow.
+Learn to create stories, facilitate sprint planning, and coordinate the development workflow.
 
-1. [Introduction to AIOS](/docs/guides/getting-started) -- Framework overview
-2. [Story Development Cycle](/docs/workflows/story-development-cycle) -- Focus on Phase 1: Story Creation
-3. [Sprint Planning](/playbook/workflows/sprint-planning) -- Sprint facilitation with AIOS
-4. [Workflows Reference](/docs/workflows) -- All available workflow patterns
-5. [Command Reference](/playbook/commands) -- Story creation and management commands
+1. [Agents at a Glance](/playbook/agents) — Focus on River (@sm)
+2. [Story Development Cycle](/docs/guides/workflows/STORY-DEVELOPMENT-CYCLE-WORKFLOW) — Focus on Phase 1: Story Creation
+3. [Specialized Commands](/playbook/commands/specialized-commands) — @sm commands
+4. [Validation Checklists](/playbook/checklists) — Story lifecycle and status transitions
 
 **Key commands to learn:**
-- `@sm *draft` -- Create a new story from epic/PRD
-- `@sm *create-story` -- Alternative story creation command
+- `@sm *draft` — Create a new story from epic/PRD
+- `@sm *create-story` — Alternative creation command
 
 ---
 
@@ -151,10 +140,10 @@ Learn how to create stories, facilitate sprint planning, and coordinate the deve
 
 | Your Role | Start With | Then |
 |-----------|------------|------|
-| Never used AIOS | New User Trail | Choose a role-specific trail |
+| Never used AIOS | New User Trail | Choose a role trail |
 | Developer | Developer Trail | Architect Trail (for growth) |
 | Project Manager | PM Trail | Product Owner Trail |
-| QA Engineer | QA Engineer Trail | Developer Trail (for context) |
+| QA Engineer | QA Trail | Developer Trail (for context) |
 | Tech Lead | Architect Trail | Developer Trail |
-| Product Owner | Product Owner Trail | PM Trail |
-| Scrum Master | Scrum Master Trail | Product Owner Trail |
+| Product Owner | PO Trail | PM Trail |
+| Scrum Master | Scrum Master Trail | PO Trail |

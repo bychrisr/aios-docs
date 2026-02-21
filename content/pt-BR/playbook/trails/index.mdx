@@ -1,6 +1,6 @@
-# Trilhas de Aprendizado por Perfil
+# Trilhas por Papel
 
-Caminhos de aprendizado personalizados com base no seu papel na equipe. Cada trilha é uma sequência curada de tópicos que leva você do básico à proficiência nas áreas mais relevantes para o seu trabalho.
+Caminhos de aprendizado organizados com base no seu papel na equipe. Cada trilha contém links para conteúdo verificado — sem documentação duplicada.
 
 ---
 
@@ -8,38 +8,34 @@ Caminhos de aprendizado personalizados com base no seu papel na equipe. Cada tri
 
 **Para:** Qualquer pessoa nova no Synkra AIOS | **Tempo:** 1-2 horas
 
-Comece aqui se você nunca usou o AIOS antes. Esta trilha cobre instalação, conceitos fundamentais e seu primeiro workflow.
+Comece aqui se você nunca usou o AIOS antes.
 
-1. [Guia de Início Rápido](/playbook/getting-started/quick-start) -- Instale o AIOS e execute seu primeiro comando
-2. [Onboarding em 60 Minutos](/playbook/getting-started/onboarding-60min) -- Passo a passo estruturado de todas as funcionalidades principais
-3. [Introdução ao AIOS](/docs/guides/getting-started) -- Entenda o meta-agente e os conceitos do framework
-4. [Os 12 Agentes do AIOS](/docs/agents) -- Conheça os agentes especializados e seus papéis
-5. [Referência de Comandos](/playbook/commands) -- Navegue pelos comandos disponíveis
+1. [Guia de Início Rápido](/playbook/getting-started/quick-start) — Instale o AIOS e execute seu primeiro comando (5 passos, menos de 10 min)
+2. [Onboarding em 60 Minutos](/playbook/getting-started/onboarding-60min) — Passo a passo completo: todos os 12 agentes, SDC, quality gates
+3. [Agentes](/playbook/agents) — Conheça todos os agentes, seus nomes e comandos
+4. [Cheat Sheet](/playbook/cheat-sheet) — Sequências para copiar e colar no dia a dia
 
-**Após completar esta trilha,** escolha uma trilha específica por papel abaixo para aprofundar seu conhecimento.
+Após completar esta trilha, escolha uma trilha específica por papel abaixo.
 
 ---
 
 ## Trilha do Desenvolvedor
 
-**Para:** Desenvolvedores e engenheiros de software | **Foco no agente:** @dev (Dex)
+**Para:** Desenvolvedores de software | **Foco no agente:** @dev (Dex)
 
-Aprenda a usar o AIOS no trabalho diário de desenvolvimento: ativando agentes, implementando stories, executando verificações de qualidade e entregando código.
+Aprenda o desenvolvimento diário com AIOS: ativando agentes, implementando stories, executando verificações de qualidade e entregando código.
 
-1. [Ativação de Agentes](/docs/guides/agent-activation) -- Como ativar e alternar entre agentes
-2. [Ciclo de Desenvolvimento de Stories](/docs/workflows/story-development-cycle) -- O workflow principal de 4 fases
-3. [Referência de Comandos](/playbook/commands) -- Comandos que você usará diariamente (`*develop`, `*status`, `*diff`)
-4. [QA Loop](/docs/workflows/qa-loop) -- Ciclo iterativo de revisão-correção após implementação
-5. [Fluxo de PR](/playbook/workflows/pr-workflow) -- De mudanças locais ao pull request mergeado
-6. [Checklists de Validação](/playbook/checklists) -- Padrões de qualidade que seu código deve atender
-7. [Referência de Modelos](/playbook/templates) -- Modelos para stories e documentação
+1. [Agentes](/playbook/agents) — Foco em Dex (@dev), Gage (@devops), Quinn (@qa)
+2. [Story Development Cycle](/docs/guides/workflows/STORY-DEVELOPMENT-CYCLE-WORKFLOW) — O workflow principal de 4 fases
+3. [Comandos Especializados](/playbook/commands/specialized-commands) — Comandos de @dev, @qa e @devops
+4. [QA Loop](/docs/guides/workflows/QA-LOOP-WORKFLOW) — Ciclo automatizado de revisão-correção
+5. [Checklists de Validação](/playbook/checklists) — Padrões de qualidade que seu código deve atender
+6. [Cheat Sheet](/playbook/cheat-sheet) — Sequências de comandos do dia a dia
 
-**Comandos essenciais:**
-- `@dev *develop {story-id}` -- Iniciar implementação da story
-- `@qa *qa-gate` -- Executar verificações de qualidade
-- `@devops *push` -- Enviar alterações ao remoto (delegado)
-
-**Modos de execução:** Interactive (padrão), YOLO (autônomo), Pre-Flight (planejamento primeiro)
+**Comandos principais a aprender:**
+- `@dev *develop {story-id}` — Iniciar implementação (modo Interactive, YOLO ou Pre-Flight)
+- `@qa *qa-gate` — Executar o quality gate de 7 pontos
+- `@devops *push` — Entregar (delegado, apenas Gage pode fazer push)
 
 ---
 
@@ -47,46 +43,42 @@ Aprenda a usar o AIOS no trabalho diário de desenvolvimento: ativando agentes, 
 
 **Para:** Gerentes de projeto e de produto | **Foco no agente:** @pm (Morgan)
 
-Aprenda a gerenciar epics, executar o spec pipeline e coordenar sprints usando o AIOS.
+Aprenda a gerenciar epics, executar o spec pipeline e coordenar sprints.
 
-1. [Introdução ao AIOS](/docs/guides/getting-started) -- Visão geral do framework e conceitos fundamentais
-2. [Spec Pipeline](/docs/workflows/spec-pipeline) -- Transforme requisitos em especificações executáveis
-3. [Planejamento de Sprint](/playbook/workflows/sprint-planning) -- Planeje e acompanhe sprints com agentes AIOS
-4. [Os 12 Agentes do AIOS](/docs/agents) -- Entenda qual agente cuida de quê
-5. [Checklists de Validação](/playbook/checklists) -- Checklist de PM/Gestão de Mudanças e pontuação de complexidade
-6. [Referência de Modelos](/playbook/templates) -- Modelos de PRD e documentação
+1. [Agentes](/playbook/agents) — Foco em Morgan (@pm), River (@sm), Pax (@po)
+2. [Spec Pipeline](/docs/guides/workflows/SPEC-PIPELINE-WORKFLOW) — Transforme requisitos em specs executáveis
+3. [Comandos Especializados](/playbook/commands/specialized-commands) — Comandos de @pm e @sm
+4. [Checklists de Validação](/playbook/checklists) — Checklist de PM/Gestão de Mudanças e pontuação de complexidade
+5. [Templates](/playbook/templates) — Templates de PRD e documentação
 
-**Comandos essenciais:**
-- `@pm *create-epic` -- Criar um novo epic
-- `@pm *execute-epic` -- Executar um plano de epic
-- `@pm *create-doc prd` -- Gerar um PRD a partir do modelo
+**Comandos principais a aprender:**
+- `@pm *create-epic` — Criar um novo epic
+- `@pm *execute-epic` — Executar um plano de epic
+- `@pm *create-doc prd` — Gerar um PRD
 
-**Classes de complexidade do Spec Pipeline:** SIMPLE (≤ 8 pontos), STANDARD (9-15), COMPLEX (≥ 16)
+**Classes de complexidade do Spec Pipeline:** SIMPLE (≤ 8 pts), STANDARD (9-15), COMPLEX (≥ 16)
 
 ---
 
 ## Trilha do Engenheiro de QA
 
-**Para:** Engenheiros de qualidade e testadores | **Foco no agente:** @qa
+**Para:** Engenheiros de qualidade | **Foco no agente:** @qa (Quinn)
 
-Aprenda a usar os quality gates do AIOS, o QA loop e a integração com CodeRabbit para garantir a qualidade do código.
+Aprenda quality gates, o QA loop e a integração com CodeRabbit.
 
-1. [Ciclo de Desenvolvimento de Stories](/docs/workflows/story-development-cycle) -- Entenda o ciclo completo (foco na Fase 4: QA Gate)
-2. [QA Loop](/docs/workflows/qa-loop) -- Ciclo automatizado de revisão-correção (até 5 iterações)
-3. [Checklists de Validação](/playbook/checklists) -- Checklist de 7 pontos do QA Gate e critérios de veredicto
-4. [Arquitetura do Sistema](/docs/architecture) -- Entenda o sistema que você está testando
-5. [Referência de Comandos](/playbook/commands) -- Comandos específicos de QA
+1. [Agentes](/playbook/agents) — Foco em Quinn (@qa)
+2. [Story Development Cycle](/docs/guides/workflows/STORY-DEVELOPMENT-CYCLE-WORKFLOW) — Foco na Fase 4: QA Gate
+3. [QA Loop](/docs/guides/workflows/QA-LOOP-WORKFLOW) — Ciclo automatizado de revisão-correção (até 5 iterações)
+4. [Checklists de Validação](/playbook/checklists) — Checklist de 7 pontos do QA gate, critérios de veredicto, severidade CodeRabbit
+5. [Comandos Especializados](/playbook/commands/specialized-commands) — Comandos de @qa
 
-**Comandos essenciais:**
-- `@qa *qa-gate` -- Executar o quality gate de 7 pontos
-- `*qa-loop {storyId}` -- Iniciar ciclo automatizado de revisão-correção
-- `*stop-qa-loop` -- Pausar o ciclo
-- `*resume-qa-loop` -- Retomar do estado salvo
-- `*escalate-qa-loop` -- Forçar escalação manual
+**Comandos principais a aprender:**
+- `@qa *qa-gate` — Quality gate de 7 pontos
+- `*qa-loop {storyId}` — Ciclo automatizado de revisão-correção
+- `*stop-qa-loop` / `*resume-qa-loop` — Pausar e retomar
+- `*escalate-qa-loop` — Forçar escalação manual
 
-**Veredictos do QA gate:** PASS, CONCERNS, FAIL, WAIVED
-
-**Gatilhos de escalação:** `max_iterations_reached`, `verdict_blocked`, `fix_failure`, `manual_escalate`
+**Veredictos do gate:** PASS, CONCERNS, FAIL, WAIVED
 
 ---
 
@@ -94,18 +86,17 @@ Aprenda a usar os quality gates do AIOS, o QA loop e a integração com CodeRabb
 
 **Para:** Tech leads e arquitetos de software | **Foco no agente:** @architect (Aria)
 
-Aprenda a projetar sistemas, avaliar codebases existentes e guiar decisões técnicas usando o AIOS.
+Aprenda design de sistemas, avaliação de brownfield e orientação técnica usando o AIOS.
 
-1. [Arquitetura do Sistema](/docs/architecture) -- Visão geral da arquitetura AIOS e diagramas
-2. [Spec Pipeline](/docs/workflows/spec-pipeline) -- Avaliação de complexidade e planejamento de implementação
-3. [Projeto Greenfield](/playbook/workflows/greenfield-project) -- Iniciando um projeto do zero
-4. [Projeto Brownfield](/playbook/workflows/brownfield-project) -- Avaliação de débito técnico em 10 fases para codebases existentes
-5. [Checklists de Validação](/playbook/checklists) -- Checklist de revisão de arquitetura
-6. [Os 12 Agentes do AIOS](/docs/agents) -- Especialização de agentes e padrões de delegação
+1. [Agentes](/playbook/agents) — Foco em Aria (@architect), Dara (@data-engineer), Atlas (@analyst)
+2. [Spec Pipeline](/docs/guides/workflows/SPEC-PIPELINE-WORKFLOW) — Avaliação de complexidade e planejamento de implementação
+3. [Checklists de Validação](/playbook/checklists) — Checklist de revisão de arquitetura
+4. [Comandos do Master Agent](/playbook/commands/master-agent-commands) — Comandos IDS para decisões REUSE/ADAPT/CREATE
 
-**Comandos essenciais:**
-- `@architect *create-full-stack-architecture` -- Gerar documentação completa de arquitetura
-- `@architect *execute-checklist architect-checklist` -- Executar o checklist de revisão de arquitetura
+**Comandos principais a aprender:**
+- `@architect *create-full-stack-architecture` — Gerar documentação completa de arquitetura
+- `@architect *execute-checklist architect-checklist` — Revisão de arquitetura
+- `*ids check {intent}` — Deve ser REUSE, ADAPT ou CREATE?
 
 **Fases do Brownfield Discovery:** Coleta de Dados (1-3), Rascunho e Validação (4-7), Finalização (8-10)
 
@@ -117,15 +108,14 @@ Aprenda a projetar sistemas, avaliar codebases existentes e guiar decisões téc
 
 Aprenda a validar stories, gerenciar prioridades do backlog e garantir alinhamento com os objetivos de negócio.
 
-1. [Introdução ao AIOS](/docs/guides/getting-started) -- Conceitos fundamentais e papéis dos agentes
-2. [Ciclo de Desenvolvimento de Stories](/docs/workflows/story-development-cycle) -- Foco na Fase 2: Validação
-3. [Checklists de Validação](/playbook/checklists) -- O checklist de validação de story de 10 pontos
-4. [Planejamento de Sprint](/playbook/workflows/sprint-planning) -- Priorização de backlog e coordenação de sprint
-5. [Referência de Modelos](/playbook/templates) -- Modelos de stories e padrões de documentação
+1. [Agentes](/playbook/agents) — Foco em Pax (@po)
+2. [Story Development Cycle](/docs/guides/workflows/STORY-DEVELOPMENT-CYCLE-WORKFLOW) — Foco na Fase 2: Validação
+3. [Checklists de Validação](/playbook/checklists) — O checklist de validação de story de 10 pontos
+4. [Templates](/playbook/templates) — Templates de stories e padrões de documentação
 
-**Comandos essenciais:**
-- `@po *validate-story-draft` -- Executar o checklist de validação de 10 pontos
-- Decisão: GO (≥ 7/10) ou NO-GO (com correções obrigatórias)
+**Comandos principais a aprender:**
+- `@po *validate-story-draft` — Executar o checklist de validação de 10 pontos
+- Decisão: GO (≥ 7/10) → story vai para `Ready`; NO-GO → correções necessárias
 
 ---
 
@@ -135,15 +125,14 @@ Aprenda a validar stories, gerenciar prioridades do backlog e garantir alinhamen
 
 Aprenda a criar stories, facilitar o planejamento de sprints e coordenar o workflow de desenvolvimento.
 
-1. [Introdução ao AIOS](/docs/guides/getting-started) -- Visão geral do framework
-2. [Ciclo de Desenvolvimento de Stories](/docs/workflows/story-development-cycle) -- Foco na Fase 1: Criação de Story
-3. [Planejamento de Sprint](/playbook/workflows/sprint-planning) -- Facilitação de sprints com AIOS
-4. [Referência de Workflows](/docs/workflows) -- Todos os padrões de workflow disponíveis
-5. [Referência de Comandos](/playbook/commands) -- Comandos de criação e gestão de stories
+1. [Agentes](/playbook/agents) — Foco em River (@sm)
+2. [Story Development Cycle](/docs/guides/workflows/STORY-DEVELOPMENT-CYCLE-WORKFLOW) — Foco na Fase 1: Criação de Story
+3. [Comandos Especializados](/playbook/commands/specialized-commands) — Comandos de @sm
+4. [Checklists de Validação](/playbook/checklists) — Ciclo de vida e transições de status da story
 
-**Comandos essenciais:**
-- `@sm *draft` -- Criar uma nova story a partir de epic/PRD
-- `@sm *create-story` -- Comando alternativo de criação de story
+**Comandos principais a aprender:**
+- `@sm *draft` — Criar uma nova story a partir de epic/PRD
+- `@sm *create-story` — Comando alternativo de criação de story
 
 ---
 
