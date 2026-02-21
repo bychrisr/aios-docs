@@ -1,23 +1,21 @@
 # Referencia de Comandos AIOS
 
-Bienvenido a la referencia de comandos de Synkra AIOS. Esta sección del playbook es su guía central para interactuar con el framework a través de la línea de comandos.
-
-Los comandos son la forma más directa y poderosa de instruir a los agentes de IA, orquestar flujos de trabajo y gestionar el ciclo de vida del desarrollo de software.
+La guía central para interactuar con los agentes de AIOS a través de comandos. Los comandos son la forma más directa de instruir a los agentes, orquestar flujos de trabajo y gestionar el ciclo de vida del desarrollo.
 
 ## Filosofía de Comandos
 
-AIOS adopta un enfoque de "orquestación explícita". En lugar de intentar adivinar intenciones complejas, el sistema expone un rico conjunto de comandos que se pueden combinar para lograr resultados precisos.
+AIOS utiliza orquestación explícita. Cada agente responde a un conjunto definido de comandos y delega las tareas fuera de su autoridad al especialista apropiado.
 
-- **Comandos Universales:** Un conjunto de comandos esenciales disponibles en cualquier contexto.
-- **Comandos del Agente Maestro:** Acciones de alto nivel para la gestión del framework, orquestación de flujos de trabajo y operaciones meta.
-- **Comandos Especializados:** Acciones de dominio específico, delegadas a agentes especialistas como `@dev`, `@qa` y `@architect`.
+- **Comandos Universales** — Disponibles en todos los agentes en cualquier momento (`*help`, `*status`, `*guide`)
+- **Comandos del Agente Maestro** — Gestión del framework, orquestación de flujos de trabajo, operaciones IDS (@aios-master / Orion)
+- **Comandos Especializados** — Acciones específicas de dominio por agente (@dev, @qa, @pm, @sm, @po, @architect, etc.)
 
 ## Cómo Navegar por Esta Sección
 
-Para facilitar la consulta, hemos dividido la referencia de comandos en las siguientes páginas:
+- **[Comandos Universales](./universal-commands)** — Empieza aquí si eres nuevo en AIOS
+- **[Comandos del Agente Maestro](./master-agent-commands)** — Ejecución de flujos de trabajo y gestión del framework
+- **[Comandos Especializados](./specialized-commands)** — Comandos organizados por agente
 
-- **[Comandos Universales](./universal-commands):** Comandos esenciales como `*help` y `*status`. Comience aquí si es nuevo en AIOS.
-- **[Comandos del Agente Maestro](./master-agent-commands):** El panel de control principal para orquestar AIOS.
-- **[Comandos Especializados](./specialized-commands):** Un resumen de cómo se delegan los comandos a agentes especialistas.
+Para una referencia rápida lista para copiar, consulta el [Cheat Sheet](/playbook/cheat-sheet).
 
-Use el menú de navegación para explorar cada sección en detalle.
+Para personas de agentes, roles y comandos principales en una sola tabla, consulta [Agentes](/playbook/agents).

@@ -1,0 +1,144 @@
+# Cheat Sheet
+
+Sequências de comandos para copiar e colar no uso diário do AIOS. Para explicações completas, veja [Comandos](/playbook/commands) ou [Agentes](/playbook/agents).
+
+---
+
+## Essenciais do Dia a Dia
+
+```
+*help          # Mostrar comandos disponíveis para o agente ativo
+*status        # Mostrar contexto atual, story e estado do agente
+*guide         # Mostrar guia de uso detalhado para o agente ativo
+```
+
+---
+
+## Ciclo de Desenvolvimento de Stories Completo (SDC)
+
+O workflow completo de 4 fases, da criação da story até a entrega:
+
+```
+# Fase 1 — Criar (Scrum Master)
+@sm *draft
+
+# Fase 2 — Validar (Product Owner)
+@po *validate-story-draft
+# GO = ≥ 7/10 → status muda de Draft → Ready
+# NO-GO = < 7/10 → corrigir e tentar novamente
+
+# Fase 3 — Implementar (Desenvolvedor)
+@dev *develop {story-id}
+
+# Fase 4 — QA Gate (Agente de QA)
+@qa *qa-gate
+# Veredictos: PASS | CONCERNS | FAIL | WAIVED
+
+# Entregar (DevOps — apenas @devops pode fazer push)
+@devops *push
+```
+
+---
+
+## QA e Qualidade
+
+```
+@qa *qa-gate                   # Executar quality gate de 7 pontos na story atual
+*qa-loop {storyId}             # Iniciar ciclo automatizado de revisão-correção (máx. 5 iterações)
+*qa-loop-review                # Retomar o ciclo a partir da etapa de revisão
+*qa-loop-fix                   # Retomar o ciclo a partir da etapa de correção
+*stop-qa-loop                  # Pausar o ciclo e salvar estado
+*resume-qa-loop                # Retomar o ciclo do estado salvo
+*escalate-qa-loop              # Forçar escalação manual
+```
+
+---
+
+## Planejamento e Epics
+
+```
+@pm *create-epic               # Criar um novo epic a partir de requisitos
+@pm *execute-epic              # Executar um epic (dispara o fluxo de criação de stories)
+@pm *create-doc prd            # Gerar um documento PRD a partir do template
+@sm *draft                     # Criar uma nova story a partir de epic/PRD
+@po *validate-story-draft      # Validar uma story (checklist de 10 pontos)
+```
+
+---
+
+## Arquitetura e Pesquisa
+
+```
+@architect *create-full-stack-architecture    # Gerar documentação completa de arquitetura
+@architect *execute-checklist architect-checklist  # Executar checklist de revisão de arquitetura
+@analyst *research                            # Executar tarefa de pesquisa estruturada
+```
+
+---
+
+## IDS (Incremental Development System)
+
+```
+*ids check {intent}            # Deve ser REUSE, ADAPT ou CREATE?
+*ids impact {entity-id}        # Analisar impacto de modificar uma entidade
+*ids register {file-path}      # Registrar uma nova entidade no registro do IDS
+*ids health                    # Verificação de saúde no registro do IDS
+```
+
+---
+
+## Gerenciamento do Framework (@aios-master / Orion)
+
+```
+*workflow SDC                  # Iniciar o workflow Story Development Cycle
+*workflow spec-pipeline        # Iniciar o workflow Spec Pipeline
+*list-agents                   # Listar todos os agentes disponíveis
+*validate-agents               # Validar todas as definições de agentes
+*ids stats                     # Mostrar estatísticas do registro IDS
+```
+
+---
+
+## Modos de Execução
+
+Ao chamar `@dev *develop`, você pode especificar o modo de execução:
+
+| Modo | Prompts | Melhor Para |
+|------|---------|-------------|
+| **Interactive** (padrão) | 5-10, com checkpoints | Aprendizado, decisões complexas |
+| **YOLO** | 0-1, totalmente autônomo | Tarefas simples, contexto confiável |
+| **Pre-Flight** | 10-15 antecipados, depois zero | Requisitos ambíguos, trabalho crítico |
+
+```
+@dev *develop {story-id}              # Interactive (padrão)
+@dev *develop {story-id} --yolo       # Modo YOLO
+@dev *develop {story-id} --pre-flight # Modo Pre-Flight
+```
+
+---
+
+## Progressão de Status da Story
+
+```
+Draft → Ready → InProgress → InReview → Done
+```
+
+| Transição | Responsável | Como |
+|-----------|-------------|------|
+| Draft → Ready | @po | `*validate-story-draft` (veredicto GO) |
+| Ready → InProgress | @dev | `*develop {story-id}` |
+| InProgress → InReview | @qa | `*qa-gate` |
+| InReview → Done | @devops | `*push` |
+
+---
+
+## CodeRabbit Self-Healing (Fase Dev)
+
+O AIOS executa o CodeRabbit automaticamente durante `@dev *develop`. Você não precisa invocá-lo manualmente.
+
+| Severidade | Fase Dev | Fase QA |
+|------------|----------|---------|
+| CRITICAL | Auto-fix (máx. 2 iterações) | Auto-fix (máx. 3 iterações) |
+| HIGH | Auto-fix ou documentar como débito | Auto-fix ou documentar como débito |
+| MEDIUM | Documentar como débito técnico | Documentar como débito técnico |
+| LOW | Ignorado | Ignorado |

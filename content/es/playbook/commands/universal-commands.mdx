@@ -1,23 +1,26 @@
 # Comandos Universales
 
-Estos comandos son la base de la interacción con AIOS y están disponibles en todos los agentes en cualquier momento. Están diseñados para proporcionar ayuda contextual, estado del sistema y control básico de la sesión.
+Estos comandos están disponibles en todos los agentes de AIOS en cualquier momento. Proporcionan ayuda contextual, estado del sistema y control de sesión sin importar qué agente esté activo.
 
-## Ayuda y Estado
+## Ayuda e Información
 
 | Comando | Descripción |
-|---------|---------------|
-| `*help` | Muestra la lista de comandos disponibles para el agente actual. |
-| `*status` | Muestra un resumen del contexto actual, el agente activo y el estado de la tarea. |
-| `*guide` | Muestra una guía de uso detallada para el agente actualmente activo. |
-| `*kb` | Activa o desactiva el modo "Base de Conocimiento", permitiendo al agente consultar una base de conocimiento extendida para obtener respuestas más detalladas. |
+|---------|-------------|
+| `*help` | Mostrar todos los comandos disponibles para el agente actual |
+| `*status` | Mostrar el contexto actual: agente activo, historia, estado de la tarea |
+| `*guide` | Mostrar una guía de uso detallada para el agente actualmente activo |
 
 ### Ejemplo de Uso
-```bash
-# Ver qué comandos puede ejecutar el agente @dev
-*help
 
-# Comprobar en qué historia estás trabajando
+```bash
+# Ver qué comandos puede ejecutar @qa
+@qa *help
+
+# Comprobar en qué historia estás trabajando y su estado actual
 *status
+
+# Obtener un recorrido detallado de las capacidades de @sm
+@sm *guide
 ```
 
 ---
@@ -25,16 +28,25 @@ Estos comandos son la base de la interacción con AIOS y están disponibles en t
 ## Control de Sesión
 
 | Comando | Descripción |
-|---------|---------------|
-| `*exit` | Finaliza la sesión con el agente actual y vuelve a la shell predeterminada. |
-| `*yolo` | Cambia el modo de permiso del agente, ciclando entre `ask` (pedir confirmación para cada acción), `auto` (ejecutar sin confirmación) y `explore` (modo de descubrimiento). |
-| `*chat-mode`| Inicia un modo de conversación más libre, ideal para lluvia de ideas y preguntas que no encajan en un comando específico. |
+|---------|-------------|
+| `*exit` | Finalizar la sesión con el agente actual |
+| `*yolo` | Cambiar el modo de permiso: `ask` (confirmar cada acción), `auto` (sin confirmación), `explore` (modo de descubrimiento) |
+| `*chat-mode` | Iniciar modo de conversación libre para lluvia de ideas y preguntas |
 
 ### Ejemplo de Uso
-```bash
-# Permitir que el agente ejecute tareas sin pedir confirmación
-*yolo
 
-# Finalizar la interacción con el agente
+```bash
+# Permitir que Dex ejecute sin pedir confirmación en cada paso
+@dev *yolo
+
+# Finalizar la sesión con el agente actual
 *exit
 ```
+
+---
+
+## Consejos
+
+- Dirígete a un agente antes de ejecutar sus comandos: `@dev *help` activa a Dex y muestra sus comandos
+- `*status` es la forma más rápida de reorientarte después de cambiar de agente
+- `*guide` da más contexto que `*help` — úsalo cuando estés aprendiendo las capacidades de un nuevo agente

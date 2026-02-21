@@ -1,0 +1,232 @@
+# Agents at a Glance
+
+AIOS includes 12 named specialized agents. Each has a defined role, authority boundaries, and a set of commands. Use this page as a quick reference to find the right agent for any task.
+
+---
+
+## Quick Reference Table
+
+| Handle | Name | Role | Key Command |
+|--------|------|------|-------------|
+| `@dev` | Dex | Software implementation | `@dev *develop {story-id}` |
+| `@qa` | Quinn | Quality gates and review | `@qa *qa-gate` |
+| `@po` | Pax | Story validation | `@po *validate-story-draft` |
+| `@pm` | Morgan | Epics and spec pipeline | `@pm *create-epic` |
+| `@sm` | River | Story creation | `@sm *draft` |
+| `@architect` | Aria | System architecture | `@architect *create-full-stack-architecture` |
+| `@analyst` | Atlas | Research and analysis | `@analyst *research` |
+| `@ux-design-expert` | Uma | UX and design review | `@ux-design-expert *design-review` |
+| `@data-engineer` | Dara | Database and schema | `@data-engineer *audit-db` |
+| `@devops` | Gage | CI/CD and Git operations | `@devops *push` |
+| `@docs` | Ajax | Documentation | `@docs *create-doc` |
+| `@aios-master` | Orion | Framework orchestration | `*workflow SDC` |
+
+---
+
+## Agent Cards
+
+### @dev — Dex (Developer)
+
+**When to use:** Implementing stories, writing code, running CodeRabbit self-healing.
+
+**Key commands:**
+
+| Command | Description |
+|---------|-------------|
+| `@dev *develop {story-id}` | Start implementing a story (Interactive mode by default) |
+| `@dev *develop {story-id} --yolo` | YOLO mode — autonomous, 0-1 prompts |
+| `@dev *develop {story-id} --pre-flight` | Pre-Flight mode — all questions upfront |
+| `@dev *help` | Show all developer commands |
+
+**Authority:** Can `git add`, `git commit`, `git branch`, `git checkout`. Cannot `git push` — delegate to @devops.
+
+**Delegates to:** @devops for push and PR operations.
+
+---
+
+### @qa — Quinn (QA Engineer)
+
+**When to use:** Running quality gates, starting QA loops, reviewing code quality.
+
+**Key commands:**
+
+| Command | Description |
+|---------|-------------|
+| `@qa *qa-gate` | Run 7-point quality gate on current story |
+| `*qa-loop {storyId}` | Start automated review-fix cycle |
+| `*stop-qa-loop` | Pause loop and save state |
+| `*resume-qa-loop` | Resume from saved state |
+| `*escalate-qa-loop` | Force escalation to manual review |
+
+**QA gate verdicts:** PASS, CONCERNS, FAIL, WAIVED
+
+**Escalation triggers:** `max_iterations_reached`, `verdict_blocked`, `fix_failure`, `manual_escalate`
+
+---
+
+### @po — Pax (Product Owner)
+
+**When to use:** Validating story drafts, managing backlog priorities, ensuring story quality.
+
+**Key commands:**
+
+| Command | Description |
+|---------|-------------|
+| `@po *validate-story-draft` | Run 10-point story validation checklist |
+
+**Decision:** GO (≥ 7/10) moves story from Draft → Ready. NO-GO lists required fixes.
+
+**Authority:** Can update story status and log transitions. Cannot edit acceptance criteria after validation.
+
+---
+
+### @pm — Morgan (Project Manager)
+
+**When to use:** Creating epics, running the spec pipeline, generating PRDs, requirements gathering.
+
+**Key commands:**
+
+| Command | Description |
+|---------|-------------|
+| `@pm *create-epic` | Create a new epic from requirements |
+| `@pm *execute-epic` | Execute an epic plan (triggers story creation) |
+| `@pm *create-doc prd` | Generate a PRD document from template |
+| `@pm *advanced-elicitation` | Run advanced requirements elicitation |
+
+**Owns:** EPIC-{ID}-EXECUTION.yaml management, spec pipeline orchestration.
+
+---
+
+### @sm — River (Scrum Master)
+
+**When to use:** Creating story drafts from an epic or PRD.
+
+**Key commands:**
+
+| Command | Description |
+|---------|-------------|
+| `@sm *draft` | Create a new story (interactive guided creation) |
+| `@sm *create-story` | Alternative story creation command |
+
+**Output:** `{epicNum}.{storyNum}.story.md` with status `Draft`.
+
+---
+
+### @architect — Aria (Software Architect)
+
+**When to use:** System design, architecture decisions, complexity assessment, brownfield discovery.
+
+**Key commands:**
+
+| Command | Description |
+|---------|-------------|
+| `@architect *create-full-stack-architecture` | Generate full architecture documentation |
+| `@architect *execute-checklist architect-checklist` | Run architecture review checklist |
+
+**Authority:** Owns system architecture decisions and technology selection. Delegates detailed DDL and query optimization to @data-engineer.
+
+---
+
+### @analyst — Atlas (Analyst)
+
+**When to use:** Research tasks, dependency validation, competitive analysis. Used in the Spec Pipeline (Phase 3) for STANDARD and COMPLEX complexity classes.
+
+**Key commands:**
+
+| Command | Description |
+|---------|-------------|
+| `@analyst *research` | Run structured research task |
+
+**Used in:** Spec Pipeline Phase 3 (Research) for STANDARD/COMPLEX complexity classes.
+
+---
+
+### @ux-design-expert — Uma (UX Designer)
+
+**When to use:** Design reviews, frontend specification, UX assessment in brownfield discovery.
+
+**Key commands:**
+
+| Command | Description |
+|---------|-------------|
+| `@ux-design-expert *design-review` | Run UX design review |
+
+**Used in:** Brownfield Discovery Phase 3 (frontend spec) and Phase 6 (UX specialist review).
+
+---
+
+### @data-engineer — Dara (Data Engineer)
+
+**When to use:** Schema design, query optimization, RLS policies, migrations. Receives delegation from @architect for all database implementation.
+
+**Key commands:**
+
+| Command | Description |
+|---------|-------------|
+| `@data-engineer *audit-db` | Audit database schema and generate report |
+
+**Authority:** Detailed DDL, index strategy, migration planning. Does NOT own system architecture or application code.
+
+---
+
+### @devops — Gage (DevOps Engineer)
+
+**When to use:** Pushing code, creating PRs, managing CI/CD, releases.
+
+**Key commands:**
+
+| Command | Description |
+|---------|-------------|
+| `@devops *push` | Push committed changes to remote |
+| `@devops *create-pr` | Create a pull request |
+
+**Exclusive authority:** Only agent that can `git push`, `gh pr create`, and `gh pr merge`. All other agents MUST delegate push operations to @devops.
+
+---
+
+### @docs — Ajax (Documentation Agent)
+
+**When to use:** Creating documentation, updating technical docs, generating project documentation.
+
+**Key commands:**
+
+| Command | Description |
+|---------|-------------|
+| `@docs *create-doc` | Create documentation from template |
+| `@docs *document-project` | Generate docs for the entire project |
+
+---
+
+### @aios-master — Orion (Framework Orchestrator)
+
+**When to use:** Framework governance, workflow orchestration, meta-operations, overriding agent boundaries when necessary.
+
+**Key commands:**
+
+| Command | Description |
+|---------|-------------|
+| `*workflow SDC` | Start Story Development Cycle |
+| `*workflow spec-pipeline` | Start Spec Pipeline |
+| `*list-agents` | List all agents |
+| `*validate-agents` | Validate all agent definitions |
+| `*ids check {intent}` | Check IDS recommendation |
+
+**Authority:** Can execute any task directly. No restrictions. Framework governance and constitutional enforcement.
+
+---
+
+## Delegation Patterns
+
+The most common delegation flows:
+
+```
+@sm *draft → @po *validate-story-draft → @dev *develop → @qa *qa-gate → @devops *push
+
+@pm *create-epic → @pm *execute-epic → @sm *draft (per story)
+
+@architect (architecture decision) → @data-engineer (database implementation)
+
+ANY agent (needs to push) → @devops *push
+```
+
+For role-specific learning paths, see [Trails by Role](/playbook/trails).

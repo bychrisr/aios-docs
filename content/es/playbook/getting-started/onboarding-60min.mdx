@@ -1,20 +1,20 @@
 # Incorporación en 60 Minutos
 
-Un recorrido estructurado para ser productivo con Synkra AIOS en una hora. Al final, habrás instalado el framework, activado agentes, creado tu primera historia, ejecutado un flujo de trabajo y pasado un gate de calidad.
+Un recorrido estructurado para ser productivo con Synkra AIOS en una hora. Al final, habrás instalado el framework, activado agentes, creado tu primera historia, ejecutado el flujo de trabajo SDC completo y pasado un gate de calidad.
 
 ---
 
 ## Minuto 0-10: Instalación y Configuración
 
-### Prerequisitos
+### Requisitos Previos
 
 Antes de comenzar, asegúrate de tener:
 
-- **Node.js** versión 18.0.0 o superior
-- **npm** versión 6.0.0 o superior
+- **Node.js** 20.0.0 o superior
+- **npm** 8.0.0 o superior
 - **Git** instalado y configurado
 - **GitHub CLI** (`gh`) instalado (para flujos de trabajo de push/PR)
-- Un IDE de IA como **Claude Code** (recomendado), Cursor o VS Code con extensiones de IA
+- Un IDE de IA — **Claude Code** (recomendado), Cursor o VS Code con extensiones de IA
 
 ### Instalar AIOS
 
@@ -28,15 +28,13 @@ cd my-first-project
 
 ### Verificar la Instalación
 
-Verifica que el directorio `.aios-core/` se haya creado con la estructura esperada:
+Comprueba que el directorio `.aios-core/` se haya creado:
 
 ```
 my-first-project/
-  .aios-core/             # Configuración del framework y agentes
-  agents/                 # Directorio de agentes IA
-  workflows/              # Flujos de trabajo automatizados
-  tasks/                  # Tareas reutilizables
-  .env                    # Variables de entorno (configura tu API key)
+  .aios-core/          # Configuración del framework, agentes, tareas, flujos de trabajo
+  docs/
+    stories/           # Los archivos de historia se guardarán aquí
 ```
 
 ### Configurar Tu Entorno
@@ -44,55 +42,50 @@ my-first-project/
 Edita el archivo `.env` con la clave de tu proveedor de IA:
 
 ```env
-OPENAI_API_KEY=your-openai-api-key
-# o
 ANTHROPIC_API_KEY=your-anthropic-api-key
+# o
+OPENAI_API_KEY=your-openai-api-key
 ```
 
 ---
 
-## Minuto 10-20: Entendiendo el Meta-Agente
-
-### Iniciar el Meta-Agente
-
-```bash
-npx @synkra/aios-core
-```
+## Minuto 10-20: Entendiendo el Framework
 
 ### Conceptos Fundamentales
 
-El **meta-agente** es el corazón de AIOS. Es una IA que comprende su propia base de código y orquesta agentes especializados para manejar diferentes aspectos del desarrollo.
+AIOS orquesta 12 agentes especializados con nombre a través de flujos de trabajo estructurados. Cada agente tiene:
 
-**Capacidades clave:**
-- **Auto-Análisis** -- Examina la estructura del código del proyecto
-- **Generación de Código** -- Crea componentes siguiendo patrones aprendidos
-- **Aprendizaje de Patrones** -- Se adapta al estilo de desarrollo de tu equipo
-- **Orquestación de Flujos de Trabajo** -- Coordina agentes a través de flujos de trabajo estructurados
+- Un **handle** (ej. `@dev`) que usas para dirigirte a él
+- Un **nombre** (ej. Dex) para su persona
+- **Límites de autoridad** definidos — qué puede y no puede hacer
+- Un conjunto de **comandos** a los que responde
 
-### Comandos Esenciales
-
-Prueba estos comandos para orientarte:
+### Comandos Esenciales (Cualquier Agente)
 
 ```bash
-*help                    # Mostrar todos los comandos disponibles
-*status                  # Mostrar estado del sistema
-*list-agents             # Mostrar todos los agentes disponibles
-*config                  # Ver configuración actual
+*help      # Mostrar todos los comandos disponibles
+*status    # Mostrar el contexto actual, el estado de la historia y el agente
+*guide     # Mostrar la guía de uso detallada para el agente activo
 ```
 
-### Los 13 Agentes
+### Los 12 Agentes
 
-AIOS viene con 13 agentes especializados. Los más importantes para conocer de inmediato:
+| Handle | Nombre | Rol |
+|--------|--------|-----|
+| `@dev` | Dex | Implementación de software |
+| `@qa` | Quinn | Gates de calidad |
+| `@po` | Pax | Validación de historias |
+| `@pm` | Morgan | Épicas y spec pipeline |
+| `@sm` | River | Creación de historias |
+| `@architect` | Aria | Arquitectura de sistemas |
+| `@analyst` | Atlas | Investigación |
+| `@ux-design-expert` | Uma | UX/Diseño |
+| `@data-engineer` | Dara | Base de datos |
+| `@devops` | Gage | CI/CD y Git push |
+| `@docs` | Ajax | Documentación |
+| `@aios-master` | Orion | Orquestación del framework |
 
-| Agente | Rol | Comando Clave |
-|--------|-----|---------------|
-| @dev (Dex) | Desarrollo de software | `@dev *develop {story-id}` |
-| @sm (River) | Creación de historias | `@sm *draft` |
-| @po (Pax) | Validación de historias | `@po *validate-story-draft` |
-| @qa | Aseguramiento de calidad | `@qa *qa-gate` |
-| @devops (Gage) | Push y despliegue | `@devops *push` |
-| @architect (Aria) | Diseño de sistemas | `@architect *create-full-stack-architecture` |
-| @pm (Morgan) | Gestión de épicas y proyectos | `@pm *create-epic` |
+Para detalles completos sobre cada agente, consulta [Agentes](/playbook/agents).
 
 ---
 
@@ -100,128 +93,142 @@ AIOS viene con 13 agentes especializados. Los más importantes para conocer de i
 
 ### Activar un Agente
 
-Los agentes se activan dirigiéndote a ellos directamente:
+Dirígete a los agentes directamente para activarlos:
 
 ```bash
-@sm *help      # Activar el Scrum Master y ver comandos disponibles
-@dev *help     # Activar el agente Developer
+@sm *help      # Activar a River y ver los comandos disponibles
+@dev *help     # Activar a Dex
 ```
 
-### Entender los Límites de los Agentes
+### Límites de Autoridad de los Agentes
 
-Un concepto importante en AIOS: los agentes tienen **límites de autoridad**.
+Un concepto crítico de AIOS: los agentes tienen límites de autoridad estrictos.
 
-- @dev puede hacer `git commit` pero **no puede** hacer `git push` (delegar a @devops)
-- @po puede validar historias pero **no puede** editar criterios de aceptación después de la validación
-- Solo @devops puede crear PRs y enviar al remoto
+- @dev puede ejecutar `git add`, `git commit` — pero **no puede** hacer `git push` (delegar a @devops)
+- @po puede validar historias — pero **no puede** editar los criterios de aceptación tras la validación
+- Solo @devops (Gage) puede ejecutar `git push`, `gh pr create` y `gh pr merge`
 
-### Crear Tu Primera Historia
+### Fase 1: Crear Tu Primera Historia (@sm — River)
 
 ```bash
-# Paso 1: Crear un borrador de historia
 @sm *draft
 ```
 
-El Scrum Master te guiará a través de la creación de un archivo de historia con título, descripción, criterios de aceptación y alcance.
+River te guía para crear una historia con título, descripción, criterios de aceptación y alcance. El resultado es un archivo `{epicNum}.{storyNum}.story.md` con estado `Draft`.
+
+### Fase 2: Validar la Historia (@po — Pax)
 
 ```bash
-# Paso 2: Validar la historia
 @po *validate-story-draft
 ```
 
-El Product Owner ejecuta el checklist de 10 puntos. Si la puntuación es ≥ 7/10, la historia pasa de `Draft` a `Ready`.
+Pax ejecuta el **checklist de validación de 10 puntos**:
 
-```bash
-# Paso 3: Revisar el archivo de historia generado
-# Las historias se guardan en docs/stories/
-```
+| # | Verificación |
+|---|-------------|
+| 1 | Título claro y objetivo |
+| 2 | Descripción completa |
+| 3 | Criterios de aceptación verificables |
+| 4 | Alcance bien definido (IN/OUT) |
+| 5 | Dependencias mapeadas |
+| 6 | Estimación de complejidad |
+| 7 | Valor de negocio declarado |
+| 8 | Riesgos documentados |
+| 9 | Definition of Done |
+| 10 | Alineación con PRD/Épica |
+
+**Decisión:**
+- **GO** (≥ 7/10) — El estado de la historia cambia de `Draft` a `Ready`
+- **NO-GO** (menos de 7) — Correcciones requeridas listadas; la historia permanece en `Draft`
 
 ---
 
-## Minuto 35-50: Ejecutando un Flujo de Trabajo (SDC)
+## Minuto 35-50: Ejecutando el Story Development Cycle (SDC)
 
-### El Story Development Cycle
-
-El SDC es el flujo de trabajo principal en AIOS, con 4 fases:
+### Las 4 Fases del SDC
 
 | Fase | Agente | Qué Sucede |
 |------|--------|------------|
-| 1. Crear | @sm | Historia borrador desde épica/PRD |
-| 2. Validar | @po | Checklist de 10 puntos, decisión GO/NO-GO |
-| 3. Implementar | @dev | Código escrito, auto-corrección con CodeRabbit |
-| 4. QA Gate | @qa | Verificación de calidad de 7 puntos, veredicto |
+| 1. Crear | @sm (River) | Historia creada desde épica/PRD |
+| 2. Validar | @po (Pax) | Checklist de 10 puntos, GO/NO-GO |
+| 3. Implementar | @dev (Dex) | Código escrito, auto-corrección con CodeRabbit |
+| 4. QA Gate | @qa (Quinn) | Verificación de calidad de 7 puntos, veredicto |
 
-### Implementar Tu Historia
+### Fase 3: Implementar (@dev — Dex)
 
 ```bash
-# Iniciar implementación (modo interactivo por defecto)
-@dev *develop {story-id}
+@dev *develop story-1.1
 ```
 
-El agente developer trabaja en uno de tres modos:
+Dex trabaja en uno de tres modos de ejecución:
 
-- **Interactive** (por defecto) -- 5-10 prompts con checkpoints y confirmaciones
-- **YOLO** -- Ejecución autónoma con 0-1 prompts; decisiones registradas automáticamente
-- **Pre-Flight** -- Todas las preguntas al inicio, luego ejecución sin ambigüedades
+| Modo | Prompts | Mejor Para |
+|------|---------|-----------|
+| **Interactive** (por defecto) | 5-10, con checkpoints | Aprendizaje, decisiones complejas |
+| **YOLO** | 0-1, totalmente autónomo | Tareas simples |
+| **Pre-Flight** | 10-15 al inicio, luego cero | Requisitos ambiguos |
 
-Durante la implementación, CodeRabbit escanea automáticamente en busca de problemas:
-- Problemas de severidad CRITICAL y HIGH son auto-corregidos (hasta 2 iteraciones)
-- Problemas MEDIUM son documentados como deuda técnica
-- Problemas LOW son ignorados
+Durante la implementación, **CodeRabbit** escanea automáticamente:
+- Los problemas CRITICAL y HIGH son auto-corregidos (hasta 2 iteraciones en la fase dev)
+- Los problemas MEDIUM se documentan como deuda técnica
+- Los problemas LOW se ignoran
 
 ---
 
-## Minuto 50-60: Gates de Calidad y Próximos Pasos
+## Minuto 50-60: Gates de Calidad y Publicación
 
-### Ejecutar el QA Gate
+### Fase 4: QA Gate (@qa — Quinn)
 
 ```bash
 @qa *qa-gate
 ```
 
-El agente QA verifica 7 dimensiones de calidad:
+Quinn verifica 7 dimensiones de calidad:
 
-1. Revisión de código (patrones, legibilidad)
-2. Tests unitarios (cobertura, todos pasando)
-3. Criterios de aceptación (todos cumplidos)
-4. Sin regresiones
-5. Rendimiento
-6. Seguridad (básicos OWASP)
-7. Documentación
+| # | Verificación |
+|---|-------------|
+| 1 | Revisión de código (patrones, legibilidad) |
+| 2 | Tests unitarios (cobertura, todos pasando) |
+| 3 | Criterios de aceptación (todos cumplidos) |
+| 4 | Sin regresiones |
+| 5 | Rendimiento dentro de límites |
+| 6 | Seguridad (básicos OWASP) |
+| 7 | Documentación (actualizada si es necesario) |
 
 **Veredictos posibles:** PASS, CONCERNS, FAIL, WAIVED
 
-### Enviar Tus Cambios
-
-Si el QA gate aprueba:
+### Si FAIL — Iniciar el QA Loop
 
 ```bash
-# Revisar tus cambios
-git diff
+*qa-loop story-1.1       # Iniciar ciclo automatizado de revisión-corrección
+# Máx. 5 iteraciones: @qa revisa → @dev corrige → @qa vuelve a revisar
+```
 
-# Enviar al remoto (solo @devops puede hacer esto)
+### Publicar Tus Cambios (@devops — Gage)
+
+```bash
 @devops *push
 ```
+
+Solo Gage puede hacer push. Esto es por diseño — todos los agentes coordinan a través de esta única puerta para las operaciones remotas.
 
 ### Lo Que Lograste
 
 En 60 minutos has:
 
 - Instalado y configurado Synkra AIOS
-- Aprendido el concepto de meta-agente y los comandos esenciales
-- Activado agentes y comprendido los límites de autoridad
-- Creado y validado tu primera historia
-- Ejecutado el Story Development Cycle con integración de CodeRabbit
-- Pasado un gate de calidad y enviado tus cambios
+- Aprendido los 12 agentes, sus nombres y límites de autoridad
+- Creado y validado tu primera historia (Fases 1-2 del SDC)
+- Implementado con auto-corrección de CodeRabbit (Fase 3)
+- Pasado un gate de calidad (Fase 4)
+- Publicado tus cambios a través de @devops
 
 ---
 
 ## Próximos Pasos
 
-Ahora que tienes los fundamentos, explora estos recursos:
-
-- **[Guías de Workflow](/playbook/workflows)** -- Planificación de sprint, flujo de PR, proyectos greenfield y brownfield
-- **[Referencia de Comandos](/playbook/commands)** -- Lista completa de todos los comandos disponibles
-- **[Rutas de Aprendizaje](/playbook/trails)** -- Rutas específicas por rol para developers, PMs, QA engineers y arquitectos
-- **[Checklists de Validación](/playbook/checklists)** -- Checklists detallados de calidad para cada fase
-- **[Los 12 Agentes de AIOS](/docs/agents)** -- Profundización en las capacidades de cada agente
+- **[Agentes](/playbook/agents)** — Referencia completa de los 12 agentes y sus comandos
+- **[Cheat Sheet](/playbook/cheat-sheet)** — Secuencias listas para copiar para uso diario
+- **[Referencia de Comandos](/playbook/commands)** — Referencia completa de comandos
+- **[Rutas por Rol](/playbook/trails)** — Profundiza tu conocimiento según tu rol
+- **[Checklists de Validación](/playbook/checklists)** — Checklists detallados para cada fase

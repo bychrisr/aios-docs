@@ -2,17 +2,17 @@
 
 AIOS uses a template system to ensure consistency across all project artifacts. Templates provide standardized structures for stories, epics, architecture documents, agent definitions, and more.
 
+Templates are loaded automatically by agent commands — you do not need to reference them manually in most cases.
+
 ---
 
 ## Template Location
 
-All templates are stored in your project at:
+All templates live in your project at:
 
 ```
 .aios-core/development/templates/
 ```
-
-Templates are loaded automatically by the relevant agent commands. You do not need to reference them manually.
 
 ---
 
@@ -20,41 +20,41 @@ Templates are loaded automatically by the relevant agent commands. You do not ne
 
 ### Project Document Templates
 
-| Template | File | Description |
-|----------|------|-------------|
-| **AIOS Doc** | `aios-doc-template.md` | General-purpose documentation template for AIOS artifacts |
-| **Research Prompt** | `research-prompt-tmpl.md` | Structured prompt template for research tasks in the Spec Pipeline |
+| Template | File | Used By |
+|----------|------|---------|
+| **AIOS Doc** | `aios-doc-template.md` | General-purpose documentation for any artifact |
+| **Research Prompt** | `research-prompt-tmpl.md` | Structured prompts for Spec Pipeline research tasks (@analyst) |
 | **Subagent Step Prompt** | `subagent-step-prompt.md` | Prompt template for multi-step subagent execution |
 
 ### Squad Templates
 
-Squad templates provide the scaffolding for creating new squads (teams of specialized agents):
+Squad templates scaffold new squads (teams of specialized agents):
 
 | Template | File | Description |
 |----------|------|-------------|
-| **Agent Definition** | `squad/agent-template.md` | Template for defining a new agent with role, capabilities, and instructions |
-| **Task Definition** | `squad/task-template.md` | Template for creating reusable tasks with inputs, outputs, and pre/post-conditions |
-| **Workflow Definition** | `squad/workflow-template.yaml` | YAML template for defining multi-step automated workflows |
-| **Checklist** | `squad/checklist-template.md` | Template for quality checklists with scoring criteria |
-| **Data Config** | `squad/data-template.yaml` | YAML template for agent data and configuration files |
-| **Script** | `squad/script-template.js` | JavaScript template for automation scripts |
-| **Tool** | `squad/tool-template.js` | JavaScript template for agent tools and utilities |
+| **Agent Definition** | `squad/agent-template.md` | Define a new agent: role, capabilities, authority boundaries |
+| **Task Definition** | `squad/task-template.md` | Create a reusable task with inputs, outputs, pre/post-conditions |
+| **Workflow Definition** | `squad/workflow-template.yaml` | Multi-step automated workflow in YAML |
+| **Checklist** | `squad/checklist-template.md` | Quality checklist with scoring criteria |
+| **Data Config** | `squad/data-template.yaml` | Agent data and configuration files |
+| **Script** | `squad/script-template.js` | JavaScript automation scripts |
+| **Tool** | `squad/tool-template.js` | Agent tools and utilities |
 | **Template** | `squad/template-template.md` | Meta-template for creating new templates |
 
 ### Squad Starter Kit
 
-The `squad-template/` directory provides a complete starter kit for creating a new squad from scratch:
+The `squad-template/` directory provides a complete starter kit for a new squad:
 
 ```
 squad-template/
-  agents/          # Agent definition files
-  tasks/           # Task definition files
-  templates/       # Squad-specific templates
-  workflows/       # Workflow configurations
-  tests/           # Test files
-  squad.yaml       # Squad configuration
-  package.json     # Dependencies
-  README.md        # Documentation
+  agents/        # Agent definition files
+  tasks/         # Task definition files
+  templates/     # Squad-specific templates
+  workflows/     # Workflow configurations
+  tests/         # Test files
+  squad.yaml     # Squad configuration
+  package.json   # Dependencies
+  README.md      # Documentation
 ```
 
 ### Service Templates
@@ -74,19 +74,15 @@ The `service-template/` directory contains Handlebars (`.hbs`) templates for gen
 
 ## How Templates Work
 
-### Template Engine V2
+AIOS uses the Template Engine V2, which processes templates through five steps:
 
-AIOS uses the Template Engine V2 system, which processes templates through these steps:
-
-1. **Selection** -- The agent command selects the appropriate template based on the artifact type
-2. **Variable Resolution** -- Template variables (project name, date, agent context) are resolved
-3. **Rendering** -- The template is rendered with the resolved variables
-4. **Validation** -- The output is validated against the template schema
-5. **Output** -- The final artifact is written to the correct location
+1. **Selection** — The agent command picks the appropriate template based on artifact type
+2. **Variable Resolution** — Template variables (project name, date, agent context) are resolved
+3. **Rendering** — The template is rendered with the resolved variables
+4. **Validation** — Output is validated against the template schema
+5. **Output** — The final artifact is written to the correct location
 
 ### Template Variables
-
-Templates support standard variables that are automatically populated:
 
 | Variable | Value |
 |----------|-------|
@@ -102,25 +98,24 @@ Templates support standard variables that are automatically populated:
 
 ### Creating Documents
 
-Use the `*create-doc` command with any agent to generate documents from templates:
+Use `*create-doc` with the relevant agent:
 
 ```bash
-# Create a PRD document
+# Morgan creates a PRD
 @pm *create-doc prd
 
-# Create an architecture document
-@architect *create-doc architecture
+# Ajax creates documentation
+@docs *create-doc
 
-# Create a story from template
+# River creates a story from template
 @sm *draft
 ```
 
 ### Creating a New Squad
 
-To scaffold a new squad with all necessary files:
+To scaffold a complete new squad:
 
 ```bash
-# Create a squad from the starter kit
 @aios-master *create-squad my-squad
 ```
 
@@ -133,7 +128,7 @@ This copies the `squad-template/` structure and customizes it for your squad.
 3. Place it in the `squad/` directory or your squad's `templates/` folder
 4. Reference it in the appropriate agent command or task definition
 
-You can use `squad/template-template.md` as a starting point -- it is a meta-template designed for creating new templates.
+Use `squad/template-template.md` as a starting point — it is a meta-template designed for creating new templates.
 
 ---
 
@@ -141,7 +136,9 @@ You can use `squad/template-template.md` as a starting point -- it is a meta-tem
 
 | Category | Templates | Used By |
 |----------|-----------|---------|
-| **Documents** | aios-doc, research-prompt, subagent-step-prompt | @pm, @analyst, all agents |
-| **Squad Artifacts** | agent, task, workflow, checklist, data, script, tool | @aios-master, squad creators |
-| **Service Generation** | client, errors, index, types, package.json, README | @architect, @dev |
-| **Starter Kit** | Complete squad-template directory | @aios-master |
+| **Documents** | aios-doc, research-prompt, subagent-step-prompt | @pm (Morgan), @analyst (Atlas), all agents |
+| **Squad Artifacts** | agent, task, workflow, checklist, data, script, tool | @aios-master (Orion), squad creators |
+| **Service Generation** | client, errors, index, types, package.json, README | @architect (Aria), @dev (Dex) |
+| **Starter Kit** | Complete squad-template directory | @aios-master (Orion) |
+
+For the full agent list with commands, see [Agents at a Glance](/playbook/agents).

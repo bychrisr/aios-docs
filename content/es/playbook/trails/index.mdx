@@ -1,6 +1,6 @@
-# Rutas de Aprendizaje por Rol
+# Rutas por Rol
 
-Rutas de aprendizaje personalizadas basadas en tu rol en el equipo. Cada ruta es una secuencia curada de temas que te lleva desde los conceptos básicos hasta la competencia en las áreas más relevantes para tu trabajo.
+Rutas de aprendizaje personalizadas según tu rol. Cada ruta enlaza a contenido verificado — sin documentación duplicada.
 
 ---
 
@@ -8,38 +8,34 @@ Rutas de aprendizaje personalizadas basadas en tu rol en el equipo. Cada ruta es
 
 **Para:** Cualquier persona nueva en Synkra AIOS | **Tiempo:** 1-2 horas
 
-Comienza aquí si nunca has usado AIOS antes. Esta ruta cubre la instalación, los conceptos fundamentales y tu primer flujo de trabajo.
+Empieza aquí si nunca has usado AIOS antes.
 
-1. [Guía de Inicio Rápido](/playbook/getting-started/quick-start) -- Instala AIOS y ejecuta tu primer comando
-2. [Incorporación en 60 Minutos](/playbook/getting-started/onboarding-60min) -- Recorrido estructurado de todas las funcionalidades clave
-3. [Introducción a AIOS](/docs/guides/getting-started) -- Comprende el meta-agente y los conceptos del framework
-4. [Los 12 Agentes de AIOS](/docs/agents) -- Conoce los agentes especializados y sus roles
-5. [Referencia de Comandos](/playbook/commands) -- Explora los comandos disponibles
+1. [Guía de Inicio Rápido](/playbook/getting-started/quick-start) — Instala AIOS y ejecuta tu primer comando (5 pasos, menos de 10 min)
+2. [Incorporación en 60 Minutos](/playbook/getting-started/onboarding-60min) — Recorrido completo: los 12 agentes, SDC, gates de calidad
+3. [Agentes](/playbook/agents) — Conoce todos los agentes, sus nombres y comandos
+4. [Cheat Sheet](/playbook/cheat-sheet) — Secuencias listas para copiar para uso diario
 
-**Después de completar esta ruta,** elige una ruta específica por rol a continuación para profundizar tu conocimiento.
+Después de completar esta ruta, elige una ruta específica por rol a continuación.
 
 ---
 
 ## Ruta de Developer
 
-**Para:** Desarrolladores de software e ingenieros | **Agente foco:** @dev (Dex)
+**Para:** Desarrolladores de software | **Agente foco:** @dev (Dex)
 
-Aprende cómo usar AIOS para el trabajo de desarrollo diario: activar agentes, implementar historias, ejecutar verificaciones de calidad y enviar código.
+Aprende el desarrollo diario con AIOS: activar agentes, implementar historias, ejecutar verificaciones de calidad, publicar código.
 
-1. [Activación de Agentes](/docs/guides/agent-activation) -- Cómo activar y cambiar entre agentes
-2. [Story Development Cycle](/docs/workflows/story-development-cycle) -- El flujo de trabajo principal de desarrollo en 4 fases
-3. [Referencia de Comandos](/playbook/commands) -- Comandos que usarás diariamente (`*develop`, `*status`, `*diff`)
-4. [QA Loop](/docs/workflows/qa-loop) -- Ciclo iterativo de revisión-corrección después de la implementación
-5. [Flujo de PR](/playbook/workflows/pr-workflow) -- Desde cambios locales hasta pull request mergeado
-6. [Checklists de Validación](/playbook/checklists) -- Estándares de calidad que tu código debe cumplir
-7. [Referencia de Plantillas](/playbook/templates) -- Plantillas para historias y documentación
+1. [Agentes](/playbook/agents) — Enfócate en Dex (@dev), Gage (@devops), Quinn (@qa)
+2. [Story Development Cycle](/docs/guides/workflows/STORY-DEVELOPMENT-CYCLE-WORKFLOW) — El flujo de trabajo principal de 4 fases
+3. [Comandos Especializados](/playbook/commands/specialized-commands) — Comandos de @dev, @qa y @devops
+4. [QA Loop](/docs/guides/workflows/QA-LOOP-WORKFLOW) — Ciclo automatizado de revisión-corrección
+5. [Checklists de Validación](/playbook/checklists) — Estándares de calidad que tu código debe cumplir
+6. [Cheat Sheet](/playbook/cheat-sheet) — Secuencias de comandos diarias
 
 **Comandos clave a aprender:**
-- `@dev *develop {story-id}` -- Iniciar implementación de historia
-- `@qa *qa-gate` -- Ejecutar verificaciones de calidad
-- `@devops *push` -- Enviar cambios al remoto (delegado)
-
-**Modos de ejecución:** Interactive (por defecto), YOLO (autónomo), Pre-Flight (planificar primero)
+- `@dev *develop {story-id}` — Iniciar implementación (modo Interactive, YOLO o Pre-Flight)
+- `@qa *qa-gate` — Ejecutar el gate de calidad de 7 puntos
+- `@devops *push` — Publicar (delegado, solo Gage puede hacer push)
 
 ---
 
@@ -47,46 +43,42 @@ Aprende cómo usar AIOS para el trabajo de desarrollo diario: activar agentes, i
 
 **Para:** Project managers y product managers | **Agente foco:** @pm (Morgan)
 
-Aprende cómo gestionar épicas, ejecutar el spec pipeline y coordinar sprints usando AIOS.
+Aprende a gestionar épicas, ejecutar el spec pipeline y coordinar sprints.
 
-1. [Introducción a AIOS](/docs/guides/getting-started) -- Visión general del framework y conceptos fundamentales
-2. [Spec Pipeline](/docs/workflows/spec-pipeline) -- Transformar requisitos en especificaciones ejecutables
-3. [Planificación de Sprint](/playbook/workflows/sprint-planning) -- Planificar y seguir sprints con agentes AIOS
-4. [Los 12 Agentes de AIOS](/docs/agents) -- Entender qué agente maneja qué
-5. [Checklists de Validación](/playbook/checklists) -- Checklist de PM/Gestión de Cambios y puntuación de complejidad
-6. [Referencia de Plantillas](/playbook/templates) -- Plantillas de PRD y documentación
+1. [Agentes](/playbook/agents) — Enfócate en Morgan (@pm), River (@sm), Pax (@po)
+2. [Spec Pipeline](/docs/guides/workflows/SPEC-PIPELINE-WORKFLOW) — Transformar requisitos en specs ejecutables
+3. [Comandos Especializados](/playbook/commands/specialized-commands) — Comandos de @pm y @sm
+4. [Checklists de Validación](/playbook/checklists) — Checklist de PM/Gestión de Cambios y puntuación de complejidad
+5. [Referencia de Plantillas](/playbook/templates) — Plantillas de PRD y documentación
 
 **Comandos clave a aprender:**
-- `@pm *create-epic` -- Crear una nueva épica
-- `@pm *execute-epic` -- Ejecutar un plan de épica
-- `@pm *create-doc prd` -- Generar un PRD desde plantilla
+- `@pm *create-epic` — Crear una nueva épica
+- `@pm *execute-epic` — Ejecutar un plan de épica
+- `@pm *create-doc prd` — Generar un PRD
 
-**Clases de complejidad del Spec Pipeline:** SIMPLE (≤ 8 puntos), STANDARD (9-15), COMPLEX (≥ 16)
+**Clases de complejidad del Spec Pipeline:** SIMPLE (≤ 8 pts), STANDARD (9-15), COMPLEX (≥ 16)
 
 ---
 
 ## Ruta de QA Engineer
 
-**Para:** Ingenieros de aseguramiento de calidad y testers | **Agente foco:** @qa
+**Para:** Ingenieros de aseguramiento de calidad | **Agente foco:** @qa (Quinn)
 
-Aprende cómo usar los gates de calidad de AIOS, el QA loop y la integración con CodeRabbit para asegurar la calidad del código.
+Aprende gates de calidad, el QA loop y la integración con CodeRabbit.
 
-1. [Story Development Cycle](/docs/workflows/story-development-cycle) -- Comprende el ciclo completo (enfócate en la Fase 4: QA Gate)
-2. [QA Loop](/docs/workflows/qa-loop) -- Ciclo automatizado de revisión-corrección (hasta 5 iteraciones)
-3. [Checklists de Validación](/playbook/checklists) -- Checklist de QA Gate de 7 puntos y criterios de veredicto
-4. [Arquitectura del Sistema](/docs/architecture) -- Comprende el sistema que estás testeando
-5. [Referencia de Comandos](/playbook/commands) -- Comandos específicos de QA
+1. [Agentes](/playbook/agents) — Enfócate en Quinn (@qa)
+2. [Story Development Cycle](/docs/guides/workflows/STORY-DEVELOPMENT-CYCLE-WORKFLOW) — Enfócate en la Fase 4: QA Gate
+3. [QA Loop](/docs/guides/workflows/QA-LOOP-WORKFLOW) — Ciclo automatizado de revisión-corrección (hasta 5 iteraciones)
+4. [Checklists de Validación](/playbook/checklists) — Checklist de QA gate de 7 puntos, criterios de veredicto, severidad de CodeRabbit
+5. [Comandos Especializados](/playbook/commands/specialized-commands) — Comandos de @qa
 
 **Comandos clave a aprender:**
-- `@qa *qa-gate` -- Ejecutar el gate de calidad de 7 puntos
-- `*qa-loop {storyId}` -- Iniciar bucle automatizado de revisión-corrección
-- `*stop-qa-loop` -- Pausar el bucle
-- `*resume-qa-loop` -- Reanudar desde estado guardado
-- `*escalate-qa-loop` -- Forzar escalamiento manual
+- `@qa *qa-gate` — Gate de calidad de 7 puntos
+- `*qa-loop {storyId}` — Bucle automatizado de revisión-corrección
+- `*stop-qa-loop` / `*resume-qa-loop` — Pausar y reanudar
+- `*escalate-qa-loop` — Forzar escalamiento manual
 
-**Veredictos del QA gate:** PASS, CONCERNS, FAIL, WAIVED
-
-**Disparadores de escalamiento:** `max_iterations_reached`, `verdict_blocked`, `fix_failure`, `manual_escalate`
+**Veredictos del gate:** PASS, CONCERNS, FAIL, WAIVED
 
 ---
 
@@ -94,18 +86,17 @@ Aprende cómo usar los gates de calidad de AIOS, el QA loop y la integración co
 
 **Para:** Tech leads y arquitectos de software | **Agente foco:** @architect (Aria)
 
-Aprende cómo diseñar sistemas, evaluar bases de código existentes y guiar decisiones técnicas usando AIOS.
+Aprende diseño de sistemas, evaluación brownfield y orientación técnica usando AIOS.
 
-1. [Arquitectura del Sistema](/docs/architecture) -- Visión general de la arquitectura AIOS y diagramas
-2. [Spec Pipeline](/docs/workflows/spec-pipeline) -- Evaluación de complejidad y planificación de implementación
-3. [Proyecto Greenfield](/playbook/workflows/greenfield-project) -- Comenzar un proyecto desde cero
-4. [Proyecto Brownfield](/playbook/workflows/brownfield-project) -- Evaluación de deuda técnica en 10 fases para bases de código existentes
-5. [Checklists de Validación](/playbook/checklists) -- Checklist de revisión de arquitectura
-6. [Los 12 Agentes de AIOS](/docs/agents) -- Especialización de agentes y patrones de delegación
+1. [Agentes](/playbook/agents) — Enfócate en Aria (@architect), Dara (@data-engineer), Atlas (@analyst)
+2. [Spec Pipeline](/docs/guides/workflows/SPEC-PIPELINE-WORKFLOW) — Evaluación de complejidad y planificación de implementación
+3. [Checklists de Validación](/playbook/checklists) — Checklist de revisión de arquitectura
+4. [Comandos del Agente Maestro](/playbook/commands/master-agent-commands) — Comandos IDS para decisiones REUSE/ADAPT/CREATE
 
 **Comandos clave a aprender:**
-- `@architect *create-full-stack-architecture` -- Generar documentación completa de arquitectura
-- `@architect *execute-checklist architect-checklist` -- Ejecutar el checklist de revisión de arquitectura
+- `@architect *create-full-stack-architecture` — Generar documentación completa de arquitectura
+- `@architect *execute-checklist architect-checklist` — Revisión de arquitectura
+- `*ids check {intent}` — ¿Esto debe ser REUSE, ADAPT o CREATE?
 
 **Fases del Brownfield Discovery:** Recolección de Datos (1-3), Borrador y Validación (4-7), Finalización (8-10)
 
@@ -115,17 +106,16 @@ Aprende cómo diseñar sistemas, evaluar bases de código existentes y guiar dec
 
 **Para:** Product owners responsables de la calidad de las historias | **Agente foco:** @po (Pax)
 
-Aprende cómo validar historias, gestionar prioridades del backlog y asegurar la alineación con los objetivos de negocio.
+Aprende a validar historias, gestionar prioridades del backlog y asegurar la alineación con los objetivos de negocio.
 
-1. [Introducción a AIOS](/docs/guides/getting-started) -- Conceptos fundamentales y roles de agentes
-2. [Story Development Cycle](/docs/workflows/story-development-cycle) -- Enfócate en la Fase 2: Validación
-3. [Checklists de Validación](/playbook/checklists) -- El checklist de validación de historia de 10 puntos
-4. [Planificación de Sprint](/playbook/workflows/sprint-planning) -- Priorización de backlog y coordinación de sprints
-5. [Referencia de Plantillas](/playbook/templates) -- Plantillas de historias y estándares de documentación
+1. [Agentes](/playbook/agents) — Enfócate en Pax (@po)
+2. [Story Development Cycle](/docs/guides/workflows/STORY-DEVELOPMENT-CYCLE-WORKFLOW) — Enfócate en la Fase 2: Validación
+3. [Checklists de Validación](/playbook/checklists) — El checklist de validación de historia de 10 puntos
+4. [Referencia de Plantillas](/playbook/templates) — Plantillas de historias y estándares de documentación
 
 **Comandos clave a aprender:**
-- `@po *validate-story-draft` -- Ejecutar el checklist de validación de 10 puntos
-- Decisión: GO (≥ 7/10) o NO-GO (con correcciones requeridas)
+- `@po *validate-story-draft` — Ejecutar el checklist de validación de 10 puntos
+- Decisión: GO (≥ 7/10) → la historia pasa a `Ready`; NO-GO → correcciones requeridas
 
 ---
 
@@ -133,28 +123,27 @@ Aprende cómo validar historias, gestionar prioridades del backlog y asegurar la
 
 **Para:** Scrum masters y facilitadores de equipo | **Agente foco:** @sm (River)
 
-Aprende cómo crear historias, facilitar la planificación de sprints y coordinar el flujo de trabajo de desarrollo.
+Aprende a crear historias, facilitar la planificación de sprints y coordinar el flujo de trabajo de desarrollo.
 
-1. [Introducción a AIOS](/docs/guides/getting-started) -- Visión general del framework
-2. [Story Development Cycle](/docs/workflows/story-development-cycle) -- Enfócate en la Fase 1: Creación de Historia
-3. [Planificación de Sprint](/playbook/workflows/sprint-planning) -- Facilitación de sprints con AIOS
-4. [Referencia de Workflows](/docs/workflows) -- Todos los patrones de flujo de trabajo disponibles
-5. [Referencia de Comandos](/playbook/commands) -- Comandos de creación y gestión de historias
+1. [Agentes](/playbook/agents) — Enfócate en River (@sm)
+2. [Story Development Cycle](/docs/guides/workflows/STORY-DEVELOPMENT-CYCLE-WORKFLOW) — Enfócate en la Fase 1: Creación de Historia
+3. [Comandos Especializados](/playbook/commands/specialized-commands) — Comandos de @sm
+4. [Checklists de Validación](/playbook/checklists) — Ciclo de vida de la historia y transiciones de estado
 
 **Comandos clave a aprender:**
-- `@sm *draft` -- Crear una nueva historia desde épica/PRD
-- `@sm *create-story` -- Comando alternativo de creación de historia
+- `@sm *draft` — Crear una nueva historia desde épica/PRD
+- `@sm *create-story` — Comando alternativo de creación
 
 ---
 
 ## Eligiendo Tu Ruta
 
-| Tu Rol | Comienza Con | Luego |
+| Tu Rol | Empieza Con | Luego |
 |--------|-------------|-------|
 | Nunca usé AIOS | Ruta de Nuevo Usuario | Elige una ruta específica por rol |
 | Developer | Ruta de Developer | Ruta de Arquitecto (para crecimiento) |
 | Project Manager | Ruta de PM | Ruta de Product Owner |
-| QA Engineer | Ruta de QA Engineer | Ruta de Developer (para contexto) |
+| QA Engineer | Ruta de QA | Ruta de Developer (para contexto) |
 | Tech Lead | Ruta de Arquitecto | Ruta de Developer |
 | Product Owner | Ruta de Product Owner | Ruta de PM |
 | Scrum Master | Ruta de Scrum Master | Ruta de Product Owner |

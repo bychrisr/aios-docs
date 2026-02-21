@@ -1,6 +1,6 @@
 # Guia de Início Rápido
 
-Comece a usar o AIOS em minutos.
+Comece a usar o AIOS em 5 passos.
 
 ## Passo 1: Inicializar o AIOS
 
@@ -10,17 +10,17 @@ Na raiz do seu projeto:
 npx @synkra/aios-core init
 ```
 
-Isso configura o diretório `.aios-core/` com todos os arquivos do framework.
+Isso configura o diretório `.aios-core/` com todos os arquivos do framework, agentes, tasks e workflows.
 
 ## Passo 2: Ativar Seu Primeiro Agente
 
-No Claude Code (ou sua IDE de IA), digite:
+No Claude Code (ou sua IDE de IA):
 
 ```
 @dev
 ```
 
-Isso ativa o agente Desenvolvedor (Dex) com todas as capacidades de desenvolvimento.
+Isso ativa Dex, o agente Desenvolvedor, com todas as capacidades de desenvolvimento. Você pode endereçar qualquer um dos 12 agentes pelo seu handle.
 
 ## Passo 3: Executar Seu Primeiro Comando
 
@@ -28,41 +28,68 @@ Isso ativa o agente Desenvolvedor (Dex) com todas as capacidades de desenvolvime
 *help
 ```
 
-Mostra todos os comandos disponíveis para o agente ativo.
+Mostra todos os comandos disponíveis para o agente ativo. Todo agente suporta `*help`, `*status` e `*guide`.
 
 ## Passo 4: Criar Sua Primeira Story
 
-Ative o Scrum Master:
+Ative River, o Scrum Master, e crie uma story:
 
 ```
 @sm *draft
 ```
 
-Siga os prompts interativos para criar sua primeira story de desenvolvimento.
+Siga os prompts interativos para criar sua primeira story de desenvolvimento. A saída é um arquivo `{epicNum}.{storyNum}.story.md` com status `Draft`.
+
+Em seguida, valide-a com Pax, o Product Owner:
+
+```
+@po *validate-story-draft
+```
+
+Uma nota ≥ 7/10 move a story de `Draft` para `Ready`.
 
 ## Passo 5: Começar a Desenvolver
 
-Com uma story criada e validada:
+Com uma story no status `Ready`:
 
 ```
 @dev *develop story-1.1
 ```
 
-O agente desenvolvedor vai guiá-lo durante a implementação.
+Dex guia você pela implementação no modo Interactive por padrão. O CodeRabbit escaneia e corrige automaticamente problemas CRITICAL e HIGH.
 
-## Comandos Essenciais
+Quando a implementação estiver completa:
+
+```
+@qa *qa-gate
+```
+
+Quinn executa o quality gate de 7 pontos. No PASS, entregue com:
+
+```
+@devops *push
+```
+
+Apenas Gage (@devops) pode fazer push — todos os outros agentes delegam operações de push para ele.
+
+---
+
+## Comandos Essenciais de Referência Rápida
 
 | Comando | Agente | Descrição |
 |---------|--------|-----------|
 | `*help` | Qualquer | Mostrar comandos disponíveis |
-| `*draft` | @sm | Criar uma nova story |
-| `*validate-story-draft` | @po | Validar uma story |
-| `*develop` | @dev | Começar a implementar uma story |
-| `*qa-gate` | @qa | Executar verificações de qualidade |
-| `*push` | @devops | Enviar alterações para o remoto |
+| `@sm *draft` | River | Criar uma nova story |
+| `@po *validate-story-draft` | Pax | Validar uma story (checklist de 10 pontos) |
+| `@dev *develop {id}` | Dex | Iniciar implementação de uma story |
+| `@qa *qa-gate` | Quinn | Executar verificações de qualidade (gate de 7 pontos) |
+| `@devops *push` | Gage | Fazer push das alterações para o remoto |
+
+---
 
 ## Próximos Passos
 
-- Complete o [onboarding de 60 minutos](/playbook/getting-started/onboarding-60min)
-- Conheça os [Fluxos de Trabalho](/playbook/workflows)
-- Explore a [Referência de Comandos](/playbook/commands)
+- Complete o [Onboarding em 60 Minutos](/playbook/getting-started/onboarding-60min) para uma imersão mais profunda
+- Conheça todos os 12 agentes em [Agentes](/playbook/agents)
+- Encontre seu papel em [Trilhas por Papel](/playbook/trails)
+- Explore a [Referência de Comandos](/playbook/commands) completa

@@ -1,23 +1,26 @@
 # Universal Commands
 
-These commands are the foundation of interacting with AIOS and are available in all agents at any time. They are designed to provide contextual help, system status, and basic session control.
+These commands are available in every AIOS agent at any time. They provide contextual help, system status, and session control regardless of which agent is active.
 
-## Help and Status
+## Help and Information
 
 | Command | Description |
 |---------|-------------|
-| `*help` | Shows the list of available commands for the current agent. |
-| `*status` | Displays a summary of the current context, active agent, and task state. |
-| `*guide` | Shows a detailed usage guide for the currently active agent. |
-| `*kb` | Toggles "Knowledge Base" mode, allowing the agent to query an extended knowledge base for more detailed answers. |
+| `*help` | Show all available commands for the current agent |
+| `*status` | Display current context: active agent, story, task state |
+| `*guide` | Show a detailed usage guide for the currently active agent |
 
 ### Example Usage
-```bash
-# See what commands the @dev agent can execute
-*help
 
-# Check which story you are working on
+```bash
+# See what commands @qa can execute
+@qa *help
+
+# Check which story you are working on and its current status
 *status
+
+# Get a detailed walkthrough of @sm's capabilities
+@sm *guide
 ```
 
 ---
@@ -26,15 +29,24 @@ These commands are the foundation of interacting with AIOS and are available in 
 
 | Command | Description |
 |---------|-------------|
-| `*exit` | Ends the session with the current agent and returns to the default shell. |
-| `*yolo` | Toggles the agent's permission mode, cycling between `ask` (request confirmation for each action), `auto` (execute without confirmation), and `explore` (discovery mode). |
-| `*chat-mode`| Starts a more free-form conversation mode, ideal for brainstorming and questions that don't fit a specific command. |
+| `*exit` | End the session with the current agent |
+| `*yolo` | Toggle permission mode: `ask` (confirm each action), `auto` (no confirmation), `explore` (discovery mode) |
+| `*chat-mode` | Start free-form conversation mode for brainstorming and questions |
 
 ### Example Usage
-```bash
-# Allow the agent to execute tasks without asking for confirmation
-*yolo
 
-# End the interaction with the agent
+```bash
+# Allow Dex to execute without asking for confirmation on each step
+@dev *yolo
+
+# End the session with the current agent
 *exit
 ```
+
+---
+
+## Tips
+
+- Address an agent before running its commands: `@dev *help` activates Dex and shows his commands
+- `*status` is your fastest way to reorient after switching agents
+- `*guide` gives more context than `*help` — use it when learning a new agent's capabilities

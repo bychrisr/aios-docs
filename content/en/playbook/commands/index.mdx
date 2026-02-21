@@ -1,23 +1,21 @@
 # AIOS Command Reference
 
-Welcome to the Synkra AIOS command reference. This section of the playbook is your central guide for interacting with the framework through the command line.
-
-Commands are the most direct and powerful way to instruct AI agents, orchestrate workflows, and manage the software development lifecycle.
+The central guide for interacting with AIOS agents through commands. Commands are the most direct way to instruct agents, orchestrate workflows, and manage the development lifecycle.
 
 ## Command Philosophy
 
-AIOS adopts an "explicit orchestration" approach. Instead of trying to guess complex intentions, the system exposes a rich set of commands that can be combined to achieve precise results.
+AIOS uses explicit orchestration. Each agent responds to a defined set of commands and delegates tasks outside its authority to the appropriate specialist.
 
-- **Universal Commands:** A set of essential commands available in any context.
-- **Master Agent Commands:** High-level actions for framework management, workflow orchestration, and meta-operations.
-- **Specialized Commands:** Domain-specific actions delegated to specialist agents like `@dev`, `@qa`, and `@architect`.
+- **Universal Commands** — Available in every agent at any time (`*help`, `*status`, `*guide`)
+- **Master Agent Commands** — Framework management, workflow orchestration, IDS operations (@aios-master / Orion)
+- **Specialized Commands** — Domain-specific actions per agent (@dev, @qa, @pm, @sm, @po, @architect, etc.)
 
 ## How to Navigate This Section
 
-To make it easier to look up information, we have divided the command reference into the following pages:
+- **[Universal Commands](./universal-commands)** — Start here if you are new to AIOS
+- **[Master Agent Commands](./master-agent-commands)** — Workflow execution and framework management
+- **[Specialized Commands](./specialized-commands)** — Commands organized by agent
 
-- **[Universal Commands](./universal-commands):** Essential commands like `*help` and `*status`. Start here if you are new to AIOS.
-- **[Master Agent Commands](./master-agent-commands):** The main control panel for orchestrating AIOS.
-- **[Specialized Commands](./specialized-commands):** An overview of how commands are delegated to specialist agents.
+For a quick copy-paste reference, see the [Cheat Sheet](/playbook/cheat-sheet).
 
-Use the navigation menu to explore each section in detail.
+For agent personas, roles, and key commands in a single table, see [Agents at a Glance](/playbook/agents).

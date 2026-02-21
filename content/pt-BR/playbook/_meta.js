@@ -1,8 +1,10 @@
 export default {
   index: 'Visão Geral',
-  'getting-started': 'Começando',
-  templates: 'Modelos',
-  checklists: 'Checklists',
+  'cheat-sheet': 'Cheat Sheet',
+  agents: 'Agentes',
+  'getting-started': 'Primeiros Passos',
   commands: 'Comandos',
-  trails: 'Trilhas por Perfil'
+  checklists: 'Checklists',
+  templates: 'Templates',
+  trails: 'Trilhas por Papel',
 }

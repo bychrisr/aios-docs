@@ -1,8 +1,10 @@
 export default {
   index: 'Overview',
+  'cheat-sheet': 'Cheat Sheet',
+  agents: 'Agents at a Glance',
   'getting-started': 'Getting Started',
-  templates: 'Templates',
-  checklists: 'Checklists',
   commands: 'Commands',
-  trails: 'Trails by Profile'
+  checklists: 'Checklists',
+  templates: 'Templates',
+  trails: 'Trails by Role',
 }

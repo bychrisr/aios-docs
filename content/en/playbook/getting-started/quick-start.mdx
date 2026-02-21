@@ -1,6 +1,6 @@
 # Quick Start Guide
 
-Get up and running with AIOS in minutes.
+Get up and running with AIOS in 5 steps.
 
 ## Step 1: Initialize AIOS
 
@@ -10,17 +10,17 @@ In your project root:
 npx @synkra/aios-core init
 ```
 
-This bootstraps the `.aios-core/` directory with all framework files.
+This bootstraps the `.aios-core/` directory with all framework files, agents, tasks, and workflows.
 
 ## Step 2: Activate Your First Agent
 
-In Claude Code (or your AI IDE), type:
+In Claude Code (or your AI IDE):
 
 ```
 @dev
 ```
 
-This activates the Developer agent (Dex) with all development capabilities.
+This activates Dex, the Developer agent, with all development capabilities. You can address any of the 12 agents by their handle.
 
 ## Step 3: Run Your First Command
 
@@ -28,41 +28,68 @@ This activates the Developer agent (Dex) with all development capabilities.
 *help
 ```
 
-Shows all available commands for the active agent.
+Shows all available commands for the active agent. Every agent supports `*help`, `*status`, and `*guide`.
 
 ## Step 4: Create Your First Story
 
-Activate the Scrum Master:
+Activate River, the Scrum Master, and draft a story:
 
 ```
 @sm *draft
 ```
 
-Follow the interactive prompts to create your first development story.
+Follow the interactive prompts to create your first development story. The output is a `{epicNum}.{storyNum}.story.md` file with status `Draft`.
+
+Then validate it with Pax, the Product Owner:
+
+```
+@po *validate-story-draft
+```
+
+A score of ≥ 7/10 moves the story from `Draft` to `Ready`.
 
 ## Step 5: Start Developing
 
-With a story created and validated:
+With a story in `Ready` status:
 
 ```
 @dev *develop story-1.1
 ```
 
-The developer agent will guide you through implementation.
+Dex guides you through implementation in Interactive mode by default. CodeRabbit automatically scans and self-heals CRITICAL and HIGH issues.
 
-## Essential Commands
+When implementation is complete:
+
+```
+@qa *qa-gate
+```
+
+Quinn runs the 7-point quality gate. On PASS, ship with:
+
+```
+@devops *push
+```
+
+Only Gage (@devops) can push — all other agents delegate push operations to him.
+
+---
+
+## Essential Commands at a Glance
 
 | Command | Agent | Description |
 |---------|-------|-------------|
 | `*help` | Any | Show available commands |
-| `*draft` | @sm | Create a new story |
-| `*validate-story-draft` | @po | Validate a story |
-| `*develop` | @dev | Start implementing a story |
-| `*qa-gate` | @qa | Run quality checks |
-| `*push` | @devops | Push changes to remote |
+| `@sm *draft` | River | Create a new story |
+| `@po *validate-story-draft` | Pax | Validate a story (10-point checklist) |
+| `@dev *develop {id}` | Dex | Start implementing a story |
+| `@qa *qa-gate` | Quinn | Run quality checks (7-point gate) |
+| `@devops *push` | Gage | Push changes to remote |
+
+---
 
 ## Next Steps
 
-- Complete the [60-minute onboarding](/playbook/getting-started/onboarding-60min)
-- Learn about [Workflow Patterns](/playbook/workflows)
-- Explore [Commands Reference](/playbook/commands)
+- Complete the [60-Minute Onboarding](/playbook/getting-started/onboarding-60min) for a deeper dive
+- Learn all 12 agents at [Agents at a Glance](/playbook/agents)
+- Find your role at [Trails by Role](/playbook/trails)
+- Explore the full [Command Reference](/playbook/commands)

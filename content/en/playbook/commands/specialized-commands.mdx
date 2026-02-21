@@ -1,64 +1,140 @@
-# Specialized and Delegated Commands
+# Specialized Agent Commands
 
-While the Master Agent acts as the orchestrator, many of the more granular and domain-specific tasks are delegated to specialist agents. This approach ensures that the right tool is used for each job, promoting a more modular and efficient system.
+Each AIOS agent has its own set of commands for its domain. Use the agent handle to address them directly.
 
-## The Principle of Delegation
+For a single-page quick reference, see the [Cheat Sheet](/playbook/cheat-sheet). For agent personas and roles, see [Agents at a Glance](/playbook/agents).
 
-The Master Agent (`@aios-master`) rarely performs implementation or deep analysis tasks directly. Instead, it invokes other agents that have the necessary knowledge and tools for the task.
+---
 
-For example, instead of the Master Agent knowing how to generate a test in React, it delegates this task to the `@dev` agent.
+## @sm — River (Scrum Master)
 
-```mermaid
-graph TD
-    A[User runs a command] --> B{Master Agent};
-    B --> C{Is it an orchestration command?};
-    C -- Yes --> D[Executes directly];
-    C -- No, it's a specialist task --> E{Delegates to the correct agent};
-    E --> F["@dev (Code)"];
-    E --> G["@qa (Tests)"];
-    E --> H["@architect (Architecture)"];
-    E --> I["@devops (Infra)"];
-```
+| Command | Description |
+|---------|-------------|
+| `@sm *draft` | Create a new story (interactive guided creation) |
+| `@sm *create-story` | Alternative story creation command |
+| `@sm *help` | Show all @sm commands |
 
-### How to Invoke Specialist Agents
+---
 
-You can interact with specialist agents in two ways:
+## @po — Pax (Product Owner)
 
-1.  **Indirectly:** Through a Master Agent command that orchestrates a task. For example, `*run-workflow story-development-cycle` might invoke the `@sm`, `@dev`, and `@qa` agents in sequence.
-2.  **Directly:** By activating the specialist agent and using its specific commands.
+| Command | Description |
+|---------|-------------|
+| `@po *validate-story-draft` | Run 10-point validation checklist; GO/NO-GO decision |
+| `@po *help` | Show all @po commands |
 
-```bash
-# Activate the development agent
-*activate @dev
+**Decision:** GO (≥ 7/10) moves story from `Draft` to `Ready`.
 
-# Now, you can use @dev's specific commands
-*generate-component UserProfile --type react --tests
-```
+---
 
-## Categories of Specialized Commands
+## @dev — Dex (Developer)
 
-Detailed documentation for specialist agent commands will be found in the relevant sections of the `playbook` or in each agent's reference documentation.
+| Command | Description |
+|---------|-------------|
+| `@dev *develop {story-id}` | Start implementing a story (Interactive mode) |
+| `@dev *develop {story-id} --yolo` | YOLO mode — autonomous, 0-1 prompts |
+| `@dev *develop {story-id} --pre-flight` | Pre-Flight — all questions upfront |
+| `@dev *help` | Show all @dev commands |
 
-Below is an overview of the command categories that are the responsibility of specialist agents:
+**Authority:** Can `git add`, `git commit`, `git branch`, `git checkout`. Cannot `git push` — delegate to @devops.
 
-### 👷 Code Generation (`@dev`)
-- UI component generation (`*generate-component`)
-- API endpoint creation (`*generate-api`)
-- Business logic implementation
+---
 
-### 🧪 Testing and Quality (`@qa`)
-- Test suite generation (`*generate-tests`)
-- Execution of quality gates (`*qa-gate`)
-- Review and correction loops (`*qa-loop`)
+## @qa — Quinn (QA Engineer)
 
-### 🏗️ Architecture (`@architect`)
-- Generation of architecture diagrams
-- Project structure analysis
-- Large-scale refactoring suggestions
+| Command | Description |
+|---------|-------------|
+| `@qa *qa-gate` | Run 7-point quality gate |
+| `*qa-loop {storyId}` | Start automated review-fix cycle (max 5 iterations) |
+| `*qa-loop-review` | Resume loop from review step |
+| `*qa-loop-fix` | Resume loop from fix step |
+| `*stop-qa-loop` | Pause loop and save state to `qa/loop-status.json` |
+| `*resume-qa-loop` | Resume from saved state |
+| `*escalate-qa-loop` | Force manual escalation |
+| `@qa *help` | Show all @qa commands |
 
-###  DevOps (`@devops`)
-- Task scheduling (`*schedule-task`)
-- Backup and restore operations (`*backup`, `*restore`)
-- Deployment management (`*deploy`)
+**QA gate verdicts:** PASS, CONCERNS, FAIL, WAIVED
 
-The full list of commands for each agent can be viewed using the `*help` command after activating the desired agent.
+---
+
+## @devops — Gage (DevOps)
+
+| Command | Description |
+|---------|-------------|
+| `@devops *push` | Push committed changes to remote (EXCLUSIVE to @devops) |
+| `@devops *create-pr` | Create a pull request |
+| `@devops *help` | Show all @devops commands |
+
+**Exclusive authority:** Only agent that can `git push`, `gh pr create`, and `gh pr merge`.
+
+---
+
+## @pm — Morgan (Project Manager)
+
+| Command | Description |
+|---------|-------------|
+| `@pm *create-epic` | Create a new epic from requirements |
+| `@pm *execute-epic` | Execute an epic plan |
+| `@pm *create-doc prd` | Generate a PRD document |
+| `@pm *advanced-elicitation` | Run advanced requirements elicitation |
+| `@pm *help` | Show all @pm commands |
+
+---
+
+## @architect — Aria (Architect)
+
+| Command | Description |
+|---------|-------------|
+| `@architect *create-full-stack-architecture` | Generate full architecture documentation |
+| `@architect *execute-checklist architect-checklist` | Run architecture review checklist |
+| `@architect *help` | Show all @architect commands |
+
+---
+
+## @analyst — Atlas (Analyst)
+
+| Command | Description |
+|---------|-------------|
+| `@analyst *research` | Run structured research task |
+| `@analyst *help` | Show all @analyst commands |
+
+**Used in:** Spec Pipeline Phase 3 for STANDARD and COMPLEX complexity classes.
+
+---
+
+## @data-engineer — Dara (Data Engineer)
+
+| Command | Description |
+|---------|-------------|
+| `@data-engineer *audit-db` | Audit database schema and generate report |
+| `@data-engineer *help` | Show all @data-engineer commands |
+
+---
+
+## @ux-design-expert — Uma (UX Designer)
+
+| Command | Description |
+|---------|-------------|
+| `@ux-design-expert *design-review` | Run UX design review |
+| `@ux-design-expert *help` | Show all @ux-design-expert commands |
+
+---
+
+## @docs — Ajax (Documentation)
+
+| Command | Description |
+|---------|-------------|
+| `@docs *create-doc` | Create documentation from template |
+| `@docs *document-project` | Generate docs for the entire project |
+| `@docs *help` | Show all @docs commands |
+
+---
+
+## Delegation Rules
+
+AIOS enforces strict delegation patterns. Key rules:
+
+- Any agent that needs to push code MUST delegate to `@devops *push`
+- @architect decides technology; @data-engineer implements DDL
+- @sm creates stories; @po validates them — neither can do the other's job
+- @aios-master (Orion) can override boundaries when necessary for framework health
