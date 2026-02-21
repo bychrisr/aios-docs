@@ -122,7 +122,7 @@ Script Bash que espelha a documentação do `aios-core` para o site.
 **Exclusões aplicadas (conteúdo interno ou incompatível com MDX):**
 
 - Pastas: `stories/`, `research/`, `handoffs/`, `qa/`, `releases/`, `strategy/`
-- Arquivos: `guides/agents/traces/*`, `guides/agents/*-SYSTEM.md`, `guides/workflows/xref-*`, `guides/workflows/AIOS-COMPLETE-CROSS-REFERENCE-ANALYSIS.md`, `guides/workflows/BROWNFIELD-SERVICE-WORKFLOW.md`, `00-shared-activation-pipeline*`
+- Arquivos: `guides/agents/traces/*`, `guides/agents/*-SYSTEM.md`, `guides/workflows/xref-*`, `guides/workflows/AIOS-COMPLETE-CROSS-REFERENCE-ANALYSIS.md`, `00-shared-activation-pipeline*`
 
 **Uso:**
 
@@ -143,7 +143,8 @@ Script Node.js que processa cada arquivo `.md` via `stdin` → `stdout`, tornand
 5. **Âncoras `<a name="..."></a>`** → removidas (causavam `Unexpected closing slash`)
 6. **`< seguido de número/espaço`** (ex: `<1ms`) → escapado para `&lt;1ms`
 7. **Chaves literais `{texto}`** → convertidas para `[texto]` (causavam erros Acorn)
-8. **Tags HTML dentro de blocos Mermaid** → `<br/>` vira `/`, outras tags são removidas mantendo o texto
+8. **Tags HTML dentro de blocos Mermaid** → múltiplos passes para aninhamento; `<br/>` vira `/`, outras tags removidas mantendo texto
+9. **`&` literal em labels Mermaid** → escapado para `&amp;` (causava erros de parsing)
 
 ---
 
@@ -185,7 +186,7 @@ Script Node.js que processa cada arquivo `.md` via `stdin` → `stdout`, tornand
 
 | Gap                                       | Descrição                                                                 | Impacto                                         |
 | ----------------------------------------- | ------------------------------------------------------------------------- | ----------------------------------------------- |
-| **BROWNFIELD-SERVICE-WORKFLOW**           | Excluído do sync por ter mermaid extremamente complexo                    | Workflow para brownfield não está no site       |
+| **BROWNFIELD-SERVICE-WORKFLOW (EN)**      | Habilitado via sanitizador melhorado (v4.3) — testado no próximo sync     | A ser confirmado no próximo sync do CI          |
 | **guides/agents/traces/**                 | Excluído — são execution traces técnicos não adequados para docs públicas | Normal                                          |
 | **docs-agent-technical-specification.md** | Excluído (PT e ES) — incompatível MDX irrecuperável                       | Especificação técnica ausente                   |
 | **00-shared-activation-pipeline.md**      | Excluído — mermaid com sintaxe muito complexa                             | Doc de pipeline de ativação ausente             |
@@ -203,28 +204,27 @@ Script Node.js que processa cada arquivo `.md` via `stdin` → `stdout`, tornand
    - `pr-validate.yml`: gate de build MDX em todo PR para `main`
    - Vercel auto-deploya via integração GitHub existente no push em `main`
 
-2. **Melhorar sanitizador para habilitar BROWNFIELD-SERVICE-WORKFLOW**
-   - O arquivo tem mermaid extremamente complexo com chaves aninhadas
-   - Considerar converter os diagramas para imagens estáticas (PNG) no sync
-   - Ou usar bloco de código genérico ao invés de mermaid (a ferramenta de diagrama não renderiza no site)
+2. ~~**Melhorar sanitizador para habilitar BROWNFIELD-SERVICE-WORKFLOW**~~ ✅ **FEITO** (2026-02-21)
+   - Sanitizador v4.3: múltiplos passes de HTML stripping em mermaid, suporte a `&` em labels
+   - Exclusão do BROWNFIELD-SERVICE-WORKFLOW removida do `sync-content.sh`
 
-3. **Auditoria do Playbook**
-   - Verificar paridade entre `content/{locale}/playbook/` e conteúdo do aios-core
-   - Atualizar playbook com informações mais recentes se necessário
+3. ~~**Auditoria do Playbook**~~ ✅ **FEITO** (2026-02-21)
+   - Links quebrados `/playbook/workflows` corrigidos em EN, PT-BR e ES
+   - Redirecionados para `/docs/guides/workflows` onde os arquivos reais estão
 
 ### Prioridade Média
 
-4. **Adicionar `_meta.js` dinâmico para navegação**
-   - Atualmente a navegação lateral (sidebar) é gerada automaticamente pelo Nextra a partir dos nomes de arquivo
-   - Criar `_meta.js` por pasta para controlar labels, ordem e hierarquia
+4. ~~**Adicionar `_meta.js` dinâmico para navegação**~~ ✅ **FEITO** (2026-02-21)
+   - `_meta.js` criado nas raízes de `content/{en,pt-BR,es}/docs/`
+   - Controla labels traduzidos e ordem das seções principais na sidebar
 
-5. **Expandir cobertura de testes E2E**
-   - Testar navegação entre idiomas
-   - Testar busca Pagefind
-   - Testar mobile layout
+5. ~~**Expandir cobertura de testes E2E**~~ ✅ **FEITO** (2026-02-21)
+   - 5 testes: render básico, doc sincronizado, workflow EN, navegação multi-idioma, playbook sem links quebrados
+   - Adicionado teste de regressão para links `/playbook/workflows`
 
 6. **Melhorar tratamento dos arquivos Mermaid excluídos**
    - Implementar fallback: se arquivo tem mermaid incompatível, gerar versão simplificada sem o diagrama
+   - Ainda relevante para `00-shared-activation-pipeline.md`
 
 ### Prioridade Baixa
 
@@ -269,8 +269,8 @@ O script `build` executa: `next build && pagefind --site .next/server/app --outp
 
 ## Métricas de Build Atuais (2026-02-21)
 
-- **Páginas estáticas:** 426+ geradas com sucesso
-- **Arquivos MDX sincronizados:** 381 (en: 136, pt-BR: 110, es: 135)
+- **Páginas estáticas:** 423+ geradas com sucesso
+- **Arquivos MDX sincronizados:** 423 (en: 150, pt-BR: 124, es: 149)
 - **Idiomas:** 3 (pt-BR, en, es)
 - **Sync automático:** diariamente às 06:00 UTC via GitHub Actions
 - **Branch de trabalho:** sempre via PR — nunca direto em `main`
@@ -372,5 +372,5 @@ NEXT_PUBLIC_SITE_URL=https://docs.synkraaios.site
 
 ---
 
-_Synkra AIOS Docs — CLAUDE.md v4.2_
-_Última atualização: 2026-02-21 — CI/CD GitHub Actions, PR gate de build, branches organizados, regra no-direct-main_
+_Synkra AIOS Docs — CLAUDE.md v4.3_
+_Última atualização: 2026-02-21 — Sanitizador melhorado, BROWNFIELD habilitado, playbook corrigido, `_meta.js` de navegação, 5 testes E2E_

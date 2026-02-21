@@ -18,21 +18,28 @@
  * Sanitiza o conteúdo interno de um bloco mermaid.
  * No Nextra 4, o parser MDX ainda analisa o interior de blocos mermaid,
  * então precisamos escapar tags HTML e outras sintaxes que conflitam com JSX.
+ *
+ * Executa múltiplos passes para remover tags HTML aninhadas.
  */
 function sanitizeMermaidBlock(blockContent) {
-  // Dentro de blocos mermaid, as chaves {} são sintaxe do diagrama (nós de decisão).
-  // O MDX as interpreta como expressões JavaScript → precisamos escapar o < e { de forma segura.
-
-  // 1. Escapar tags HTML dentro de labels de nós Mermaid
-  //    ex: F{texto<br/>mais} → F{texto / mais}
-  //    ex: <b>texto</b> → texto
-  blockContent = blockContent
+  // Múltiplos passes para resolver aninhamento de HTML (ex: <b><i>text</i></b>)
+  for (let pass = 0; pass < 3; pass++) {
     // <br/> e variantes: substituir por barra simples (legível em diagramas)
-    .replace(/<br\s*\/?>/gi, ' / ')
+    blockContent = blockContent.replace(/<br\s*\/?>/gi, ' / ');
     // Tags HTML com conteúdo: remover as tags, manter o texto
-    .replace(/<([a-zA-Z][a-zA-Z0-9]*)[^>]*>(.*?)<\/\1>/gi, '$2')
-    // Tags HTML avulsas (sem fechamento correspondente)
-    .replace(/<\/?[a-zA-Z][a-zA-Z0-9]*[^>]*\/?>/g, '');
+    blockContent = blockContent.replace(
+      /<([a-zA-Z][a-zA-Z0-9]*)[^>]*>([\s\S]*?)<\/\1>/gi,
+      '$2'
+    );
+    // Tags HTML avulsas (self-closing ou sem fechamento)
+    blockContent = blockContent.replace(
+      /<\/?[a-zA-Z][a-zA-Z0-9]*[^>]*\/?>/g,
+      ''
+    );
+  }
+
+  // Escapar & literal que pode confundir o parser MDX (ex: "A & B" em labels)
+  blockContent = blockContent.replace(/&(?!(?:amp|lt|gt|quot|apos);)/g, '&amp;');
 
   return blockContent;
 }
