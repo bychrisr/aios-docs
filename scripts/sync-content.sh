@@ -72,7 +72,8 @@ for lang_src in "${!LANG_MAP[@]}"; do
       echo "---"
       echo ""
       # Remove todas as tags HTML que podem quebrar o parser MDX
-      sed 's/<[^>]*>//g' "$md_file"
+      # Transforma `<` seguido de numero em `&lt;numero`
+      sed -e 's/<[^>]*>//g' -e 's/<\([0-9]\)/\&lt;\1/g' "$md_file"
     } > "$dest_file_mdx"
     
     echo "Processed: $relative_path"
@@ -90,9 +91,8 @@ mkdir -p "content/es/docs"
 # Sincronizar novamente para garantir que tudo está no lugar
 # (Esta execução será mais rápida pois a maioria dos arquivos já existe)
 echo "---"
-echo "Re-running sync to ensure consistency..."
-bash "$0" "$SOURCE_REPO_PATH"
-
+# Re-running sync logic was removed to prevent infinite loop.
+echo "---"
 
 echo ""
 echo "=== Sync Finished Successfully ==="
