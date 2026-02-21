@@ -1,348 +1,370 @@
-# Synkra AIOS Docs — Claude Code Configuration
+# Synkra AIOS Docs — Configuração do Agente de Desenvolvimento
 
-This is the **public documentation site** for Synkra AIOS, built with Nextra 4 + Next.js 15 App Router.
+Site de documentação pública da Synkra AIOS, construído com **Nextra 4 + Next.js 15 App Router**.
 
 ## Deployment
 
-- **Production URL:** https://aios-docs.vercel.app
-- **Custom Domain:** https://docs.synkraaios.site
-- **Vercel Project:** `christians-projects-623587aa/aios-docs`
-- **Deploy command:** `vercel deploy --prod --yes --scope christians-projects-623587aa`
+- **URL de Produção:** https://aios-docs.vercel.app
+- **Domínio Custom:** https://docs.synkraaios.site
+- **Projeto Vercel:** `christians-projects-623587aa/aios-docs`
+- **Comando de deploy:** `vercel deploy --prod --yes --scope christians-projects-623587aa`
 
 ## Tech Stack
 
 - **Framework:** Next.js 15 (App Router)
 - **Docs Engine:** Nextra 4 (`nextra` + `nextra-theme-docs`)
-- **Search:** Pagefind (post-build HTML indexing, 3 language indexes)
-- **i18n:** 3 locales — `pt-BR` (default), `en`, `es`
-- **Deployment:** Vercel (SSG) with Pagefind post-build step
+- **Busca:** Pagefind (indexação HTML pós-build, 3 índices de idioma)
+- **i18n:** 3 locales — `pt-BR` (padrão), `en`, `es`
+- **Deploy:** Vercel (SSG) com step de Pagefind pós-build
 - **DNS:** Cloudflare CNAME → `cname.vercel-dns.com`
+- **Testes E2E:** Playwright
 
-## Project Structure
+## Estrutura do Projeto
 
 ```
 aios-docs/
 ├── app/
-│   ├── layout.tsx              # Root layout (metadata, CSS imports)
-│   ├── custom.css              # CSS overrides (sidebar locale switch hidden)
+│   ├── layout.tsx              # Root layout (metadata, imports de CSS)
+│   ├── custom.css              # Overrides CSS (sidebar locale switch oculto)
 │   └── [lang]/
-│       ├── layout.tsx          # Locale-aware layout (navbar, sidebar, footer, i18n)
+│       ├── layout.tsx          # Layout aware de locale (navbar, sidebar, footer, i18n)
 │       └── [[...mdxPath]]/
-│           └── page.tsx        # Dynamic MDX page renderer
+│           └── page.tsx        # Renderer dinâmico de páginas MDX
 ├── content/
-│   ├── pt-BR/                  # Portuguese content (default locale)
-│   ├── en/                     # English content
-│   └── es/                     # Spanish content
-├── middleware.ts                # Nextra locale proxy (auto-detect + redirect)
-├── next.config.mjs             # Nextra config + i18n locales + redirects
-├── vercel.json                 # Vercel config (buildCommand, security headers)
-├── mdx-components.tsx          # MDX component overrides
-└── public/_pagefind/           # Search index (generated at build time)
+│   ├── pt-BR/                  # Conteúdo em Português (locale padrão)
+│   │   ├── docs/               # 110 arquivos .mdx sincronizados de docs/pt/
+│   │   └── playbook/           # 11 arquivos .mdx do playbook
+│   ├── en/                     # Conteúdo em Inglês
+│   │   ├── docs/               # 136 arquivos .mdx sincronizados de docs/ (raiz)
+│   │   └── playbook/           # 11 arquivos .mdx do playbook
+│   └── es/                     # Conteúdo em Espanhol
+│       ├── docs/               # 135 arquivos .mdx sincronizados de docs/es/
+│       └── playbook/           # 11 arquivos .mdx do playbook
+├── scripts/
+│   ├── sync-content.sh         # Script de sync v4.1 (espelha SynkraAI/aios-core)
+│   └── mdx-sanitizer.js        # Sanitizador Node.js: MD → MDX compatível com Nextra
+├── e2e/
+│   └── example.spec.ts         # Testes E2E Playwright (2 testes, 6 variantes)
+├── middleware.ts                # Proxy de locale Nextra (auto-detect + redirect)
+├── next.config.mjs             # Config Nextra + i18n locales + redirects
+├── vercel.json                 # Config Vercel (buildCommand, security headers)
+├── mdx-components.tsx          # Overrides de componentes MDX
+└── public/_pagefind/           # Índice de busca (gerado no build, ignorado no git)
 ```
 
-## Content Structure (per locale)
+---
 
-Each locale directory (`content/{locale}/`) mirrors the same structure (29 MDX files + _meta.js per locale):
+## Sistema de Sincronização de Conteúdo (Mirror)
+
+### Repositório Fonte
+
+**`SynkraAI/aios-core`** — Clonado em `/tmp/aios-core` no CI/CD ou localmente.
+
+### Estrutura Real do Repositório Fonte
 
 ```
-{locale}/
-├── _meta.js                    # Root navigation labels
-├── index.mdx                   # Landing page (redirects to /docs)
-├── about/                      # About section
-├── docs/                       # Technical documentation
-│   ├── guides/                 # Introduction to AIOS, agent activation, etc.
-│   ├── agents/                 # The 12 AIOS Agents overview
-│   ├── workflows/              # SDC, QA Loop, Spec Pipeline (reference)
-│   ├── architecture/           # System Architecture (135 lines, mermaid diagrams)
-│   └── reference/              # Configuration Reference
-└── playbook/                   # Practical playbook
-    ├── getting-started/        # Quick start, 60-min onboarding
-    ├── workflows/              # Sprint planning, PR, greenfield, brownfield (guides)
-    ├── templates/              # Template reference
-    ├── checklists/             # Validation checklists
-    ├── commands/               # Command reference
-    └── trails/                 # Role-based learning trails
+aios-core/docs/
+├── (raiz/sem prefixo)  ← INGLÊS ORIGINAL (~192 arquivos públicos)
+│   ├── guides/         ← 86 guias em EN
+│   ├── architecture/   ← docs técnicos EN
+│   ├── installation/   ← guias de instalação EN
+│   ├── aios-agent-flows/  ← fluxos de agentes EN
+│   ├── aios-workflows/ ← workflows EN
+│   └── ...
+├── pt/                 ← PORTUGUÊS-BR (111 arquivos — tradução)
+├── es/                 ← ESPANHOL (136 arquivos — tradução)
+├── en/                 ← Apenas 25 arquivos de subcategorias específicas
+│                         (aios-agent-flows + aios-workflows em EN)
+│                         → merge no EN final com precedência
+└── (docs internas: stories/, research/, handoffs/, qa/, releases/, strategy/)
 ```
 
-## Key Files
+### Mapeamento de Sync
 
-| File | Purpose |
-|------|---------|
-| `app/[lang]/layout.tsx` | Navbar (logo, ThemeSwitch, LocaleSwitch, GitHub icon), sidebar, footer, i18n config, credits |
-| `app/layout.tsx` | Root layout — imports `nextra-theme-docs/style.css` and `custom.css` |
-| `middleware.ts` | `export { proxy as middleware } from 'nextra/locales'` |
-| `next.config.mjs` | Nextra config (`search: true`, `latex: true`) + i18n locales + redirects |
-| `vercel.json` | Vercel deployment config with security headers and Pagefind buildCommand |
-| `app/custom.css` | Mobile responsive fixes + Design system tokens (typography, gold accent, spacing) |
-| `docs/design/design-council-alan-ds-adaptation.md` | Design Council transcript (Brad Frost, Don Norman, Julie Zhuo) — Alan DS visual adaptation strategy |
+| Origem no Repo Fonte                                    | Destino no Site       |
+| ------------------------------------------------------- | --------------------- |
+| `docs/` raiz (excluindo `/pt`, `/en`, `/es` e internas) | `content/en/docs/`    |
+| `docs/en/` _(merge, versão EN específica prevalece)_    | `content/en/docs/`    |
+| `docs/pt/`                                              | `content/pt-BR/docs/` |
+| `docs/es/`                                              | `content/es/docs/`    |
 
-## Common Commands
+### Resultado atual (406 arquivos, 0 erros)
+
+| Idioma        | Arquivos .mdx |
+| ------------- | ------------- |
+| `en/docs/`    | 136           |
+| `pt-BR/docs/` | 110           |
+| `es/docs/`    | 135           |
+
+O gap entre idiomas é **real e correto** — reflete o estado atual do `aios-core`: EN é o original (mais completo), PT e ES são traduções em progresso.
+
+### Executar Sync Localmente
 
 ```bash
-npm run dev          # Development server (search won't work)
-npm run build        # Production build + Pagefind indexing
-npm run start        # Serve production build (search works here)
+# Clonar o repo fonte
+git clone https://github.com/SynkraAI/aios-core /tmp/aios-core
+
+# Executar o sync (gera content/{en,pt-BR,es}/docs/)
+bash scripts/sync-content.sh /tmp/aios-core
+
+# Validar o build
+npm run build
 ```
 
-The `build` script runs: `next build && pagefind --site .next/server/app --output-path public/_pagefind`
+---
 
-## Vercel Deployment
+## Scripts de Infraestrutura
+
+### `scripts/sync-content.sh` (v4.1)
+
+Script Bash que espelha a documentação do `aios-core` para o site.
+
+**Exclusões aplicadas (conteúdo interno ou incompatível com MDX):**
+
+- Pastas: `stories/`, `research/`, `handoffs/`, `qa/`, `releases/`, `strategy/`
+- Arquivos: `guides/agents/traces/*`, `guides/agents/*-SYSTEM.md`, `guides/workflows/xref-*`, `guides/workflows/AIOS-COMPLETE-CROSS-REFERENCE-ANALYSIS.md`, `guides/workflows/BROWNFIELD-SERVICE-WORKFLOW.md`, `00-shared-activation-pipeline*`
+
+**Uso:**
 
 ```bash
-# Deploy to production
+bash scripts/sync-content.sh /path/to/aios-core-clone
+```
+
+### `scripts/mdx-sanitizer.js`
+
+Script Node.js que processa cada arquivo `.md` via `stdin` → `stdout`, tornando-o compatível com o parser MDX do Nextra 4.
+
+**Problemas resolvidos:**
+
+1. **Comentários HTML `<!-- -->`** → removidos (causavam `Unexpected !`)
+2. **URLs em angle brackets `<https://...>`** → convertidas para `[https://...]`
+3. **Comparador `<=`** → escapado para `&lt;=` (causava `Unexpected =`)
+4. **Tags HTML leves** (`<br>`, `<b>`, `<img>`, `<p>`, etc.) → escapadas para entidades HTML
+5. **Âncoras `<a name="..."></a>`** → removidas (causavam `Unexpected closing slash`)
+6. **`< seguido de número/espaço`** (ex: `<1ms`) → escapado para `&lt;1ms`
+7. **Chaves literais `{texto}`** → convertidas para `[texto]` (causavam erros Acorn)
+8. **Tags HTML dentro de blocos Mermaid** → `<br/>` vira `/`, outras tags são removidas mantendo o texto
+
+---
+
+## Problemas Conhecidos Resolvidos
+
+### 1. Importação inválida de `<Html>` do Next.js
+
+**Problema:** `import { Html } from 'next/document'` em `app/layout.tsx` — importação inválida no App Router.
+**Solução:** Substituído por tag HTML padrão `<html>`.
+
+### 2. Build Nextra falhava em arquivos MD do aios-core
+
+**Problema:** Nextra 4 usa parser MDX + Acorn (compilador de AST JavaScript), que interpreta conteúdo Markdown como JSX. Qualquer `<tag>`, `{chave}`, ou `<!-- comentário -->` causa erro de build.
+**Solução:** `scripts/mdx-sanitizer.js` — processa cada arquivo antes de gravar `.mdx`.
+
+### 3. Script de sync apontava para pasta legada errada
+
+**Problema:** O script original apontava para `.aios-core/docs/` (22 arquivos de standards), ignorando os 400+ arquivos reais em `docs/pt/`, `docs/en/` e `docs/es/`.
+**Solução:** `sync-content.sh` v4.1 — mapeia corretamente a estrutura do repositório.
+
+### 4. Gap aparente entre idiomas (EN: 192 vs PT: 111)
+
+**Problema:** Inicial interpretação de que faltavam 81 arquivos em PT-BR.
+**Conclusão:** O gap é real mas intencional — reflete o estado atual das traduções. `docs/` raiz é o inglês original. `docs/pt/` e `docs/es/` são traduções em progresso. Não há documentação "faltando" — há documentação ainda não traduzida.
+
+### 5. Diagramas Mermaid com tags HTML internas quebravam o build
+
+**Problema:** Blocos Mermaid contendo `<br/>`, `<b>texto</b>` e chaves `{}` (sintaxe de nós de decisão) causavam `Unexpected -` e `Unexpected character` no parser MDX.
+**Solução:** `sanitizeMermaidBlock()` no sanitizador: processa blocos `mermaid` com regex global antes do split em linhas, substituindo `<br/>` por `/` e removendo tags HTML residuais.
+
+### 6. Testes Playwright falhavam com título vazio
+
+**Problema:** `page.goto('http://localhost:3000/')` retornava redirect `/pt-BR` como texto puro — o Next.js serve redirect sem HTML completo.
+**Solução:** Navegar diretamente para `http://127.0.0.1:3000/pt-BR` (bypassando resolução de DNS do localhost no Playwright).
+
+---
+
+## Gaps Conhecidos e Limitações Atuais
+
+| Gap                                       | Descrição                                                                 | Impacto                                         |
+| ----------------------------------------- | ------------------------------------------------------------------------- | ----------------------------------------------- |
+| **BROWNFIELD-SERVICE-WORKFLOW**           | Excluído do sync por ter mermaid extremamente complexo                    | Workflow para brownfield não está no site       |
+| **guides/agents/traces/**                 | Excluído — são execution traces técnicos não adequados para docs públicas | Normal                                          |
+| **docs-agent-technical-specification.md** | Excluído (PT e ES) — incompatível MDX irrecuperável                       | Especificação técnica ausente                   |
+| **00-shared-activation-pipeline.md**      | Excluído — mermaid com sintaxe muito complexa                             | Doc de pipeline de ativação ausente             |
+| **EN > PT > ES**                          | Gap de cobertura real entre idiomas                                       | Esperado enquanto traduções não estão completas |
+| **Playbook não espelhado do aios-core**   | Playbook usa conteúdo mantido manualmente neste repo                      | Pode divergir do aios-core                      |
+
+---
+
+## Próximas Implementações
+
+### Prioridade Alta
+
+1. **CI/CD: GitHub Actions para sync automático**
+   - Criar `.github/workflows/sync-content.yml`
+   - Trigger: push no `aios-core` + daily cron (6:00 UTC)
+   - Steps: clone aios-core → sync → build → deploy Vercel
+   - Variáveis de ambiente necessárias: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`
+
+2. **Melhorar sanitizador para habilitar BROWNFIELD-SERVICE-WORKFLOW**
+   - O arquivo tem mermaid extremamente complexo com chaves aninhadas
+   - Considerar converter os diagramas para imagens estáticas (PNG) no sync
+   - Ou usar bloco de código genérico ao invés de mermaid (a ferramenta de diagrama não renderiza no site)
+
+3. **Auditoria do Playbook**
+   - Verificar paridade entre `content/{locale}/playbook/` e conteúdo do aios-core
+   - Atualizar playbook com informações mais recentes se necessário
+
+### Prioridade Média
+
+4. **Adicionar `_meta.js` dinâmico para navegação**
+   - Atualmente a navegação lateral (sidebar) é gerada automaticamente pelo Nextra a partir dos nomes de arquivo
+   - Criar `_meta.js` por pasta para controlar labels, ordem e hierarquia
+
+5. **Expandir cobertura de testes E2E**
+   - Testar navegação entre idiomas
+   - Testar busca Pagefind
+   - Testar mobile layout
+
+6. **Melhorar tratamento dos arquivos Mermaid excluídos**
+   - Implementar fallback: se arquivo tem mermaid incompatível, gerar versão simplificada sem o diagrama
+
+### Prioridade Baixa
+
+7. **Design System (Tier 2 — a validar)**
+   - Shadow tokens para sidebar e cards
+   - Bordas com radius para cards de conteúdo
+   - Validar impacto em métricas de bounce rate
+
+8. **Monitor de paridade de sync**
+   - Script que compara arquivos no aios-core vs content/ e gera relatório de diferenças
+   - Alertar quando novos arquivos são adicionados ao aios-core mas não sincronizados
+
+---
+
+## Comandos Comuns
+
+```bash
+# Desenvolvimento (busca não funciona)
+npm run dev
+
+# Build de produção + indexação Pagefind
+npm run build
+
+# Servir produção local (busca funciona)
+npm run start
+
+# Sync completo (clone + sync + build)
+git clone https://github.com/SynkraAI/aios-core /tmp/aios-core
+bash scripts/sync-content.sh /tmp/aios-core
+npm run build
+
+# Testes E2E (requer npm run start rodando)
+npx playwright test
+
+# Deploy para produção
+vercel deploy --prod --yes --scope christians-projects-623587aa
+```
+
+O script `build` executa: `next build && pagefind --site .next/server/app --output-path public/_pagefind`
+
+---
+
+## Metricas de Build Atuais (2026-02-21)
+
+- **Páginas estáticas:** 426 de 426 geradas com sucesso
+- **Páginas indexadas:** 423 (Pagefind)
+- **Palavras indexadas:** 37.383
+- **Idiomas:** 3 (pt-BR, en, es)
+- **Branch ativa:** `fix/build-recovery-and-sync`
+
+---
+
+## Vercel e CI/CD
+
+### Deployment Manual
+
+```bash
+# Deploy para produção
 vercel deploy --prod --yes --scope christians-projects-623587aa
 
-# Check deployment status
+# Verificar status de deployment
 vercel inspect <deployment-url> --logs
 ```
 
-Environment variables set on Vercel:
-- `NEXTRA_DEFAULT_LOCALE=pt-BR`
-- `NEXTRA_LOCALES=["pt-BR","en","es"]`
-- `NEXT_PUBLIC_SITE_URL=https://docs.synkraaios.site`
+### Environment Variables (Vercel)
 
-## i18n Rules
-
-- Default locale: `pt-BR` (root `/` redirects to `/pt-BR/docs`)
-- All 3 locales must have matching file structures in `content/`
-- `_meta.js` labels must be translated per locale
-- Navigation: `_meta.js` keys map to `.mdx` filenames — every key MUST have a corresponding file
-- Locale switcher shows abbreviated names: PT-BR, EN, ES
-- `/:lang` routes redirect to `/:lang/docs` (configured in `next.config.mjs`)
-
-## Navigation Labels
-
-Labels in `_meta.js` files must be distinct — avoid duplicates across sections:
-
-| Section | pt-BR | en | es |
-|---------|-------|-----|-----|
-| docs/workflows | Workflows — Referência | Workflows — Reference | Workflows — Referencia |
-| playbook/workflows | Guias de Workflow | Workflow Guides | Guías de Workflow |
-| docs/guides/getting-started | Introdução ao AIOS | Introduction to AIOS | Introducción al AIOS |
-
-Generic titles like "Visão Geral" / "Overview" should be replaced with descriptive names.
-
-## Mobile UX Optimizations
-
-### Header Mobile (< 768px)
-
-**Layout:** `Logo | Theme Icon | Locale Icon | GitHub Icon | Menu`
-
-**CSS Implementation (`app/custom.css`):**
-```css
-@media (max-width: 767px) {
-  /* Hide logo subtitle */
-  .logo-subtitle {
-    display: none !important;
-  }
-
-  /* Icon-only buttons (ThemeSwitch, LocaleSwitch) */
-  .nextra-navbar button[aria-haspopup="listbox"],
-  .nextra-navbar button:has(svg[viewBox*="20"]):not([aria-label="Menu"]) {
-    font-size: 0 !important;
-  }
-
-  /* Keep icons visible */
-  .nextra-navbar button svg,
-  .nextra-navbar button img {
-    font-size: initial !important;
-    display: block !important;
-  }
-
-  /* Stack footer vertically */
-  footer div {
-    flex-direction: column !important;
-    gap: 0.5rem !important;
-    text-align: center !important;
-  }
-}
+```
+NEXTRA_DEFAULT_LOCALE=pt-BR
+NEXTRA_LOCALES=["pt-BR","en","es"]
+NEXT_PUBLIC_SITE_URL=https://docs.synkraaios.site
 ```
 
-**Features:**
-- ✅ Minimalist design with icon-only buttons
-- ✅ ThemeSwitch and LocaleSwitch show full text in dropdown menus
-- ✅ GitHub icon positioned before hamburger menu
-- ✅ Logo subtitle hidden to prevent overflow
-- ✅ LocaleSwitch hidden from mobile sidebar footer (kept only in navbar)
+---
 
-### Footer Mobile
+## Regras de i18n
 
-Footer text stacks vertically on mobile with centered alignment and smaller font size for better readability.
+- Locale padrão: `pt-BR` (root `/` redireciona para `/pt-BR/docs`)
+- `_meta.js` labels devem ser traduzidos por locale
+- Chaves em `_meta.js` mapeiam para nomes de arquivos `.mdx` — cada chave PRECISA ter arquivo correspondente
+- Locale switcher mostra nomes abreviados: PT-BR, EN, ES
+- Rotas `/:lang` redirecionam para `/:lang/docs` (configurado em `next.config.mjs`)
 
-### Credits
+---
 
-All pages include attribution to **@bychrisr** in:
-- Footer: "Built with ❤️ by @bychrisr • Maintained by AIOS Community"
-- README.md: Credits section with creation date
-- About pages: All 3 locales (pt-BR, en, es)
+## Gotchas do MDX (Nextra 4)
 
-## Design System Strategy
+- **Nunca usar `<=` ou `>=` em MDX** — usar `≤` e `≥` (unicode) ou `&lt;=`
+- **Nunca usar `<` nu antes de texto** — MDX interpreta como JSX; usar `&lt;`
+- **Nunca usar chaves `{texto}` em texto normal** — Acorn interpreta como expressão JS
+- **Comentários HTML `<!-- -->` causam `Unexpected !`** — usar `{/* comentário */}` no MDX
+- **Tags HTML em blocos Mermaid** — o parser MDX analisa o interior dos blocos; `<br/>` deve virar `<br />`
+- **URLs em angle brackets `<https://...>`** — converter para `[url](url)` ou `[url]`
+- **Todo `_meta.js` precisa de arquivo `.mdx` correspondente** — arquivos faltando causam erros de build
 
-**Design Council Decision (2026-02-16):**
-Consulted with Brad Frost (Design Systems), Don Norman (UX), and Julie Zhuo (Design Leadership) via Kaven Design Council workflow. Full transcript: `docs/design/design-council-alan-ds-adaptation.md`
+---
 
-### Design Philosophy
+## Design System
 
-**Influenced by Alan DS (Lendária Design System):**
-- **Luxury Minimalism:** Primary color usage ≤8%, generous whitespace
-- **Typography hierarchy:** Multi-font system for different content types
-- **Dark-optional:** Light-first for documentation readability, dark mode as user choice
-- **Token-based:** CSS variables for consistency and maintainability
+### Filosofia (Influenciada pelo Alan DS da Synkra)
 
-**Core Principle:** "Token extraction, not component port" — adopt design tokens selectively while maintaining Nextra's docs-first UX.
+**Princípio Core:** "Extração de tokens, não porte de componentes" — adotar tokens de design seletivamente mantendo o UX de documentação do Nextra.
 
-### 3-Tier Implementation Strategy
+### Implementação Atual
 
-#### ✅ Tier 1: ADOPTED (Safe, High Value)
-
-**Typography System:**
 ```css
 :root {
-  --font-sans: 'Inter', -apple-system, sans-serif;           /* UI elements */
-  --font-serif: 'Source Serif 4', serif;                     /* Body text (better reading) */
-  --font-mono: 'JetBrains Mono', monospace;                  /* Code blocks */
-  --font-display: 'Rajdhani', sans-serif;                    /* Hero sections (use sparingly) */
+  /* Tipografia */
+  --font-sans: "Inter", -apple-system, sans-serif;
+  --font-serif: "Source Serif 4", serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Paleta Gold */
+  --primary: 32 27% 69%; /* #C9B298 Gold do Alan DS */
+  --primary-dark: 33 27% 50%; /* Gold escuro para hover */
+
+  /* Espaçamento (base 4px) */
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
 }
 ```
 
-**Color System (Gold Accent):**
-```css
-:root {
-  --primary: 32 27% 69%;        /* #C9B298 Gold from Alan DS */
-  --primary-dark: 33 27% 50%;   /* Darker gold for hover */
-}
-/* Applied to: links, CTAs, active nav items (≤8% total usage) */
-```
+### Mobile UX
 
-**Spacing Tokens (4px base unit):**
-```css
-:root {
-  --space-4: 1rem;   /* 16px */
-  --space-6: 1.5rem; /* 24px */
-  --space-8: 2rem;   /* 32px */
-}
-```
+- **Header `<768px`:** Logo | ícone de tema | ícone de locale | ícone GitHub | Menu
+- Botões em modo ícone-only no mobile
+- Footer empilha verticalmente com alinhamento centralizado
+- LocaleSwitch oculto no rodapé do sidebar mobile (mantido apenas na navbar)
 
-#### ⚠️ Tier 2: TEST BEFORE ROLLOUT (Validate with Users)
-
-**Shadow Tokens:**
-```css
-:root {
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-}
-/* Applied to: sidebar, cards, elevated components */
-```
-
-**Dark Mode:**
-- User toggle in navbar (opt-in, not default)
-- Preserves light-first reading convention
-- Validate usage metrics after 2 weeks
-
-**Border Radius:**
-- Subtle rounding for cards, code blocks, buttons
-- Test for visual coherence with Nextra's aesthetic
-
-#### ❌ Tier 3: AVOID (High Risk, Low Value)
-
-1. ❌ **Porting Alan DS's 60 React components** — Wrong tool for documentation
-2. ❌ **Dark-first as default** — Cognitive friction for long-form reading
-3. ❌ **Heavy animations** — Distracting for text consumption
-4. ❌ **Rajdhani for body text** — Too aggressive for documentation
-5. ❌ **Copying entire tailwind.config.ts** — Over-engineering
-
-### Design Validation
-
-**Before deploying Tier 2 changes:**
-1. **5-Second Test:** Show screenshots to 10 developers, ask "What is this?"
-   - Expected: "Documentation" (not "App")
-2. **Metrics:** Measure bounce rate, time-to-find, user feedback
-3. **Rollback Plan:** Changes isolated in `custom.css`, revert in <5 minutes
-
-**Success Criteria:**
-- Visual impact: 7/10 (elevated feel without breaking docs UX)
-- Risk: 2/10 (CSS-only, no JS, no structural changes)
-- Maintenance: Near zero (CSS variables)
-- Performance: Bundle size increase <5%
-
-### What Makes This Different From Alan DS
-
-| Aspect | Alan DS (SPA) | aios-docs (SSG) |
-|--------|---------------|----------------|
-| **Purpose** | Interactive web application | Technical documentation |
-| **Interaction** | Click-heavy | Scroll-heavy reading |
-| **Visual hierarchy** | Color-driven | Typography-driven |
-| **Background** | Dark-first (UI focus) | Light-first (reading focus) |
-| **Components** | 60 React components | Markdown content + Nextra primitives |
-| **Whitespace** | Guides action | Improves scannability |
-
-**Key Insight (Brad Frost):** "This is a TOKEN EXTRACTION problem, not a COMPONENT PORT problem."
-
-**Key Insight (Don Norman):** "Selectively adopt 5-6 tokens, maintain docs-first UX principles. The goal is 'elevated documentation,' not 'documentation disguised as an app.'"
-
-**Key Insight (Julie Zhuo):** "Define the user problem first. For documentation, 'helpful' beats 'beautiful' every time."
-
-## MDX Gotchas
-
-- **Never use `<=` or `>=` in MDX** — use `≤` and `≥` (unicode) instead
-- **Never use bare `<` before text** — MDX interprets it as JSX; use `{'<'}` if needed
-- **Never use bare `>` in text** — wrap as `{">"}` to avoid JSX interpretation
-- **Every `_meta.js` key needs a matching `.mdx` file** — missing files cause build errors
-- **`sourceCode` prop is required** — `importPage()` returns it, must pass to `<Wrapper>`
-
-## Content Source of Truth
-
-The official documentation source is the `aios-core` repository (`docs/` directory). Key references:
-
-| Official Source | Docs Site Page |
-|----------------|----------------|
-| `aios-core/docs/getting-started.md` (566 lines) | `content/{locale}/docs/guides/getting-started.mdx` |
-| `aios-core/docs/core-architecture.md` (224 lines) | `content/{locale}/docs/architecture/index.mdx` |
-| `aios-core/docs/meta-agent-commands.md` (60+ commands) | `content/{locale}/playbook/commands/index.mdx` |
-| `aios-core/docs/aios-agent-flows/README.md` (13 agents) | `content/{locale}/docs/agents/index.mdx` |
-
-The correct package name is `@synkra/aios-core` (not `@synkra/aios-cli`).
-The correct template path is `.aios-core/development/templates/` (not `.aios-core/product/templates/`).
-The framework has 13 agents (including @squad-creator / Nova).
-
-## Content Synchronization (Mirror Process)
-
-This project is an **automated mirror** of `SynkraAI/aios-core` documentation with enhancements:
-
-### Sync Infrastructure
-- **Workflow:** `.github/workflows/sync-content.yml` (daily at 6:00 UTC)
-- **Script:** `scripts/sync-content.sh` (clone → convert → copy)
-- **Conversion:** Markdown (`.md`) → MDX (`.mdx`) for Nextra compatibility
-- **Frequency:** Daily automatic sync + manual trigger available
-
-### Content Flow
-```
-aios-core/docs/*.md → clone → convert to .mdx → content/{locale}/docs/
-```
-
-### Enhancements Applied
-- ✅ Multilingual translations (pt-BR, en, es)
-- ✅ Nextra-compatible MDX formatting
-- ✅ Pagefind search indexing
-- ✅ Navigation structure optimization
-- ✅ Quality improvements (e.g., agent count corrections)
-- ✅ Mobile-first responsive design
-
-**Important:** We are a **faithful mirror with presentation enhancements**, not an independent documentation source. Content corrections should ideally be proposed to the upstream `aios-core` repository.
+---
 
 ## Git Conventions
 
-- Use conventional commits: `feat:`, `fix:`, `docs:`, `chore:`
-- Keep commits atomic and focused
-- Don't commit `.env` (contains API keys template)
-
-## Build Verification
-
-After changes, always verify:
-1. `npm run build` succeeds (check for MDX compilation errors)
-2. Pagefind indexes all expected pages across all 3 languages (currently 87 pages, 3146 words)
-3. All 3 locales have matching file structures (29 MDX files each)
+- Branch ativa: `fix/build-recovery-and-sync`
+- Conventional commits: `feat:`, `fix:`, `docs:`, `chore:`
+- Nunca commitar `.env`
+- `public/_pagefind/` ignorado pelo git (gerado no build)
 
 ---
-*Synkra AIOS Docs — Claude Code Configuration v3.3*
-*Last Updated: 2026-02-16 — Design System Strategy (Alan DS influence), Kaven Design Council decision*
+
+_Synkra AIOS Docs — CLAUDE.md v4.1_
+_Última atualização: 2026-02-21 — Sync Mirror v4.1, sanitizador MDX robusto, build 426 páginas_
