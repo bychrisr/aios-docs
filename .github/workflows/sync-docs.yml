@@ -1,0 +1,57 @@
+name: Sync Docs from aios-core
+
+on:
+  schedule:
+    - cron: '0 6 * * *' # Diariamente às 06:00 UTC
+  workflow_dispatch: # Trigger manual via GitHub UI
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    name: Sync & Deploy
+    runs-on: ubuntu-latest
+
+    # Ignora commits gerados por este próprio workflow (evita loop infinito)
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+
+    steps:
+      - name: Checkout aios-docs
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Clone aios-core (shallow)
+        run: git clone --depth 1 https://github.com/SynkraAI/aios-core /tmp/aios-core
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run content sync
+        run: bash scripts/sync-content.sh /tmp/aios-core
+
+      - name: Check for changes
+        id: check
+        run: |
+          git add content/
+          git diff --cached --quiet && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push sync changes
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git commit -m "chore(sync): auto-sync from aios-core $(date -u +%Y-%m-%d) [skip ci]"
+          git push origin main
+
+      - name: No changes detected
+        if: steps.check.outputs.changed == 'false'
+        run: echo "✓ Content already up to date — no sync needed."
