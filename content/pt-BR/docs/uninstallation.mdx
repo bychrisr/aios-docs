@@ -2,54 +2,56 @@
 title: "Uninstallation"
 ---
 
-# Uninstallation Guide
 
-> 🌐 **EN** | [PT](./pt/uninstallation.md) | [ES](./es/uninstallation.md)
+
+# Guia de Desinstalação
+
+> 🌐 [EN](../uninstallation.md) | **PT** | [ES](../es/uninstallation.md)
 
 ---
 
-This guide provides comprehensive instructions for uninstalling Synkra AIOS from your system.
+Este guia fornece instruções completas para desinstalar o Synkra AIOS do seu sistema.
 
-## Table of Contents
+## Índice
 
-1. [Before You Uninstall](#before-you-uninstall)
-2. [Quick Uninstall](#quick-uninstall)
-3. [Complete Uninstall](#complete-uninstall)
-4. [Selective Uninstall](#selective-uninstall)
-5. [Data Preservation](#data-preservation)
-6. [Clean System Removal](#clean-system-removal)
-7. [Troubleshooting Uninstall](#troubleshooting-uninstall)
-8. [Post-Uninstall Cleanup](#post-uninstall-cleanup)
-9. [Reinstallation](#reinstallation)
+1. [Antes de Desinstalar](#antes-de-desinstalar)
+2. [Desinstalação Rápida](#desinstalação-rápida)
+3. [Desinstalação Completa](#desinstalação-completa)
+4. [Desinstalação Seletiva](#desinstalação-seletiva)
+5. [Preservação de Dados](#preservação-de-dados)
+6. [Remoção Limpa do Sistema](#remoção-limpa-do-sistema)
+7. [Resolução de Problemas na Desinstalação](#resolução-de-problemas-na-desinstalação)
+8. [Limpeza Pós-Desinstalação](#limpeza-pós-desinstalação)
+9. [Reinstalação](#reinstalação)
 
-## Before You Uninstall
+## Antes de Desinstalar
 
-### Important Considerations
+### Considerações Importantes
 
-⚠️ **Warning**: Uninstalling Synkra AIOS will:
+**Aviso**: Desinstalar o Synkra AIOS irá:
 
-- Remove all framework files
-- Delete agent configurations (unless preserved)
-- Clear memory layer data (unless backed up)
-- Remove all custom workflows
-- Delete logs and temporary files
+- Remover todos os arquivos do framework
+- Excluir configurações de agentes (a menos que preservadas)
+- Limpar dados da camada de memória (a menos que backup seja feito)
+- Remover todos os workflows personalizados
+- Excluir logs e arquivos temporários
 
-### Pre-Uninstall Checklist
+### Checklist Pré-Desinstalação
 
-- [ ] Backup important data
-- [ ] Export custom agents and workflows
-- [ ] Save API keys and configurations
-- [ ] Document custom modifications
-- [ ] Stop all running processes
-- [ ] Inform team members
+- [ ] Fazer backup de dados importantes
+- [ ] Exportar agentes e workflows personalizados
+- [ ] Salvar chaves de API e configurações
+- [ ] Documentar modificações personalizadas
+- [ ] Parar todos os processos em execução
+- [ ] Informar membros da equipe
 
-### Backup Your Data
+### Faça Backup dos Seus Dados
 
 ```bash
-# Create complete backup
+# Criar backup completo
 npx @synkra/aios-core backup --complete
 
-# Or manually backup important directories
+# Ou fazer backup manual dos diretórios importantes
 tar -czf aios-backup-$(date +%Y%m%d).tar.gz \
   .aios/ \
   agents/ \
@@ -59,208 +61,208 @@ tar -czf aios-backup-$(date +%Y%m%d).tar.gz \
   --exclude=.aios/cache
 ```
 
-## Quick Uninstall
+## Desinstalação Rápida
 
-### Using Built-in Uninstaller
+### Usando o Desinstalador Integrado
 
-The fastest way to uninstall Synkra AIOS:
+A forma mais rápida de desinstalar o Synkra AIOS:
 
 ```bash
-# Basic uninstall (preserves user data)
+# Desinstalação básica (preserva dados do usuário)
 npx @synkra/aios-core uninstall
 
-# Complete uninstall (removes everything)
+# Desinstalação completa (remove tudo)
 npx @synkra/aios-core uninstall --complete
 
-# Uninstall with data preservation
+# Desinstalação com preservação de dados
 npx @synkra/aios-core uninstall --keep-data
 ```
 
-### Interactive Uninstall
+### Desinstalação Interativa
 
-For guided uninstallation:
+Para desinstalação guiada:
 
 ```bash
 npx @synkra/aios-core uninstall --interactive
 ```
 
-This will prompt you for:
+Isso solicitará:
 
-- What to keep/remove
-- Backup options
-- Confirmation for each step
+- O que manter/remover
+- Opções de backup
+- Confirmação para cada etapa
 
-## Complete Uninstall
+## Desinstalação Completa
 
-### Step 1: Stop All Services
+### Etapa 1: Parar Todos os Serviços
 
 ```bash
-# Stop all running agents
+# Parar todos os agentes em execução
 *deactivate --all
 
-# Stop all workflows
+# Parar todos os workflows
 *stop-workflow --all
 
-# Shutdown meta-agent
+# Encerrar o meta-agent
 *shutdown
 ```
 
-### Step 2: Export Important Data
+### Etapa 2: Exportar Dados Importantes
 
 ```bash
-# Export configurations
+# Exportar configurações
 *export config --destination backup/config.json
 
-# Export agents
+# Exportar agentes
 *export agents --destination backup/agents/
 
-# Export workflows
+# Exportar workflows
 *export workflows --destination backup/workflows/
 
-# Export memory data
+# Exportar dados de memória
 *export memory --destination backup/memory.zip
 ```
 
-### Step 3: Run Uninstaller
+### Etapa 3: Executar o Desinstalador
 
 ```bash
-# Complete removal
+# Remoção completa
 npx @synkra/aios-core uninstall --complete --no-backup
 ```
 
-### Step 4: Remove Global Installation
+### Etapa 4: Remover Instalação Global
 
 ```bash
-# Remove global npm package
+# Remover pacote npm global
 npm uninstall -g @synkra/aios-core
 
-# Remove npx cache
+# Remover cache do npx
 npm cache clean --force
 ```
 
-### Step 5: Clean System Files
+### Etapa 5: Limpar Arquivos do Sistema
 
 #### Windows
 
 ```powershell
-# Remove AppData files
+# Remover arquivos do AppData
 Remove-Item -Recurse -Force "$env:APPDATA\@synkra/aios-core"
 
-# Remove temp files
+# Remover arquivos temporários
 Remove-Item -Recurse -Force "$env:TEMP\aios-*"
 
-# Remove registry entries (if any)
+# Remover entradas do registro (se houver)
 Remove-Item -Path "HKCU:\Software\Synkra AIOS" -Recurse
 ```
 
 #### macOS/Linux
 
 ```bash
-# Remove config files
+# Remover arquivos de configuração
 rm -rf ~/.aios
 rm -rf ~/.config/@synkra/aios-core
 
-# Remove cache
+# Remover cache
 rm -rf ~/.cache/@synkra/aios-core
 
-# Remove temp files
+# Remover arquivos temporários
 rm -rf /tmp/aios-*
 ```
 
-## Selective Uninstall
+## Desinstalação Seletiva
 
-### Remove Specific Components
+### Remover Componentes Específicos
 
 ```bash
-# Remove only agents
+# Remover apenas agentes
 npx @synkra/aios-core uninstall agents
 
-# Remove only workflows
+# Remover apenas workflows
 npx @synkra/aios-core uninstall workflows
 
-# Remove memory layer
+# Remover camada de memória
 npx @synkra/aios-core uninstall memory-layer
 
-# Remove specific agent
+# Remover agente específico
 *uninstall agent-name
 ```
 
-### Keep Core, Remove Extensions
+### Manter o Core, Remover Extensões
 
 ```bash
-# Remove all plugins
+# Remover todos os plugins
 *plugin remove --all
 
-# Remove Squads
+# Remover Squads
 rm -rf Squads/
 
-# Remove custom templates
+# Remover templates personalizados
 rm -rf templates/custom/
 ```
 
-## Data Preservation
+## Preservação de Dados
 
-### What to Keep
+### O Que Manter
 
-Before uninstalling, identify what you want to preserve:
+Antes de desinstalar, identifique o que você quer preservar:
 
-1. **Custom Agents**
+1. **Agentes Personalizados**
 
    ```bash
-   # Copy custom agents
+   # Copiar agentes personalizados
    cp -r agents/custom/ ~/aios-backup/agents/
    ```
 
-2. **Workflows and Tasks**
+2. **Workflows e Tasks**
 
    ```bash
-   # Copy workflows
+   # Copiar workflows
    cp -r workflows/ ~/aios-backup/workflows/
    cp -r tasks/ ~/aios-backup/tasks/
    ```
 
-3. **Memory Data**
+3. **Dados de Memória**
 
    ```bash
-   # Export memory database
+   # Exportar banco de dados de memória
    *memory export --format sqlite \
      --destination ~/aios-backup/memory.db
    ```
 
-4. **Configurations**
+4. **Configurações**
 
    ```bash
-   # Copy all config files
+   # Copiar todos os arquivos de configuração
    cp .aios/config.json ~/aios-backup/
    cp .env ~/aios-backup/
    ```
 
-5. **Custom Code**
+5. **Código Personalizado**
    ```bash
-   # Find and backup custom files
+   # Encontrar e fazer backup de arquivos personalizados
    find . -name "*.custom.*" -exec cp {} ~/aios-backup/custom/ \;
    ```
 
-### Preservation Script
+### Script de Preservação
 
-Create `preserve-data.sh`:
+Crie `preserve-data.sh`:
 
 ```bash
 #!/bin/bash
 BACKUP_DIR="$HOME/aios-backup-$(date +%Y%m%d-%H%M%S)"
 
-echo "Creating backup directory: $BACKUP_DIR"
+echo "Criando diretório de backup: $BACKUP_DIR"
 mkdir -p "$BACKUP_DIR"
 
-# Backup function
+# Função de backup
 backup_if_exists() {
     if [ -e "$1" ]; then
-        echo "Backing up $1..."
+        echo "Fazendo backup de $1..."
         cp -r "$1" "$BACKUP_DIR/"
     fi
 }
 
-# Backup all important data
+# Backup de todos os dados importantes
 backup_if_exists ".aios"
 backup_if_exists "agents"
 backup_if_exists "workflows"
@@ -269,34 +271,34 @@ backup_if_exists "templates"
 backup_if_exists ".env"
 backup_if_exists "package.json"
 
-echo "Backup completed at: $BACKUP_DIR"
+echo "Backup concluído em: $BACKUP_DIR"
 ```
 
-## Clean System Removal
+## Remoção Limpa do Sistema
 
-### Complete Cleanup Script
+### Script de Limpeza Completa
 
-Create `clean-uninstall.sh`:
+Crie `clean-uninstall.sh`:
 
 ```bash
 #!/bin/bash
-echo "Synkra AIOS Complete Uninstall"
+echo "Desinstalação Completa do Synkra AIOS"
 echo "================================="
 
-# Confirmation
-read -p "This will remove ALL Synkra AIOS data. Continue? (y/N) " -n 1 -r
+# Confirmação
+read -p "Isso removerá TODOS os dados do Synkra AIOS. Continuar? (y/N) " -n 1 -r
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     exit 1
 fi
 
-# Stop all processes
-echo "Stopping all processes..."
+# Parar todos os processos
+echo "Parando todos os processos..."
 pkill -f "@synkra/aios-core" || true
 pkill -f "aios-developer" || true
 
-# Remove project files
-echo "Removing project files..."
+# Remover arquivos do projeto
+echo "Removendo arquivos do projeto..."
 rm -rf .aios/
 rm -rf agents/
 rm -rf workflows/
@@ -305,67 +307,67 @@ rm -rf templates/
 rm -rf Squads/
 rm -rf node_modules/@synkra/aios-core/
 
-# Remove global files
-echo "Removing global files..."
+# Remover arquivos globais
+echo "Removendo arquivos globais..."
 npm uninstall -g @synkra/aios-core
 
-# Remove user data
-echo "Removing user data..."
+# Remover dados do usuário
+echo "Removendo dados do usuário..."
 rm -rf ~/.aios
 rm -rf ~/.config/@synkra/aios-core
 rm -rf ~/.cache/@synkra/aios-core
 
-# Clean npm cache
-echo "Cleaning npm cache..."
+# Limpar cache do npm
+echo "Limpando cache do npm..."
 npm cache clean --force
 
-# Remove from package.json
-echo "Updating package.json..."
+# Remover do package.json
+echo "Atualizando package.json..."
 npm uninstall @synkra/aios-core/core
 npm uninstall @synkra/aios-core/memory
 npm uninstall @synkra/aios-core/meta-agent
 
-echo "Uninstall complete!"
+echo "Desinstalação concluída!"
 ```
 
-### Registry Cleanup (Windows)
+### Limpeza do Registro (Windows)
 
 ```powershell
-# PowerShell script for Windows cleanup
-Write-Host "Cleaning Synkra AIOS from Windows Registry..."
+# Script PowerShell para limpeza no Windows
+Write-Host "Limpando Synkra AIOS do Registro do Windows..."
 
-# Remove from PATH
+# Remover do PATH
 $path = [Environment]::GetEnvironmentVariable("PATH", "User")
 $newPath = ($path.Split(';') | Where-Object { $_ -notmatch '@synkra/aios-core' }) -join ';'
 [Environment]::SetEnvironmentVariable("PATH", $newPath, "User")
 
-# Remove registry keys
+# Remover chaves do registro
 Remove-ItemProperty -Path "HKCU:\Environment" -Name "AIOS_*" -ErrorAction SilentlyContinue
 
-# Remove file associations
+# Remover associações de arquivo
 Remove-Item -Path "HKCU:\Software\Classes\.aios" -Recurse -ErrorAction SilentlyContinue
 
-Write-Host "Registry cleanup complete!"
+Write-Host "Limpeza do registro concluída!"
 ```
 
-## Troubleshooting Uninstall
+## Resolução de Problemas na Desinstalação
 
-### Common Issues
+### Problemas Comuns
 
-#### 1. Permission Denied
+#### 1. Permissão Negada
 
 ```bash
 # Linux/macOS
 sudo npx @synkra/aios-core uninstall --complete
 
-# Windows (Run as Administrator)
+# Windows (Executar como Administrador)
 npx @synkra/aios-core uninstall --complete
 ```
 
-#### 2. Process Still Running
+#### 2. Processo Ainda em Execução
 
 ```bash
-# Force stop all processes
+# Forçar parada de todos os processos
 # Linux/macOS
 killall -9 node
 killall -9 @synkra/aios-core
@@ -375,10 +377,10 @@ taskkill /F /IM node.exe
 taskkill /F /IM @synkra/aios-core.exe
 ```
 
-#### 3. Files Locked
+#### 3. Arquivos Bloqueados
 
 ```bash
-# Find processes using files
+# Encontrar processos usando os arquivos
 # Linux/macOS
 lsof | grep aios
 
@@ -386,169 +388,169 @@ lsof | grep aios
 Get-Process | Where-Object {$_.Path -like "*aios*"}
 ```
 
-#### 4. Incomplete Removal
+#### 4. Remoção Incompleta
 
 ```bash
-# Manual cleanup
+# Limpeza manual
 find . -name "*aios*" -type d -exec rm -rf {} +
 find . -name "*.aios*" -type f -delete
 ```
 
-### Force Uninstall
+### Desinstalação Forçada
 
-If normal uninstall fails:
+Se a desinstalação normal falhar:
 
 ```bash
 #!/bin/bash
 # force-uninstall.sh
-echo "Force uninstalling Synkra AIOS..."
+echo "Desinstalação forçada do Synkra AIOS..."
 
-# Kill all related processes
+# Matar todos os processos relacionados
 pkill -9 -f aios || true
 
-# Remove all files
+# Remover todos os arquivos
 rm -rf .aios* aios* *aios*
 rm -rf agents workflows tasks templates
 rm -rf node_modules/@synkra/aios-core
 rm -rf ~/.aios* ~/.config/aios* ~/.cache/aios*
 
-# Clean npm
+# Limpar npm
 npm cache clean --force
 npm uninstall -g @synkra/aios-core
 
-echo "Force uninstall complete!"
+echo "Desinstalação forçada concluída!"
 ```
 
-## Post-Uninstall Cleanup
+## Limpeza Pós-Desinstalação
 
-### 1. Verify Removal
+### 1. Verificar Remoção
 
 ```bash
-# Check for remaining files
+# Verificar arquivos restantes
 find . -name "*aios*" 2>/dev/null
 find ~ -name "*aios*" 2>/dev/null
 
-# Check npm packages
+# Verificar pacotes npm
 npm list -g | grep aios
 npm list | grep aios
 
-# Check running processes
+# Verificar processos em execução
 ps aux | grep aios
 ```
 
-### 2. Clean Environment Variables
+### 2. Limpar Variáveis de Ambiente
 
 ```bash
-# Remove from .bashrc/.zshrc
+# Remover do .bashrc/.zshrc
 sed -i '/AIOS_/d' ~/.bashrc
 sed -i '/@synkra/aios-core/d' ~/.bashrc
 
-# Remove from .env files
+# Remover de arquivos .env
 find . -name ".env*" -exec sed -i '/AIOS_/d' {} \;
 ```
 
-### 3. Update Project Files
+### 3. Atualizar Arquivos do Projeto
 
 ```javascript
-// Remove from package.json scripts
+// Remover do package.json scripts
 {
   "scripts": {
-    // Remove these entries
+    // Remover estas entradas
     "aios": "@synkra/aios-core",
     "meta-agent": "@synkra/aios-core meta-agent"
   }
 }
 ```
 
-### 4. Clean Git Repository
+### 4. Limpar Repositório Git
 
 ```bash
-# Remove AIOS-specific git hooks
+# Remover hooks git específicos do AIOS
 rm -f .git/hooks/*aios*
 
-# Update .gitignore
+# Atualizar .gitignore
 sed -i '/.aios/d' .gitignore
 sed -i '/aios-/d' .gitignore
 
-# Commit removal
+# Commitar remoção
 git add -A
 git commit -m "Remove Synkra AIOS"
 ```
 
-## Reinstallation
+## Reinstalação
 
-### After Complete Uninstall
+### Após Desinstalação Completa
 
-If you want to reinstall Synkra AIOS:
+Se você quiser reinstalar o Synkra AIOS:
 
-1. **Wait for cleanup**
+1. **Aguardar a limpeza**
 
    ```bash
-   # Ensure all processes stopped
+   # Garantir que todos os processos pararam
    sleep 5
    ```
 
-2. **Clear npm cache**
+2. **Limpar cache do npm**
 
    ```bash
    npm cache clean --force
    ```
 
-3. **Fresh installation**
+3. **Instalação limpa**
    ```bash
    npx @synkra/aios-core@latest init my-project
    ```
 
-### Restoring from Backup
+### Restaurar a partir do Backup
 
 ```bash
-# Restore saved data
+# Restaurar dados salvos
 cd my-project
 
-# Restore configurations
+# Restaurar configurações
 cp ~/aios-backup/config.json .aios/
 
-# Restore agents
+# Restaurar agentes
 cp -r ~/aios-backup/agents/* ./agents/
 
-# Import memory
+# Importar memória
 *memory import ~/aios-backup/memory.zip
 
-# Verify restoration
+# Verificar restauração
 *doctor --verify-restore
 ```
 
-## Uninstall Verification Checklist
+## Checklist de Verificação de Desinstalação
 
-- [ ] All AIOS processes stopped
-- [ ] Project files removed
-- [ ] Global npm package uninstalled
-- [ ] User configuration files deleted
-- [ ] Cache directories cleaned
-- [ ] Environment variables removed
-- [ ] Registry entries cleaned (Windows)
-- [ ] Git repository updated
-- [ ] No remaining AIOS files found
-- [ ] System PATH updated
+- [ ] Todos os processos AIOS parados
+- [ ] Arquivos do projeto removidos
+- [ ] Pacote npm global desinstalado
+- [ ] Arquivos de configuração do usuário excluídos
+- [ ] Diretórios de cache limpos
+- [ ] Variáveis de ambiente removidas
+- [ ] Entradas do registro limpas (Windows)
+- [ ] Repositório git atualizado
+- [ ] Nenhum arquivo AIOS restante encontrado
+- [ ] PATH do sistema atualizado
 
-## Getting Help
+## Obtendo Ajuda
 
-If you encounter issues during uninstallation:
+Se você encontrar problemas durante a desinstalação:
 
-1. **Check Documentation**
+1. **Consulte a Documentação**
    - [FAQ](https://github.com/SynkraAI/aios-core/wiki/faq#uninstall)
-   - [Troubleshooting](https://github.com/SynkraAI/aios-core/wiki/troubleshooting)
+   - [Resolução de Problemas](https://github.com/SynkraAI/aios-core/wiki/troubleshooting)
 
-2. **Community Support**
+2. **Suporte da Comunidade**
    - Discord: #uninstall-help
-   - GitHub Issues: Label with "uninstall"
+   - GitHub Issues: Rotule com "uninstall"
 
-3. **Emergency Support**
+3. **Suporte de Emergência**
    ```bash
-   # Generate uninstall report
+   # Gerar relatório de desinstalação
    npx @synkra/aios-core diagnose --uninstall > uninstall-report.log
    ```
 
 ---
 
-**Remember**: Always backup your data before uninstalling. The uninstall process is irreversible, and data recovery may not be possible without proper backups.
+**Lembre-se**: Sempre faça backup dos seus dados antes de desinstalar. O processo de desinstalação é irreversível, e a recuperação de dados pode não ser possível sem backups adequados.

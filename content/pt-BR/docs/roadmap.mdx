@@ -2,140 +2,122 @@
 title: "Roadmap"
 ---
 
-# AIOS Roadmap
+# Roadmap do AIOS
 
-> 🇧🇷 [Versão em Português](ROADMAP-PT.md)
+> 🇺🇸 [English Version](ROADMAP.md)
 
-This document outlines the planned development direction for AIOS.
+Este documento descreve a direção de desenvolvimento planejada para o AIOS.
 
-> For detailed tracking, see our [GitHub Project](https://github.com/orgs/SynkraAI/projects/1)
+> Para rastreamento detalhado, veja nosso [Projeto GitHub](https://github.com/orgs/SynkraAI/projects/1)
 
-## Vision
+## Visão
 
-AIOS aims to be the most comprehensive open-source AI agent framework, enabling developers to build sophisticated AI-powered applications with specialized agent teams (Squads) and seamless IDE integration.
+O AIOS visa ser o framework de agentes IA open-source mais abrangente, permitindo que desenvolvedores construam aplicações sofisticadas com equipes de agentes especializados (Squads) e integração perfeita com IDEs.
 
-## Current Focus (Q1 2026)
+## Foco Atual (Q1 2026)
 
-### v4.0.4 Release
+### Release v4.2
 
-Core framework stabilization and community infrastructure:
+Estabilização do framework principal e infraestrutura da comunidade:
 
-- [x] Hybrid installer (npx + interactive wizard)
-- [x] 4-module architecture (Core, Squads, MCP Ecosystem, Premium)
-- [x] Service Discovery system
-- [x] Quality Gates (3 layers: pre-commit, pre-push, CI/CD)
+- [x] Instalador híbrido (npx + assistente interativo)
+- [x] Arquitetura de 4 módulos (Core, Squads, Ecossistema MCP, Premium)
+- [x] Sistema de Service Discovery
+- [x] Quality Gates (3 camadas: pre-commit, pre-push, CI/CD)
 - [x] Template Engine
-- [x] CodeRabbit integration for automated code review
-- [ ] Open-source community infrastructure (in progress)
+- [x] Integração CodeRabbit para revisão de código automatizada
+- [ ] Infraestrutura de comunidade open-source (em progresso)
 
-### Community Building
+### Construção da Comunidade
 
-- [x] GitHub Discussions setup
-- [x] Contribution guides (CONTRIBUTING.md, COMMUNITY.md)
-- [x] Feature request process (FEATURE_PROCESS.md)
-- [x] Public roadmap (this document!)
-- [ ] Starter squad registry
+- [x] Configuração do GitHub Discussions
+- [x] Guias de contribuição (CONTRIBUTING.md, COMMUNITY.md)
+- [x] Processo de solicitação de features (FEATURE_PROCESS.md)
+- [x] Roadmap público (este documento!)
+- [ ] Registro de Squads
 
-## Next Up (Q2 2026)
+## Próximos Passos (Q2 2026)
 
-### P0 Strategic Focus: Learning Curve Reduction
+### Planejamento v2.2
 
-Primary objective for AIOS 4.0.x execution:
+- Implementação do Memory Layer para persistência de contexto de agentes
+- Capacidades aprimoradas de colaboração entre agentes
+- Otimizações de performance para grandes codebases
+- Tratamento de erros e recuperação aprimorados
 
-- onboarding-first experience (single "start here" path)
-- time-to-first-value <= 10 minutes for new users
-- clearer agent activation across IDEs (Codex, Gemini, Cursor, Copilot, Claude)
-- runtime-guided next action (state-driven, not command-list driven)
+### Features da Comunidade
 
-Tracking reference:
-- `docs/strategy/AIOS-LEARNING-CURVE-FOCUS-4.0.4.md`
-- `docs/strategy/AIOS-DIFFERENTIATION-PLAN-4.0.4.md`
+- Marketplace de Squads (equipes de agentes contribuídas pela comunidade)
+- Sistema de reconhecimento de contribuidores
+- Suporte a tradução (PT-BR prioridade)
 
-Execution gates:
-- P0 gate: onboarding metric + clear IDE matrix + first-value flow + smoke tests
-- P1 gate: compatibility contract enforced in CI + risk profiles + handoffs + confidence score
-- P2 gate: vertical tracks reproducible + brownfield pipeline + taxonomy lint
+## Exploração Futura
 
-### Platform Planning
+Estes itens estão sendo explorados mas ainda não confirmados:
 
-- Memory Layer implementation for agent context persistence
-- Enhanced agent collaboration capabilities
-- Performance optimizations for large codebases
-- Improved error handling and recovery
+- Suporte multi-idioma para definições de agentes
+- Opções de deploy em cloud para equipes distribuídas
+- Construtor visual de workflows para usuários não técnicos
+- Marketplace de plugins para integrações de terceiros
+- Analytics e telemetria aprimorados (opt-in)
 
-### Community Features
+## Como Influenciar o Roadmap
 
-- Squads marketplace (community-contributed agent teams)
-- Contributor recognition system
-- Translation support (PT-BR priority)
+Aceitamos contribuição da comunidade sobre nossa direção! Veja como participar:
 
-## Future Exploration
+### 1. Vote em Ideias
 
-These items are being explored but not yet committed:
+Reaja com :+1: em [Ideias nas Discussões](https://github.com/SynkraAI/aios-core/discussions/categories/ideas) existentes para mostrar apoio.
 
-- Multi-language support for agent definitions
-- Cloud deployment options for distributed teams
-- Visual workflow builder for non-technical users
-- Plugin marketplace for third-party integrations
-- Enhanced analytics and telemetry (opt-in)
+### 2. Proponha Features
 
-## How to Influence the Roadmap
+Tem uma nova ideia? Abra uma [Discussão de Ideia](https://github.com/SynkraAI/aios-core/discussions/new?category=ideas) para compartilhar com a comunidade.
 
-We welcome community input on our direction! Here's how to participate:
+### 3. Escreva um RFC
 
-### 1. Vote on Ideas
+Para features significativas que precisam de design detalhado, [submeta um RFC](/.github/RFC_TEMPLATE.md) seguindo nosso processo estruturado.
 
-React with :+1: on existing [Ideas in Discussions](https://github.com/SynkraAI/aios-core/discussions/categories/ideas) to show support.
+### 4. Contribua Diretamente
 
-### 2. Propose Features
-
-Have a new idea? Open an [Idea Discussion](https://github.com/SynkraAI/aios-core/discussions/new?category=ideas) to share it with the community.
-
-### 3. Write an RFC
-
-For significant features that need detailed design, [submit an RFC](/.github/RFC_TEMPLATE.md) following our structured process.
-
-### 4. Contribute Directly
-
-Found something you want to implement? Check our [Contributing Guide](CONTRIBUTING.md) and [Feature Process](docs/FEATURE_PROCESS.md).
+Encontrou algo que quer implementar? Veja nosso [Guia de Contribuição](CONTRIBUTING-PT.md) e [Processo de Features](docs/FEATURE_PROCESS.md).
 
 ## Changelog
 
-For what's already shipped, see [CHANGELOG.md](CHANGELOG.md).
+Para o que já foi entregue, veja [CHANGELOG.md](CHANGELOG.md).
 
-## Update Process
+## Processo de Atualização
 
-This roadmap is reviewed and updated monthly by the project maintainers.
+Este roadmap é revisado e atualizado mensalmente pelos mantenedores do projeto.
 
-**Process:**
-1. Review progress on current items
-2. Update status of completed/in-progress items
-3. Add newly approved features from community discussions
-4. Remove cancelled or deprioritized items
-5. Communicate significant changes via [Announcements](https://github.com/SynkraAI/aios-core/discussions/categories/announcements)
+**Processo:**
+1. Revisar progresso nos itens atuais
+2. Atualizar status de itens concluídos/em progresso
+3. Adicionar features recém-aprovadas das discussões da comunidade
+4. Remover itens cancelados ou despriorizados
+5. Comunicar mudanças significativas via [Anúncios](https://github.com/SynkraAI/aios-core/discussions/categories/announcements)
 
-**Responsible:** @pm (Morgan) or @po (Pax) agents, with maintainer oversight.
+**Responsáveis:** Agentes @pm (Morgan) ou @po (Pax), com supervisão dos mantenedores.
 
-### Sync with Internal Backlog
+### Sincronização com Backlog Interno
 
-This public roadmap is synchronized with our internal sprint planning:
+Este roadmap público é sincronizado com nosso planejamento interno de sprints:
 
-| Public Roadmap | Internal Tracking |
-|----------------|-------------------|
-| [GitHub Project](https://github.com/orgs/SynkraAI/projects/1) | `docs/strategy/AIOS-DIFFERENTIATION-PLAN-4.0.4.md` |
-| High-level features | Detailed stories per sprint |
-| Quarterly timeline | Sprint-based execution |
+| Roadmap Público | Rastreamento Interno |
+|-----------------|---------------------|
+| [Projeto GitHub](https://github.com/orgs/SynkraAI/projects/1) | `docs/stories/backlog.md` |
+| Features de alto nível | Stories detalhadas por sprint |
+| Timeline trimestral | Execução baseada em sprints |
 
-**Sync Checklist (Monthly):**
-- [ ] Review completed sprints against strategy docs in `docs/strategy/`
-- [ ] Update GitHub Project items status (Done/In Progress)
-- [ ] Add new approved features from backlog to Project
-- [ ] Update this ROADMAP.md with latest progress
+**Checklist de Sincronização (Mensal):**
+- [ ] Revisar sprints concluídos em `docs/stories/v4.0.4/`
+- [ ] Atualizar status dos itens do Projeto GitHub (Done/In Progress)
+- [ ] Adicionar novas features aprovadas do backlog ao Projeto
+- [ ] Atualizar este ROADMAP.md com o progresso mais recente
 
-## Disclaimer
+## Aviso Legal
 
-This roadmap represents our current plans and is subject to change based on community feedback, technical constraints, and strategic priorities. Dates are estimated quarters, not commitments. We use quarters rather than specific dates to maintain flexibility while providing visibility into our direction.
+Este roadmap representa nossos planos atuais e está sujeito a mudanças baseadas em feedback da comunidade, restrições técnicas e prioridades estratégicas. Datas são trimestres estimados, não compromissos. Usamos trimestres em vez de datas específicas para manter flexibilidade enquanto fornecemos visibilidade sobre nossa direção.
 
 ---
 
-*Last updated: 2026-02-16*
+*Última atualização: 2025-12-15*

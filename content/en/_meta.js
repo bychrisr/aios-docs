@@ -4,10 +4,6 @@ export default {
     type: 'page',
     display: 'hidden'
   },
-  docs: {
-    title: 'Documentation',
-    type: 'page'
-  },
   playbook: {
     title: 'Playbook',
     type: 'page'
