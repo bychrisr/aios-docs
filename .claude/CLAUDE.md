@@ -198,11 +198,10 @@ Script Node.js que processa cada arquivo `.md` via `stdin` → `stdout`, tornand
 
 ### Prioridade Alta
 
-1. **CI/CD: GitHub Actions para sync automático**
-   - Criar `.github/workflows/sync-content.yml`
-   - Trigger: push no `aios-core` + daily cron (6:00 UTC)
-   - Steps: clone aios-core → sync → build → deploy Vercel
-   - Variáveis de ambiente necessárias: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`
+1. ~~**CI/CD: GitHub Actions para sync automático**~~ ✅ **FEITO** (2026-02-21)
+   - `sync-content.yml`: cron diário 06:00 UTC + trigger manual — zero secrets necessários
+   - `pr-validate.yml`: gate de build MDX em todo PR para `main`
+   - Vercel auto-deploya via integração GitHub existente no push em `main`
 
 2. **Melhorar sanitizador para habilitar BROWNFIELD-SERVICE-WORKFLOW**
    - O arquivo tem mermaid extremamente complexo com chaves aninhadas
@@ -268,26 +267,31 @@ O script `build` executa: `next build && pagefind --site .next/server/app --outp
 
 ---
 
-## Metricas de Build Atuais (2026-02-21)
+## Métricas de Build Atuais (2026-02-21)
 
-- **Páginas estáticas:** 426 de 426 geradas com sucesso
-- **Páginas indexadas:** 423 (Pagefind)
-- **Palavras indexadas:** 37.383
+- **Páginas estáticas:** 426+ geradas com sucesso
+- **Arquivos MDX sincronizados:** 381 (en: 136, pt-BR: 110, es: 135)
 - **Idiomas:** 3 (pt-BR, en, es)
-- **Branch ativa:** `fix/build-recovery-and-sync`
+- **Sync automático:** diariamente às 06:00 UTC via GitHub Actions
+- **Branch de trabalho:** sempre via PR — nunca direto em `main`
 
 ---
 
 ## Vercel e CI/CD
 
-### Deployment Manual
+### GitHub Actions (automático)
+
+| Workflow | Trigger | O que faz |
+| -------- | ------- | --------- |
+| `sync-content.yml` | Cron 06:00 UTC + manual | Clona aios-core, sync, commit em main |
+| `pr-validate.yml` | Todo PR para main | `next build` — valida MDX antes do merge |
+
+O Vercel detecta o push em `main` e deploya automaticamente (integração GitHub).
+
+### Deployment Manual (quando necessário)
 
 ```bash
-# Deploy para produção
 vercel deploy --prod --yes --scope christians-projects-623587aa
-
-# Verificar status de deployment
-vercel inspect <deployment-url> --logs
 ```
 
 ### Environment Variables (Vercel)
@@ -359,12 +363,14 @@ NEXT_PUBLIC_SITE_URL=https://docs.synkraaios.site
 
 ## Git Conventions
 
-- Branch ativa: `fix/build-recovery-and-sync`
+- **NUNCA trabalhar direto em `main`** — sempre criar branch, abrir PR, mergear
+- Prefixos de branch: `feat/`, `fix/`, `chore/`, `docs/`
 - Conventional commits: `feat:`, `fix:`, `docs:`, `chore:`
 - Nunca commitar `.env`
 - `public/_pagefind/` ignorado pelo git (gerado no build)
+- Exceção: bot de sync (`github-actions[bot]`) commita direto em `main` com `[skip ci]`
 
 ---
 
-_Synkra AIOS Docs — CLAUDE.md v4.1_
-_Última atualização: 2026-02-21 — Sync Mirror v4.1, sanitizador MDX robusto, build 426 páginas_
+_Synkra AIOS Docs — CLAUDE.md v4.2_
+_Última atualização: 2026-02-21 — CI/CD GitHub Actions, PR gate de build, branches organizados, regra no-direct-main_
