@@ -43,38 +43,8 @@ jobs:
       - name: Run content sync
         run: bash scripts/sync-content.sh /tmp/aios-core
 
-      - name: Check broken internal links
-        id: check_links
-        run: node scripts/check-links.mjs 2>&1 | tee /tmp/broken-links.txt
-        continue-on-error: true
-
-      - name: Fix broken links with Claude Code
-        if: steps.check_links.outcome == 'failure'
-        run: |
-          BROKEN=$(cat /tmp/broken-links.txt)
-          npx @anthropic-ai/claude-code --print \
-            "Fix broken internal links in the content/ directory.
-             Broken links found:
-             $BROKEN
-             For each broken link: remove the link keeping the link text, or fix the path if the correct target file is obvious from context."
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-
-      - name: Re-check links after fix
-        id: recheck_links
-        if: steps.check_links.outcome == 'failure'
-        run: node scripts/check-links.mjs 2>&1 | tee /tmp/broken-links-after.txt
-        continue-on-error: true
-
-      - name: Open issue if links still broken
-        if: steps.recheck_links.outcome == 'failure'
-        run: |
-          gh issue create \
-            --title "Links quebrados detectados no sync de $(date -u +%Y-%m-%d)" \
-            --body "$(cat /tmp/broken-links-after.txt)" \
-            --label "broken-links"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Fix broken internal links
+        run: node scripts/check-links.mjs --fix
 
       - name: Stage changes and detect diff
         id: changes

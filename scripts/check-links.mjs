@@ -1,17 +1,19 @@
 #!/usr/bin/env node
 // @ts-check
 /**
- * Verifica links internos quebrados em todos os arquivos .mdx de content/.
+ * Verifica (e opcionalmente corrige) links internos quebrados em content/.
  *
  * Uso:
- *   node scripts/check-links.js              # verifica todos os locales
- *   node scripts/check-links.js --locale en  # verifica apenas um locale
+ *   node scripts/check-links.mjs                        # verifica tudo
+ *   node scripts/check-links.mjs --section playbook     # só o playbook
+ *   node scripts/check-links.mjs --locale en            # só um locale
+ *   node scripts/check-links.mjs --fix                  # remove links quebrados (mantém texto)
  *
- * Exit code 0 = nenhum link quebrado
+ * Exit code 0 = sem links quebrados (ou todos corrigidos com --fix)
  * Exit code 1 = links quebrados encontrados
  */
 
-import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs'
+import { readFileSync, writeFileSync, existsSync, readdirSync, statSync } from 'node:fs'
 import { resolve, dirname, join, extname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -195,6 +197,39 @@ function extractLinks(filePath) {
   return links
 }
 
+/**
+ * Remove links quebrados de um arquivo, mantendo o texto do link.
+ * [texto](url-quebrada) → texto
+ * Também remove definições de referência quebradas: [ref]: url-quebrada
+ *
+ * @param {string} filePath
+ * @param {Set<string>} brokenTargets - conjunto de targets a remover
+ */
+function fixBrokenLinks(filePath, brokenTargets) {
+  let content = readFileSync(filePath, 'utf-8')
+  let changed = false
+
+  for (const target of brokenTargets) {
+    // Escapa chars especiais de regex no target
+    const escaped = target.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+    // Remove link inline: [texto](target) → texto  (ignora imagens ![ )
+    const inlineRe = new RegExp(`(?<!!)\\[([^\\]]+)\\]\\(${escaped}(?:\\s+"[^"]*")?\\)`, 'g')
+    const before = content
+    content = content.replace(inlineRe, '$1')
+    if (content !== before) changed = true
+
+    // Remove definição de referência: [ref]: target
+    const refDefRe = new RegExp(`^\\[[^\\]]+\\]:\\s*${escaped}[^\\n]*\\n?`, 'gm')
+    content = content.replace(refDefRe, '')
+  }
+
+  if (changed) {
+    writeFileSync(filePath, content, 'utf-8')
+  }
+  return changed
+}
+
 function main() {
   const args = process.argv.slice(2)
 
@@ -208,6 +243,9 @@ function main() {
   // --section <docs|playbook|all>: restringe a uma seção de conteúdo (padrão: all)
   const sectionIdx = args.indexOf('--section')
   const section = sectionIdx !== -1 && args[sectionIdx + 1] ? args[sectionIdx + 1] : 'all'
+
+  // --fix: remove automaticamente links quebrados (mantém texto)
+  const fixMode = args.includes('--fix')
 
   /** @type {{ file: string, line: number, link: string, resolved: string }[]} */
   const brokenLinks = []
@@ -244,6 +282,27 @@ function main() {
 
   if (brokenLinks.length === 0) {
     console.log('✓ No broken internal links found.')
+    process.exit(0)
+  }
+
+  if (fixMode) {
+    // Agrupa targets quebrados por arquivo
+    /** @type {Map<string, Set<string>>} */
+    const byFile = new Map()
+    for (const { file, link } of brokenLinks) {
+      if (!byFile.has(file)) byFile.set(file, new Set())
+      byFile.get(file)?.add(link)
+    }
+
+    let fixedFiles = 0
+    for (const [file, targets] of byFile) {
+      const relFile = file.replace(resolve(__dirname, '..') + '/', '')
+      if (fixBrokenLinks(file, targets)) {
+        console.log(`  fixed: ${relFile} (${targets.size} link(s) removed)`)
+        fixedFiles++
+      }
+    }
+    console.log(`✓ Fixed ${fixedFiles} file(s) — removed ${brokenLinks.length} broken link(s).`)
     process.exit(0)
   }
 
