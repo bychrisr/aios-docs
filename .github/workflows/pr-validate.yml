@@ -28,5 +28,8 @@ jobs:
           NEXT_PUBLIC_SITE_URL: https://docs.synkraaios.site
           NODE_OPTIONS: "--max-old-space-size=6144"
 
+      - name: Check broken internal links (playbook only)
+        run: node scripts/check-links.mjs --section playbook
+
       - name: Build success
         run: echo "✓ All ${{ github.event.pull_request.head.ref }} MDX pages compiled successfully."
