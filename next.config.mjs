@@ -18,6 +18,11 @@ export default withNextra({
         source: '/:lang(pt-BR|en|es)',
         destination: '/:lang/docs',
         permanent: false
+      },
+      {
+        source: '/:lang(pt-BR|en|es)/docs',
+        destination: '/:lang/docs/getting-started',
+        permanent: false
       }
     ]
   }
