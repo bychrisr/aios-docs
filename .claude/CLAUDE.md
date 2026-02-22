@@ -122,7 +122,7 @@ Script Bash que espelha a documentação do `aios-core` para o site.
 **Exclusões aplicadas (conteúdo interno ou incompatível com MDX):**
 
 - Pastas: `stories/`, `research/`, `handoffs/`, `qa/`, `releases/`, `strategy/`
-- Arquivos: `guides/agents/traces/*`, `guides/agents/*-SYSTEM.md`, `guides/workflows/xref-*`, `guides/workflows/AIOS-COMPLETE-CROSS-REFERENCE-ANALYSIS.md`, `00-shared-activation-pipeline*`
+- Arquivos: `guides/agents/traces/*`, `guides/agents/*-SYSTEM.md`, `guides/workflows/xref-*`, `guides/workflows/AIOS-COMPLETE-CROSS-REFERENCE-ANALYSIS.md`
 
 **Uso:**
 
@@ -145,6 +145,24 @@ Script Node.js que processa cada arquivo `.md` via `stdin` → `stdout`, tornand
 7. **Chaves literais `{texto}`** → convertidas para `[texto]` (causavam erros Acorn)
 8. **Tags HTML dentro de blocos Mermaid** → múltiplos passes para aninhamento; `<br/>` vira `/`, outras tags removidas mantendo texto
 9. **`&` literal em labels Mermaid** → escapado para `&amp;` (causava erros de parsing)
+10. **`{texto}` em blocos Mermaid** (losango/rhombus) → convertido para `[texto]` (retângulo) (v4.4)
+
+### `scripts/sync-monitor.sh`
+
+Script Bash que compara o `aios-core` com o `content/` e reporta arquivos não sincronizados.
+
+**Funcionalidades:**
+
+- Verifica EN (docs/ raiz), PT-BR (docs/pt/) e ES (docs/es/) separadamente
+- Ignora exclusões intencionais (mesmo conjunto do `sync-content.sh`)
+- Exit code 1 quando há arquivos faltando (integrável em CI)
+- Relatório com contagem: sincronizados / faltando / excluídos intencionalmente
+
+**Uso:**
+
+```bash
+bash scripts/sync-monitor.sh /path/to/aios-core-clone
+```
 
 ---
 
@@ -189,7 +207,7 @@ Script Node.js que processa cada arquivo `.md` via `stdin` → `stdout`, tornand
 | **BROWNFIELD-SERVICE-WORKFLOW (EN)**      | Habilitado via sanitizador melhorado (v4.3) — testado no próximo sync     | A ser confirmado no próximo sync do CI          |
 | **guides/agents/traces/**                 | Excluído — são execution traces técnicos não adequados para docs públicas | Normal                                          |
 | **docs-agent-technical-specification.md** | Excluído (PT e ES) — incompatível MDX irrecuperável                       | Especificação técnica ausente                   |
-| **00-shared-activation-pipeline.md**      | Excluído — mermaid com sintaxe muito complexa                             | Doc de pipeline de ativação ausente             |
+| **00-shared-activation-pipeline.md**      | Habilitado via sanitizador v4.4 — `{}` em mermaid convertido para `[]`   | A ser confirmado no próximo sync do CI          |
 | **EN > PT > ES**                          | Gap de cobertura real entre idiomas                                       | Esperado enquanto traduções não estão completas |
 | **Playbook não espelhado do aios-core**   | Playbook usa conteúdo mantido manualmente neste repo                      | Pode divergir do aios-core                      |
 
@@ -231,20 +249,13 @@ Script Node.js que processa cada arquivo `.md` via `stdin` → `stdout`, tornand
    - 11 testes, 33 variantes (3 browsers): render, sync, workflow, multi-idioma, playbook, cheat-sheet, agents (todos os 12), onboarding, trails sem links quebrados
    - Seletores escopados a `article/main` para evitar falsos positivos da sidebar
 
-6. **Melhorar tratamento dos arquivos Mermaid excluídos**
-   - Implementar fallback: se arquivo tem mermaid incompatível, gerar versão simplificada sem o diagrama
-   - Ainda relevante para `00-shared-activation-pipeline.md`
+6. ~~**Melhorar tratamento dos arquivos Mermaid excluídos**~~ ✅ **FEITO** (2026-02-21)
+   - Sanitizador v4.4: converte `{}` em blocos mermaid para `[]` (losango → retângulo)
+   - Exclusão do `00-shared-activation-pipeline.md` removida do `sync-content.sh`
 
-### Prioridade Baixa
-
-7. **Design System (Tier 2 — a validar)**
-   - Shadow tokens para sidebar e cards
-   - Bordas com radius para cards de conteúdo
-   - Validar impacto em métricas de bounce rate
-
-8. **Monitor de paridade de sync**
-   - Script que compara arquivos no aios-core vs content/ e gera relatório de diferenças
-   - Alertar quando novos arquivos são adicionados ao aios-core mas não sincronizados
+7. ~~**Monitor de paridade de sync**~~ ✅ **FEITO** (2026-02-21)
+   - `scripts/sync-monitor.sh`: compara aios-core vs content/ e reporta arquivos não sincronizados
+   - Exit code 1 quando há arquivos faltando — integrável em CI
 
 ---
 
@@ -264,6 +275,9 @@ npm run start
 git clone https://github.com/SynkraAI/aios-core /tmp/aios-core
 bash scripts/sync-content.sh /tmp/aios-core
 npm run build
+
+# Verificar paridade de sync (requer aios-core clonado)
+bash scripts/sync-monitor.sh /tmp/aios-core
 
 # Testes E2E (requer npm run start rodando)
 npx playwright test
