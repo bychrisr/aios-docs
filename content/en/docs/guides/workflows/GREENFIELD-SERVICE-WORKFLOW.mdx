@@ -51,14 +51,14 @@ graph TD
     subgraph FASE_2["Fase 2: Arquitetura"]
         C --> D[architect: architecture.md]
         D -.-> D1[Opcional: technical research]
-        D --> E{Arquitetura sugere mudancas no PRD?}
+        D --> E[Arquitetura sugere mudancas no PRD?]
         E -->|Sim| F[pm: atualizar prd.md]
         E -->|Nao| G[po: validar todos artefatos]
         F --> G
     end
 
     subgraph FASE_3["Fase 3: Validacao"]
-        G --> H{PO encontrou problemas?}
+        G --> H[PO encontrou problemas?]
         H -->|Sim| I[Retornar ao agente relevante para correcoes]
         H -->|Nao| J[po: fragmentar documentos]
         I --> G
@@ -66,19 +66,19 @@ graph TD
 
     subgraph FASE_4["Fase 4: Ciclo de Desenvolvimento"]
         J --> K[sm: criar story]
-        K --> L{Revisar story draft?}
+        K --> L[Revisar story draft?]
         L -->|Sim| M[analyst/pm: revisar e aprovar story]
         L -->|Nao| N[dev: implementar story]
         M --> N
-        N --> O{Revisao QA?}
+        N --> O[Revisao QA?]
         O -->|Sim| P[qa: revisar implementacao]
-        O -->|Nao| Q{Mais stories?}
-        P --> R{QA encontrou problemas?}
+        O -->|Nao| Q[Mais stories?]
+        P --> R[QA encontrou problemas?]
         R -->|Sim| S[dev: enderear feedback QA]
         R -->|Nao| Q
         S --> P
         Q -->|Sim| K
-        Q -->|Nao| T{Retrospectiva do Epic?}
+        Q -->|Nao| T[Retrospectiva do Epic?]
     end
 
     subgraph FASE_5["Fase 5: Conclusao"]
@@ -565,13 +565,13 @@ graph LR
 
 ```mermaid
 flowchart TD
-    D1{Arquitetura sugere / mudancas no PRD?}
-    D2{PO encontrou / problemas?}
-    D3{Revisar story / draft?}
-    D4{Revisao QA?}
-    D5{QA encontrou / problemas?}
-    D6{Mais stories?}
-    D7{Retrospectiva / do epic?}
+    D1[Arquitetura sugere / mudancas no PRD?]
+    D2[PO encontrou / problemas?]
+    D3[Revisar story / draft?]
+    D4[Revisao QA?]
+    D5[QA encontrou / problemas?]
+    D6[Mais stories?]
+    D7[Retrospectiva / do epic?]
 
     D1 -->|Sim| A1[PM atualiza PRD]
     D1 -->|Nao| A2[Continuar para validacao]

@@ -53,7 +53,7 @@ flowchart TD
         A[Start: Design System Quality Pipeline]
     end
 
-    subgraph PHASE1["📦 FASE 1: Build & Compile"]
+    subgraph PHASE1["📦 FASE 1: Build &amp; Compile"]
         B[ux-design-expert: / Build componentes atomicos]
         B1[Compila tokens de design]
         B2[Gera componentes atomicos]
@@ -67,7 +67,7 @@ flowchart TD
     end
 
     subgraph DECISION1["❓ Decisao Build"]
-        C{Build OK?}
+        C[Build OK?]
         E[🔴 Corrigir erros de build]
     end
 
@@ -85,7 +85,7 @@ flowchart TD
     end
 
     subgraph DECISION2["❓ Decisao Docs"]
-        F{Docs completas?}
+        F[Docs completas?]
         H[🔴 Completar documentacao]
     end
 
@@ -105,7 +105,7 @@ flowchart TD
     end
 
     subgraph DECISION3["❓ Decisao A11y"]
-        I{A11y aprovado?}
+        I[A11y aprovado?]
         K[🔴 Remediar violacoes]
     end
 
@@ -202,10 +202,10 @@ graph TD
         O12[adoption_dashboard]
     end
 
-    BUILD[Build] --> O1 & O2 & O3
-    DOCS[Documentation] --> O4 & O5 & O6
-    A11Y[Accessibility] --> O7 & O8 & O9
-    ROI[ROI Analysis] --> O10 & O11 & O12
+    BUILD[Build] --> O1 &amp; O2 &amp; O3
+    DOCS[Documentation] --> O4 &amp; O5 &amp; O6
+    A11Y[Accessibility] --> O7 &amp; O8 &amp; O9
+    ROI[ROI Analysis] --> O10 &amp; O11 &amp; O12
 
     O1 -.-> DOCS
     O4 -.-> A11Y
@@ -542,7 +542,7 @@ outputs/design-system/
 
 ```mermaid
 graph TD
-    BUILD[Build Completo] --> CHECK{Erros?}
+    BUILD[Build Completo] --> CHECK[Erros?]
     CHECK -->|Sim| FIX[Corrigir Erros]
     CHECK -->|Nao| PROCEED[Prosseguir para Docs]
     FIX --> BUILD
@@ -565,7 +565,7 @@ graph TD
 
 ```mermaid
 graph TD
-    DOCS[Docs Geradas] --> CHECK{Completas?}
+    DOCS[Docs Geradas] --> CHECK[Completas?]
     CHECK -->|Sim| PROCEED[Prosseguir para A11y]
     CHECK -->|Nao| COMPLETE[Completar Docs]
     COMPLETE --> DOCS
@@ -588,7 +588,7 @@ graph TD
 
 ```mermaid
 graph TD
-    A11Y[Auditoria A11y] --> CHECK{Aprovado?}
+    A11Y[Auditoria A11y] --> CHECK[Aprovado?]
     CHECK -->|Sim| PROCEED[Prosseguir para ROI]
     CHECK -->|Nao| FIX[Remediar Violacoes]
     FIX --> A11Y

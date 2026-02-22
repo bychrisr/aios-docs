@@ -131,7 +131,7 @@ Human                    Agent
 graph TD
     subgraph Planning
         A[Human: Define Objectives] --> B[Agent: Analyze Requirements]
-        B --> C{Human: Approve?}
+        B --> C[Human: Approve?]
         C -->|No| A
         C -->|Yes| D[Plan Approved]
     end
@@ -139,7 +139,7 @@ graph TD
     subgraph Design
         D --> E[Human: Provide Context]
         E --> F[Agent: Generate Design]
-        F --> G{Human: Review}
+        F --> G[Human: Review]
         G -->|Needs Work| F
         G -->|Approved| H[Design Finalized]
     end
@@ -148,16 +148,16 @@ graph TD
         H --> I[Human: Delegate Task]
         I --> J[Agent: Implement]
         J --> K[Agent: Self-Review]
-        K --> L{Human: Code Review}
+        K --> L[Human: Code Review]
         L -->|Changes Needed| J
         L -->|Approved| M[Code Complete]
     end
 
     subgraph QA
         M --> N[Agent: Run Tests]
-        N --> O{Tests Pass?}
+        N --> O[Tests Pass?]
         O -->|No| J
-        O -->|Yes| P{Human: Final Review}
+        O -->|Yes| P[Human: Final Review]
         P -->|Issues Found| J
         P -->|Approved| Q[Release Ready]
     end
@@ -174,13 +174,13 @@ graph TD
 
 ```mermaid
 flowchart TD
-    Start[New Task] --> Assess{Assess Task Type}
+    Start[New Task] --> Assess[Assess Task Type]
 
     Assess -->|Routine| Auto[Agent Autonomous]
     Assess -->|Complex| Hybrid[Hybrid Mode]
     Assess -->|Critical| Human[Human Led]
 
-    Auto --> Review1{Spot Check?}
+    Auto --> Review1[Spot Check?]
     Review1 -->|Yes| Check[Human Spot Check]
     Review1 -->|No| Complete1[Task Complete]
     Check --> Complete1

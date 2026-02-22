@@ -29,19 +29,19 @@ AIOS soporta 9 plataformas de desarrollo con IA. Elija la que mejor se adapte a 
 
 ```mermaid
 flowchart TD
-    Start["¿Qué plataforma / debo usar?"] --> Q1{"¿Usas / Claude/Anthropic API?"}
+    Start["¿Qué plataforma / debo usar?"] --> Q1["¿Usas / Claude/Anthropic API?"]
 
     Q1 -->|Sí| CC["Claude Code ⭐ / Mejor integración AIOS"]
-    Q1 -->|No| Q2{"¿Prefieres / VS Code?"}
+    Q1 -->|No| Q2["¿Prefieres / VS Code?"]
 
-    Q2 -->|Sí| Q3{"¿Quieres una / extensión?"}
+    Q2 -->|Sí| Q3["¿Quieres una / extensión?"]
     Q3 -->|No| Copilot["GitHub Copilot / Características nativas de GitHub"]
 
-    Q2 -->|No| Q4{"¿Quieres un / IDE dedicado con IA?"}
-    Q4 -->|Sí| Q5{"¿Qué modelo / prefieres?"}
+    Q2 -->|No| Q4["¿Quieres un / IDE dedicado con IA?"]
+    Q4 -->|Sí| Q5["¿Qué modelo / prefieres?"]
     Q5 -->|Claude/GPT| Cursor["Cursor ⭐ / IDE con IA más popular"]
 
-    Q4 -->|No| Q6{"¿Usas Google Cloud?"}
+    Q4 -->|No| Q6["¿Usas Google Cloud?"]
     Q6 -->|Sí| AG["AntiGravity / Integración con Google"]
 
     style CC fill:#10b981,color:#fff

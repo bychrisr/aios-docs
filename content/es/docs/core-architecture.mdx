@@ -163,16 +163,16 @@ Antes de que comience el desarrollo, AIOS sigue un flujo de trabajo de planifica
 
 ```mermaid
 graph TD
-    A["Start: Project Idea"] --> B{"Optional: Analyst Brainstorming"}
-    B -->|Yes| C["Analyst: Market Research & Analysis"]
+    A["Start: Project Idea"] --> B["Optional: Analyst Brainstorming"]
+    B -->|Yes| C["Analyst: Market Research &amp; Analysis"]
     B -->|No| D["Create Project Brief"]
     C --> D["Analyst: Create Project Brief"]
     D --> E["PM: Create PRD from Brief"]
     E --> F["Architect: Create Architecture from PRD"]
     F --> G["PO: Run Master Checklist"]
-    G --> H{"Documents Aligned?"}
+    G --> H["Documents Aligned?"]
     H -->|Yes| I["Planning Complete"]
-    H -->|No| J["PO: Update Epics & Stories"]
+    H -->|No| J["PO: Update Epics &amp; Stories"]
     J --> K["Update PRD/Architecture as needed"]
     K --> G
     I --> L["📁 Switch to IDE"]
@@ -208,15 +208,15 @@ graph TD
     B --> C["PO: Shard Arch"]
     C --> D["Development Phase"]
     D --> E["Scrum Master: Drafts next story from sharded epic"]
-    E --> F{"User Approval"}
+    E --> F["User Approval"]
     F -->|Approved| G["Dev: Implement Story"]
     F -->|Needs Changes| E
     G --> H["Dev: Complete story Tasks"]
     H --> I["Dev: Mark Ready for Review"]
-    I --> J{"User Verification"}
+    I --> J["User Verification"]
     J -->|Request QA Review| K["QA: Run review-story task"]
     J -->|Approve Without QA| M["Mark Story as Done"]
-    K --> L{"QA Review Results"}
+    K --> L["QA Review Results"]
     L -->|Needs Work| G
     L -->|Approved| M["Mark Story as Done"]
     J -->|Needs Fixes| G

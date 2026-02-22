@@ -63,7 +63,7 @@ sequenceDiagram
         CLI->>Migrator: analyzeMigration()
         Migrator->>FS: detectar config ./mcp
         FS-->>Migrator: config do projeto encontrada
-        Migrator-->>CLI: { recommendedOption: MIGRATE }
+        Migrator-->>CLI: [ recommendedOption: MIGRATE ]
         CLI->>Migrator: executeMigration(MIGRATE)
         Migrator->>Mgr: readGlobalConfig()
         Migrator->>Mgr: mergeServers(global, project)

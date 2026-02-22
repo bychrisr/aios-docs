@@ -45,10 +45,10 @@ flowchart TB
     end
 
     subgraph PREFLIGHT["Pre-Flight Checks"]
-        PF1{Repositorio Git?}
-        PF2{Suporte a Worktree?}
-        PF3{WorktreeManager?}
-        PF4{Limite de Worktrees?}
+        PF1[Repositorio Git?]
+        PF2[Suporte a Worktree?]
+        PF3[WorktreeManager?]
+        PF4[Limite de Worktrees?]
     end
 
     subgraph WORKFLOW["Sequencia do Workflow"]
@@ -156,7 +156,7 @@ graph TB
     end
 
     subgraph FS["File System"]
-        WT[.aios/worktrees/{storyId}/ / Worktree Directory]
+        WT[.aios/worktrees/[storyId]/ / Worktree Directory]
         LOG[.aios/logs/merges/ / Merge Audit Logs]
     end
 
@@ -533,24 +533,24 @@ interface WorktreeInfo {
 
 ```mermaid
 flowchart TD
-    D1{config.autoWorktree.enabled?}
+    D1[config.autoWorktree.enabled?]
     D1 -->|false| SKIP[Workflow nao executa]
     D1 -->|true| D2
 
-    D2{storyId disponivel?}
+    D2[storyId disponivel?]
     D2 -->|Nao| PROMPT[Solicitar ao usuario]
     D2 -->|Sim| D3
     PROMPT --> D3
 
-    D3{Worktree ja existe?}
+    D3[Worktree ja existe?]
     D3 -->|Sim| D4
     D3 -->|Nao| D5
 
-    D4{config.autoSwitch?}
+    D4[config.autoSwitch?]
     D4 -->|true| SWITCH[Mudar para worktree existente]
     D4 -->|false| DONE[Finalizar sem mudar]
 
-    D5{config.autoCleanup?}
+    D5[config.autoCleanup?]
     D5 -->|true| CLEANUP[Limpar worktrees obsoletas]
     D5 -->|false| CREATE
     CLEANUP --> CREATE[Criar nova worktree]
@@ -558,12 +558,12 @@ flowchart TD
     CREATE -->|Sucesso| D6
     CREATE -->|Falha| ERROR[Tratar erro]
 
-    D6{config.autoSwitch?}
+    D6[config.autoSwitch?]
     D6 -->|true| SWITCH2[Mudar para nova worktree]
     D6 -->|false| D7
     SWITCH2 --> D7
 
-    D7{config.verbose?}
+    D7[config.verbose?]
     D7 -->|true| SUMMARY[Exibir resumo]
     D7 -->|false| FINISH[Finalizar]
     SUMMARY --> FINISH
@@ -611,7 +611,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    E1[Erro Detectado] --> E2{Tipo de Erro?}
+    E1[Erro Detectado] --> E2[Tipo de Erro?]
 
     E2 -->|Bloqueante| E3[Halt Workflow]
     E2 -->|Nao-Bloqueante| E4[Log Warning]
@@ -622,7 +622,7 @@ flowchart TD
 
     E4 --> E8[Continuar Execucao]
 
-    E7 --> ROLLBACK{Rollback Necessario?}
+    E7 --> ROLLBACK[Rollback Necessario?]
     ROLLBACK -->|Sim| E9[Executar Rollback]
     ROLLBACK -->|Nao| END[Fim]
     E9 --> END

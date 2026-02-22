@@ -64,7 +64,7 @@ Este workflow executa ate um maximo de iteracoes configuravel (padrao: 5), rastr
 ```mermaid
 flowchart TD
     subgraph TRIGGER["Triggers de Inicio"]
-        T1["*qa-loop {storyId}"]
+        T1["*qa-loop [storyId]"]
         T2["*qa-loop-review"]
         T3["*qa-loop-fix"]
     end
@@ -82,7 +82,7 @@ flowchart TD
     end
 
     subgraph CHECK["Fase 2: Verificar Verdict"]
-        C1{"verdict?"}
+        C1["verdict?"]
         C2["APPROVE"]
         C3["BLOCKED"]
         C4["REJECT"]
@@ -102,7 +102,7 @@ flowchart TD
     end
 
     subgraph ITER["Fase 5: Verificar Iteracao"]
-        IT1{"iteration >= max?"}
+        IT1["iteration >= max?"]
         IT2["iteration++"]
     end
 
@@ -161,7 +161,7 @@ flowchart TD
 
 ```mermaid
 stateDiagram-v2
-    [*] --> pending: *qa-loop {storyId}
+    [*] --> pending: *qa-loop [storyId]
 
     pending --> in_progress: Iniciar Loop
 
@@ -276,7 +276,7 @@ Avalia o verdict da revisao e determina a proxima acao.
 
 ```mermaid
 flowchart TD
-    V{"verdict?"}
+    V["verdict?"]
 
     V -->|"APPROVE"| A["Action: COMPLETE / Story aprovada apos N iteracoes"]
     V -->|"BLOCKED"| B["Action: ESCALATE / Requer intervencao humana"]
@@ -383,7 +383,7 @@ Incrementa o contador de iteracao e verifica contra o maximo. Se max atingido, e
 
 ```mermaid
 flowchart TD
-    I{"iteration >= maxIterations?"}
+    I["iteration >= maxIterations?"]
 
     I -->|"Sim"| E["ESCALATE / Max iterations reached without APPROVE"]
     I -->|"Nao"| C["CONTINUE / Voltar para Step 1 (review) / iteration++"]
@@ -738,30 +738,30 @@ history:
 ```mermaid
 flowchart TD
     subgraph D1["Decisao 1: Verdict"]
-        V1{"Qual o verdict?"}
+        V1["Qual o verdict?"]
         V1 -->|"APPROVE"| V1A["Completar Loop"]
         V1 -->|"BLOCKED"| V1B["Escalar Imediatamente"]
         V1 -->|"REJECT"| V1C["Continuar para Fixes"]
     end
 
     subgraph D2["Decisao 2: Max Iterations"]
-        I1{"iteration >= max?"}
+        I1["iteration >= max?"]
         I1 -->|"Sim"| I1A["Escalar: Max Atingido"]
         I1 -->|"Nao"| I1B["Incrementar e Continuar"]
     end
 
     subgraph D3["Decisao 3: Fix Failure"]
-        F1{"Fixes aplicados?"}
+        F1["Fixes aplicados?"]
         F1 -->|"Sucesso"| F1A["Prosseguir para Review"]
-        F1 -->|"Falha"| F1B{"Retries restantes?"}
+        F1 -->|"Falha"| F1B["Retries restantes?"]
         F1B -->|"Sim"| F1C["Retry"]
         F1B -->|"Nao"| F1D["Escalar: Fix Failure"]
     end
 
     subgraph D4["Decisao 4: Review Failure"]
-        R1{"Review completou?"}
+        R1["Review completou?"]
         R1 -->|"Sucesso"| R1A["Processar Verdict"]
-        R1 -->|"Falha"| R1B{"Retries restantes?"}
+        R1 -->|"Falha"| R1B["Retries restantes?"]
         R1B -->|"Sim"| R1C["Retry Review"]
         R1B -->|"Nao"| R1D["Escalar: Review Failure"]
     end

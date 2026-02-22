@@ -41,7 +41,7 @@ O **Greenfield Full-Stack Workflow** e o fluxo de trabalho principal do AIOS par
 ```mermaid
 flowchart TB
     subgraph PHASE0["FASE 0: Bootstrap do Ambiente"]
-        A[Inicio: Projeto Greenfield] --> A1{Ambiente pronto?}
+        A[Inicio: Projeto Greenfield] --> A1[Ambiente pronto?]
         A1 -->|Nao| A2["@devops: *environment-bootstrap"]
         A2 --> A3[CLIs instaladas + Repositorio GitHub criado]
         A1 -->|Sim| A3
@@ -51,16 +51,16 @@ flowchart TB
         A3 --> B["@analyst: project-brief.md"]
         B --> C["@pm: prd.md"]
         C --> D["@ux-expert: front-end-spec.md"]
-        D --> D2{Gerar prompt v0?}
+        D --> D2[Gerar prompt v0?]
         D2 -->|Sim| D3["@ux-expert: criar prompt v0"]
         D2 -->|Nao| E["@architect: fullstack-architecture.md"]
         D3 --> D4[Usuario: gerar UI no v0/Lovable]
         D4 --> E
-        E --> F{Arquitetura sugere mudancas no PRD?}
+        E --> F[Arquitetura sugere mudancas no PRD?]
         F -->|Sim| G["@pm: atualizar prd.md"]
         F -->|Nao| H["@po: validar todos os artefatos"]
         G --> H
-        H --> I{PO encontrou problemas?}
+        H --> I[PO encontrou problemas?]
         I -->|Sim| J[Retornar ao agente relevante para correcoes]
         I -->|Nao| K_GATE[Fase 1 Completa]
         J --> H
@@ -73,19 +73,19 @@ flowchart TB
 
     subgraph PHASE3["FASE 3: Ciclo de Desenvolvimento"]
         K1 --> L["@sm: criar story"]
-        L --> M{Revisar story draft?}
+        L --> M[Revisar story draft?]
         M -->|Sim| N["@analyst/@pm: revisar e aprovar story"]
         M -->|Nao| O["@dev: implementar story"]
         N --> O
-        O --> P{Revisao QA?}
+        O --> P[Revisao QA?]
         P -->|Sim| Q["@qa: revisar implementacao"]
-        P -->|Nao| R{Mais stories?}
-        Q --> S{QA encontrou problemas?}
+        P -->|Nao| R[Mais stories?]
+        Q --> S[QA encontrou problemas?]
         S -->|Sim| T["@dev: resolver feedback do QA"]
         S -->|Nao| R
         T --> Q
         R -->|Sim| L
-        R -->|Nao| U{Retrospectiva do Epic?}
+        R -->|Nao| U[Retrospectiva do Epic?]
         U -->|Sim| V["@po: retrospectiva do epic"]
         U -->|Nao| W[Projeto Completo]
         V --> W
@@ -143,7 +143,7 @@ Configurar o ambiente de desenvolvimento antes de iniciar o planejamento do proj
 ```mermaid
 flowchart TD
     subgraph FASE0["FASE 0: Environment Bootstrap"]
-        START([Inicio]) --> CHECK{Ambiente pronto?}
+        START([Inicio]) --> CHECK[Ambiente pronto?]
 
         CHECK -->|Verificar| ENV_REPORT[".aios/environment-report.json existe?"]
         ENV_REPORT -->|Sim| SKIP[Pular bootstrap]
@@ -213,7 +213,7 @@ Criar todos os artefatos de planejamento: project brief, PRD, especificacoes e a
 
 ```mermaid
 flowchart TD
-    subgraph FASE1["FASE 1: Discovery & Planning"]
+    subgraph FASE1["FASE 1: Discovery &amp; Planning"]
         ENV_DONE([Bootstrap Completo]) --> ANALYST
 
         subgraph ANALYST["@analyst: Atlas"]
@@ -237,7 +237,7 @@ flowchart TD
         subgraph UX["@ux-expert: Uma"]
             U1[Pesquisa de Usuario Opcional]
             U2[Criar Front-End Spec]
-            U3{Gerar prompt v0?}
+            U3[Gerar prompt v0?]
             U4[Criar prompt para v0/Lovable]
             U1 -.-> U2
             U2 --> U3
@@ -249,7 +249,7 @@ flowchart TD
         subgraph ARCH["@architect: Aria"]
             AR1[Pesquisa Tecnica Opcional]
             AR2[Criar Fullstack Architecture]
-            AR3{Sugere mudancas no PRD?}
+            AR3[Sugere mudancas no PRD?]
             AR1 -.-> AR2
             AR2 --> AR3
         end
@@ -260,7 +260,7 @@ flowchart TD
 
         subgraph PO["@po: Pax"]
             PO1[Executar po-master-checklist]
-            PO2{Encontrou problemas?}
+            PO2[Encontrou problemas?]
             PO1 --> PO2
         end
 
@@ -376,14 +376,14 @@ flowchart TD
 
         subgraph STORY_LOOP["Loop de Stories"]
             SM["@sm: *draft"]
-            REVIEW_Q{Revisar draft?}
+            REVIEW_Q[Revisar draft?]
             REVIEW["@analyst/@pm: Revisar story"]
             DEV["@dev: *develop"]
-            QA_Q{Revisao QA?}
+            QA_Q[Revisao QA?]
             QA["@qa: *review"]
-            QA_ISSUES{Problemas encontrados?}
+            QA_ISSUES[Problemas encontrados?]
             FIX["@dev: *apply-qa-fixes"]
-            MORE_Q{Mais stories?}
+            MORE_Q[Mais stories?]
 
             SM --> REVIEW_Q
             REVIEW_Q -->|Sim| REVIEW
@@ -399,7 +399,7 @@ flowchart TD
             MORE_Q -->|Sim| SM
         end
 
-        MORE_Q -->|Nao| RETRO_Q{Retrospectiva?}
+        MORE_Q -->|Nao| RETRO_Q[Retrospectiva?]
         RETRO_Q -->|Sim| RETRO["@po: Retrospectiva do Epic"]
         RETRO_Q -->|Nao| DONE
         RETRO --> DONE([Projeto Completo])
@@ -667,20 +667,20 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    D1{Ambiente pronto?}
+    D1[Ambiente pronto?]
     D1 -->|Verificar .aios/environment-report.json| D1_CHECK
     D1_CHECK -->|Existe| SKIP[Pular Fase 0]
     D1_CHECK -->|Nao existe| RUN[Executar Bootstrap]
 
-    D2{Gerar prompt v0?}
+    D2[Gerar prompt v0?]
     D2 -->|Usuario quer UI gerada| D2_YES[Gerar prompt]
     D2 -->|Nao necessario| D2_NO[Ir para arquitetura]
 
-    D3{Mudancas no PRD?}
+    D3[Mudancas no PRD?]
     D3 -->|Arquiteto recomenda| D3_YES[Atualizar PRD]
     D3 -->|Nao necessario| D3_NO[Continuar validacao]
 
-    D4{Problemas encontrados?}
+    D4[Problemas encontrados?]
     D4 -->|PO encontrou issues| D4_YES[Corrigir com agente]
     D4 -->|Tudo OK| D4_NO[Aprovar e continuar]
 ```

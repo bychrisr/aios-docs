@@ -43,7 +43,7 @@ O **Brownfield Discovery** e um workflow multi-agente completo para avaliacao de
 flowchart TD
     subgraph FASE_1_3["FASES 1-3: Coleta de Dados"]
         A[("Inicio: Brownfield Discovery")] --> B["@architect / Documentacao do Sistema"]
-        B --> C{Projeto tem / banco de dados?}
+        B --> C[Projeto tem / banco de dados?]
         C -->|Sim| D["@data-engineer / Schema + Audit"]
         C -->|Nao| E["@ux-design-expert / Frontend Spec"]
         D --> E
@@ -57,7 +57,7 @@ flowchart TD
         F --> G["@data-engineer / Valida secao DB"]
         G --> H["@ux-design-expert / Valida secao UX"]
         H --> I["@qa / Quality Gate Review"]
-        I --> J{QA Gate?}
+        I --> J[QA Gate?]
         J -->|NEEDS WORK| K["Retrabalho: / aplicar correcoes no DRAFT"]
         K --> F
     end
@@ -572,7 +572,7 @@ PENDENTE: Revisao do @ux-design-expert
 mindmap
   root((Brownfield / Discovery))
     Coleta
-      architect["@architect / Aria (Visionary) / Sistema & Consolidacao"]
+      architect["@architect / Aria (Visionary) / Sistema &amp; Consolidacao"]
       data-engineer["@data-engineer / Dara (Sage) / Database"]
       ux-design-expert["@ux-design-expert / Uma (Empathizer) / Frontend/UX"]
     Validacao
@@ -582,7 +582,7 @@ mindmap
     Finalizacao
       architect2["@architect / Assessment Final"]
       analyst["@analyst / Atlas (Decoder) / Relatorio Executivo"]
-      pm["@pm / Morgan (Strategist) / Epic & Stories"]
+      pm["@pm / Morgan (Strategist) / Epic &amp; Stories"]
 ```
 
 ### Perfil dos Agentes
@@ -748,7 +748,7 @@ supabase/
 
 ```mermaid
 flowchart TD
-    Q1{Projeto tem / banco de dados?}
+    Q1[Projeto tem / banco de dados?]
     Q1 -->|Sim| A1[Executar FASE 2: / @data-engineer audita DB]
     Q1 -->|Nao| A2[Pular FASE 2: / Ir direto para FASE 3]
     A1 --> B[FASE 3: Frontend]
@@ -766,7 +766,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    Q2{QA Gate Status?}
+    Q2[QA Gate Status?]
     Q2 -->|APPROVED| A3[Prosseguir para FASE 8: / Assessment Final]
     Q2 -->|NEEDS WORK| A4[Retornar para FASE 4: / Retrabalhar DRAFT]
     A4 --> A5[Incorporar feedback do QA]
@@ -792,7 +792,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    Q3{Escopo do Epic}
+    Q3[Escopo do Epic]
     Q3 -->|1-3 Stories| A7[Usar brownfield-create-epic / Workflow simples]
     Q3 -->|4+ Stories| A8[Considerar PRD completo / Workflow extenso]
     Q3 -->|Arquitetura nova| A9[Usar greenfield workflow]

@@ -43,7 +43,7 @@ flowchart TB
 
         subgraph CORE["Core: Task-First Engine"]
             TASK["Task Validada / (unidade primaria)"]
-            DECISION{"Decision Tree: / Quem executa?"}
+            DECISION["Decision Tree: / Quem executa?"]
         end
 
         subgraph EXECUTORS["4 Tipos de Executores"]
@@ -127,7 +127,7 @@ flowchart LR
 
     subgraph TASKFIRST["Task-First (AIOS)"]
         direction TB
-        TK1["Task Validada"] --> DEC1{"Executor?"}
+        TK1["Task Validada"] --> DEC1["Executor?"]
         DEC1 --> E1["Agent"]
         DEC1 --> E2["Worker"]
         DEC1 --> E3["Clone"]
@@ -163,7 +163,7 @@ flowchart TB
         AC["Acceptance Criteria"]
     end
 
-    TASK_ANATOMY --> VALIDATE{"Task Validada?"}
+    TASK_ANATOMY --> VALIDATE["Task Validada?"]
     VALIDATE -->|"Sim"| EXECUTE["Execucao garantida / por qualquer executor"]
     VALIDATE -->|"Nao"| REJECT["Rejeitar: / Refinar task primeiro"]
 
@@ -242,16 +242,16 @@ atribuido a cada task no AIOS:
 
 ```mermaid
 flowchart TD
-    START(["Nova Task para Executar"]) --> Q1{"Requer / Criatividade ou / Subjetividade?"}
+    START(["Nova Task para Executar"]) --> Q1["Requer / Criatividade ou / Subjetividade?"]
 
-    Q1 -->|"Nao"| Q2{"Algoritmo / Deterministico / Existe?"}
-    Q1 -->|"Sim"| Q3{"Julgamento / Humano / Obrigatorio?"}
+    Q1 -->|"Nao"| Q2["Algoritmo / Deterministico / Existe?"]
+    Q1 -->|"Sim"| Q3["Julgamento / Humano / Obrigatorio?"]
 
-    Q2 -->|"Sim"| Q4{"Chama / API Externa?"}
+    Q2 -->|"Sim"| Q4["Chama / API Externa?"]
     Q2 -->|"Nao"| Q3
 
-    Q3 -->|"Sim"| Q5{"Decisao Critica / com Impacto / Legal/Financeiro?"}
-    Q3 -->|"Nao"| Q6{"Metodologia / Especifica / Necessaria?"}
+    Q3 -->|"Sim"| Q5["Decisao Critica / com Impacto / Legal/Financeiro?"]
+    Q3 -->|"Nao"| Q6["Metodologia / Especifica / Necessaria?"]
 
     Q4 -->|"Sim (nao-IA)"| WORKER1["WORKER / com API"]
     Q4 -->|"Nao"| WORKER2["WORKER / Script"]
@@ -361,7 +361,7 @@ flowchart TB
         end
 
         subgraph MINDS["Clones Cognitivos"]
-            M1["Pedro Valerio / Processos & Sistemas"]
+            M1["Pedro Valerio / Processos &amp; Sistemas"]
             M2["Brad Frost / Atomic Design"]
             M3["Alex Hormozi / Copywriting"]
             M4["Clone Customizado / Especialista da empresa"]
@@ -476,19 +476,19 @@ passando por todos os agentes, gates e pontos de decisao:
 
 ```mermaid
 flowchart TD
-    IDEA(["Ideia / Requisito"]) --> ANALYST["@analyst / Pesquisa & Analise"]
+    IDEA(["Ideia / Requisito"]) --> ANALYST["@analyst / Pesquisa &amp; Analise"]
     ANALYST --> PM["@pm (Morgan) / Cria PRD"]
     PM --> ARCH["@architect (Aria) / Design Arquitetural"]
 
     ARCH --> SM["@sm (River) / Cria Stories"]
-    SM --> PO{"@po (Pax) / Valida Story? / 10-point checklist"}
+    SM --> PO["@po (Pax) / Valida Story? / 10-point checklist"]
 
     PO -->|"GO >= 7/10"| DEV["@dev (Dex) / Implementa"]
     PO -->|"NO-GO < 7/10"| SM
 
-    DEV --> CODERABBIT{"CodeRabbit / Self-Healing / max 2 iteracoes"}
+    DEV --> CODERABBIT["CodeRabbit / Self-Healing / max 2 iteracoes"]
     CODERABBIT -->|"CRITICAL"| DEV
-    CODERABBIT -->|"OK"| QA{"@qa (Quinn) / Quality Gate / 7 checks"}
+    CODERABBIT -->|"OK"| QA["@qa (Quinn) / Quality Gate / 7 checks"]
 
     QA -->|"PASS"| DEVOPS["@devops (Gage) / Push + PR"]
     QA -->|"CONCERNS"| DEVOPS
@@ -555,7 +555,7 @@ flowchart LR
         direction TB
         A1["Tasks validadas / com acceptance criteria"] --> A2["Decision tree seleciona / executor ideal"]
         A2 --> A3["Quality gates em / cada transicao"]
-        A3 --> A4["Resultado: Confiavel / & Escalavel"]
+        A3 --> A4["Resultado: Confiavel / &amp; Escalavel"]
     end
 
     style TRAD fill:#c0392b,color:#fff

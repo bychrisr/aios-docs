@@ -28,8 +28,8 @@ flowchart TB
 
     subgraph CLAUDE_CODE["Claude Code Runtime"]
         HOOK_EVENT["UserPromptSubmit Event"]
-        STDIN["stdin: { sessionId, cwd, prompt }"]
-        STDOUT["stdout: { hookSpecificOutput }"]
+        STDIN["stdin: [ sessionId, cwd, prompt ]"]
+        STDOUT["stdout: [ hookSpecificOutput ]"]
         AI["Claude AI processa prompt + synapse-rules"]
     end
 
@@ -42,7 +42,7 @@ flowchart TB
     subgraph DATA[".synapse/ (Runtime Data)"]
         MANIFEST["manifest"]
         DOMAINS["Domain Files"]
-        SESSIONS["sessions/{uuid}.json"]
+        SESSIONS["sessions/[uuid].json"]
     end
 
     subgraph EXTERNAL["Sistemas Externos"]
@@ -75,14 +75,14 @@ e delega todo o trabalho para o SynapseEngine.
 ```mermaid
 flowchart TD
     START["UserPromptSubmit Event"] --> READ_STDIN["readStdin() / Parse JSON"]
-    READ_STDIN --> CHECK_CWD{"cwd existe?"}
+    READ_STDIN --> CHECK_CWD["cwd existe?"]
     CHECK_CWD -->|"Nao"| SILENT_EXIT["exit(0) silencioso"]
-    CHECK_CWD -->|"Sim"| CHECK_SYNAPSE{".synapse/ / existe?"}
+    CHECK_CWD -->|"Sim"| CHECK_SYNAPSE[".synapse/ / existe?"]
     CHECK_SYNAPSE -->|"Nao"| SILENT_EXIT
     CHECK_SYNAPSE -->|"Sim"| LOAD_SESSION["loadSession(sessionId)"]
     LOAD_SESSION --> CREATE_ENGINE["new SynapseEngine(synapsePath)"]
     CREATE_ENGINE --> PROCESS["engine.process(prompt, session)"]
-    PROCESS --> WRITE_STDOUT["stdout: { hookSpecificOutput: / { additionalContext: xml } }"]
+    PROCESS --> WRITE_STDOUT["stdout: [ hookSpecificOutput: / { additionalContext: xml ] }"]
     WRITE_STDOUT --> END["Claude Code injeta / synapse-rules no prompt"]
 
     TIMEOUT["Safety Timeout: 5s"] -.->|"Se exceder"| SILENT_EXIT
@@ -109,7 +109,7 @@ flowchart LR
     L4 --> L5["L5: Squad / 15ms | session.active_squad"]
     L5 --> L6["L6: Keyword / 15ms | RECALL matching"]
     L6 --> L7["L7: Star-Command / 5ms | *command detection"]
-    L7 --> MEM{"Memory / Bridge"}
+    L7 --> MEM["Memory / Bridge"]
     MEM --> FORMAT["Output Formatter / → "]
 
     style L0 fill:#ff6b6b,color:#fff
@@ -221,12 +221,12 @@ A session rastreia agent ativo, workflow, task, squad e historico.
 flowchart TD
     subgraph SESSION_SCHEMA["Session Schema v2.0"]
         UUID["uuid: session-id"]
-        AGENT["active_agent: / { id, activated_at, activation_quality }"]
-        WORKFLOW["active_workflow: / { id, current_phase }"]
+        AGENT["active_agent: / [ id, activated_at, activation_quality ]"]
+        WORKFLOW["active_workflow: / [ id, current_phase ]"]
         TASK["active_task: story-id"]
         SQUAD["active_squad: squad-name"]
-        CONTEXT["context: / { last_bracket, last_tokens_used, / last_context_percent }"]
-        HISTORY["history: / { star_commands_used, / domains_loaded_last, / agents_activated }"]
+        CONTEXT["context: / [ last_bracket, last_tokens_used, / last_context_percent ]"]
+        HISTORY["history: / [ star_commands_used, / domains_loaded_last, / agents_activated ]"]
         META["prompt_count | last_activity | title"]
     end
 
@@ -318,11 +318,11 @@ flowchart TD
     subgraph SYNAPSE["SYNAPSE Engine"]
         ENGINE["SynapseEngine.process()"]
         BRIDGE["MemoryBridge"]
-        CHECK_BRACKET{"needsMemoryHints(bracket)?"}
+        CHECK_BRACKET["needsMemoryHints(bracket)?"]
     end
 
     subgraph GATE["Feature Gate (Pro)"]
-        FG_CHECK{"featureGate.isAvailable / ('pro.memory.synapse')?"}
+        FG_CHECK["featureGate.isAvailable / ('pro.memory.synapse')?"]
     end
 
     subgraph MIS["Memory Intelligence System (Pro)"]
@@ -437,14 +437,14 @@ Nenhum erro bloqueia o prompt do usuario.
 ```mermaid
 flowchart TD
     subgraph LAYER_FALLBACK["Per-Layer Fallback"]
-        TRY["LayerProcessor._safeProcess()"] --> CHECK{"Sucesso?"}
+        TRY["LayerProcessor._safeProcess()"] --> CHECK["Sucesso?"]
         CHECK -->|"Sim"| RETURN["Retorna rules[]"]
         CHECK -->|"Timeout > budget"| WARN["console.warn + retorna result"]
         CHECK -->|"Error"| NULL["Retorna null (skip layer)"]
     end
 
     subgraph PIPELINE_FALLBACK["Pipeline Fallback"]
-        PIPE_START["Pipeline start"] --> PIPE_CHECK{"Elapsed > 100ms?"}
+        PIPE_START["Pipeline start"] --> PIPE_CHECK["Elapsed > 100ms?"]
         PIPE_CHECK -->|"Sim"| PIPE_SKIP["Skip remaining layers / (reason: Pipeline timeout)"]
         PIPE_CHECK -->|"Nao"| PIPE_NEXT["Executa proximo layer"]
     end
@@ -488,16 +488,16 @@ flowchart TD
 
     subgraph L2["L2: Agent-Scoped (15ms)"]
         L2_IN["Trigger: session.active_agent.id"]
-        L2_MATCH["Busca AGENT_{X}_AGENT_TRIGGER={id} / no manifest"]
-        L2_LOAD["Carrega .synapse/agent-{id}"]
+        L2_MATCH["Busca AGENT_[X]_AGENT_TRIGGER=[id] / no manifest"]
+        L2_LOAD["Carrega .synapse/agent-[id]"]
         L2_OUT["Regras do agente ativo / + authority boundaries"]
         L2_IN --> L2_MATCH --> L2_LOAD --> L2_OUT
     end
 
     subgraph L3["L3: Workflow (15ms)"]
         L3_IN["Trigger: session.active_workflow.id"]
-        L3_MATCH["Busca WORKFLOW_{X}_WORKFLOW_TRIGGER={id} / no manifest"]
-        L3_LOAD["Carrega .synapse/workflow-{id}"]
+        L3_MATCH["Busca WORKFLOW_[X]_WORKFLOW_TRIGGER=[id] / no manifest"]
+        L3_LOAD["Carrega .synapse/workflow-[id]"]
         L3_OUT["Regras do workflow ativo / + fase atual"]
         L3_IN --> L3_MATCH --> L3_LOAD --> L3_OUT
     end
@@ -516,7 +516,7 @@ flowchart TD
 
     subgraph L6["L6: Keyword (15ms)"]
         L6_IN["Trigger: RECALL keywords no prompt"]
-        L6_SCAN["Varre manifest: {DOMAIN}_RECALL=kw1,kw2"]
+        L6_SCAN["Varre manifest: [DOMAIN]_RECALL=kw1,kw2"]
         L6_MATCH["matchKeywords(prompt, recall)"]
         L6_EXCL["isExcluded(prompt, excludes)?"]
         L6_LOAD["Carrega domain files matchados"]
@@ -557,15 +557,15 @@ sequenceDiagram
     Note over U,CC: Fase 1: Ativacao do Agente
     U->>CC: @dev
     CC->>UAP: activate('dev')
-    UAP->>S: createSession() ou updateSession() / active_agent = { id: 'dev' }
+    UAP->>S: createSession() ou updateSession() / active_agent = [ id: 'dev' ]
     UAP->>CC: Greeting: "Dex ready!"
 
     Note over U,CC: Fase 2: Prompt Normal
     U->>CC: *draft uma feature de login
-    CC->>H: UserPromptSubmit / { sessionId, cwd, prompt }
+    CC->>H: UserPromptSubmit / [ sessionId, cwd, prompt ]
 
     H->>S: loadSession(sessionId)
-    S-->>H: session { active_agent: 'dev', prompt_count: 5 }
+    S-->>H: session [ active_agent: 'dev', prompt_count: 5 ]
 
     H->>E: process(prompt, session)
 
@@ -595,8 +595,8 @@ sequenceDiagram
     E->>F: formatSynapseRules(results, FRESH, 96.25, session)
     F-->>E: ...[CONSTITUTION]...[AGENT: @dev]...[*draft]...
 
-    E-->>H: { xml, metrics }
-    H-->>CC: { hookSpecificOutput: { additionalContext: xml } }
+    E-->>H: [ xml, metrics ]
+    H-->>CC: [ hookSpecificOutput: { additionalContext: xml ] }
     CC->>CC: Injeta synapse-rules no prompt
     CC->>U: Resposta com contexto de @dev + *draft
 ```
@@ -860,10 +860,10 @@ sequenceDiagram
     participant D as *synapse-diagnose
 
     Note over UAP: Agent activation (one-shot)
-    UAP->>FS: Write uap-metrics.json / {agentId, quality, totalDuration, / loaders: {name: {status, duration}}, / timestamp}
+    UAP->>FS: Write uap-metrics.json / [agentId, quality, totalDuration, / loaders: {name: {status, duration]}, / timestamp}
 
     Note over E: Per-prompt execution
-    E->>FS: Write hook-metrics.json / {totalDuration, hookBootMs, bracket, / layersLoaded, layersSkipped, / perLayer: {name: {duration, status, rules}}, / timestamp}
+    E->>FS: Write hook-metrics.json / [totalDuration, hookBootMs, bracket, / layersLoaded, layersSkipped, / perLayer: {name: {duration, status, rules]}, / timestamp}
 
     Note over D: On-demand diagnostic
     D->>FS: Read uap-metrics.json

@@ -45,7 +45,7 @@ graph TD
         A[Inicio: Desenvolvimento UI] --> B["@analyst: project-brief.md"]
         B --> C["@pm: prd.md"]
         C --> D["@ux-expert: front-end-spec.md"]
-        D --> D2{Gerar prompt v0?}
+        D --> D2[Gerar prompt v0?]
         D2 -->|Sim| D3["@ux-expert: criar prompt v0"]
         D2 -->|Nao| E["@architect: front-end-architecture.md"]
         D3 --> D4[Usuario: gerar UI em v0/Lovable]
@@ -53,11 +53,11 @@ graph TD
     end
 
     subgraph "Fase 2: Validacao e Ajustes"
-        E --> F{Arquitetura sugere mudancas no PRD?}
+        E --> F[Arquitetura sugere mudancas no PRD?]
         F -->|Sim| G["@pm: atualizar prd.md"]
         F -->|Nao| H["@po: validar todos os artefatos"]
         G --> H
-        H --> I{PO encontrou problemas?}
+        H --> I[PO encontrou problemas?]
         I -->|Sim| J[Retornar ao agente relevante]
         I -->|Nao| K["@po: fragmentar documentos"]
         J --> H
@@ -65,19 +65,19 @@ graph TD
 
     subgraph "Fase 3: Desenvolvimento"
         K --> L["@sm: criar story"]
-        L --> M{Revisar story draft?}
+        L --> M[Revisar story draft?]
         M -->|Sim| N["@analyst/@pm: revisar e aprovar"]
         M -->|Nao| O["@dev: implementar story"]
         N --> O
-        O --> P{Revisao QA?}
+        O --> P[Revisao QA?]
         P -->|Sim| Q["@qa: revisar implementacao"]
-        P -->|Nao| R{Mais stories?}
-        Q --> S{QA encontrou problemas?}
+        P -->|Nao| R[Mais stories?]
+        Q --> S[QA encontrou problemas?]
         S -->|Sim| T["@dev: corrigir feedback QA"]
         S -->|Nao| R
         T --> Q
         R -->|Sim| L
-        R -->|Nao| U{Retrospectiva do Epic?}
+        R -->|Nao| U[Retrospectiva do Epic?]
     end
 
     subgraph "Fase 4: Finalizacao"
@@ -759,35 +759,35 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    D1{Gerar prompt v0?}
+    D1[Gerar prompt v0?]
     D1 -->|Sim| A1[Usar ferramenta AI externa]
     D1 -->|Nao| A2[Prosseguir para arquitetura]
 
-    D2{Arquitetura sugere mudancas?}
+    D2[Arquitetura sugere mudancas?]
     D2 -->|Sim| B1[PM atualiza PRD]
     D2 -->|Nao| B2[Prosseguir para validacao]
 
-    D3{PO encontrou problemas?}
+    D3[PO encontrou problemas?]
     D3 -->|Sim| C1[Retornar ao agente relevante]
     D3 -->|Nao| C2[Fragmentar documentos]
 
-    D4{Revisar draft da story?}
+    D4[Revisar draft da story?]
     D4 -->|Sim| D1A[Analyst/PM revisa]
     D4 -->|Nao| D1B[Dev implementa diretamente]
 
-    D5{Executar revisao QA?}
+    D5[Executar revisao QA?]
     D5 -->|Sim| E1[QA revisa implementacao]
     D5 -->|Nao| E2[Verificar mais stories]
 
-    D6{QA encontrou problemas?}
+    D6[QA encontrou problemas?]
     D6 -->|Sim| F1[Dev corrige feedback]
     D6 -->|Nao| F2[Prosseguir]
 
-    D7{Mais stories?}
+    D7[Mais stories?]
     D7 -->|Sim| G1[Criar proxima story]
     D7 -->|Nao| G2[Verificar retrospectiva]
 
-    D8{Fazer retrospectiva?}
+    D8[Fazer retrospectiva?]
     D8 -->|Sim| H1[PO executa retrospectiva]
     D8 -->|Nao| H2[Projeto completo]
 ```
@@ -848,14 +848,14 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    P[Problema Identificado] --> T1{Problema Tecnico?}
+    P[Problema Identificado] --> T1[Problema Tecnico?]
     T1 -->|Sim| D1[Verificar logs e configs]
-    T1 -->|Nao| T2{Problema de Processo?}
+    T1 -->|Nao| T2[Problema de Processo?]
 
     D1 --> R1[Resolver ou escalar para DevOps]
 
     T2 -->|Sim| D2[Revisar workflow step]
-    T2 -->|Nao| T3{Problema de Requisitos?}
+    T2 -->|Nao| T3[Problema de Requisitos?]
 
     D2 --> R2[Ajustar processo ou retornar step]
 

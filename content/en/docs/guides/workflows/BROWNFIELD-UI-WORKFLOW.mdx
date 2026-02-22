@@ -61,7 +61,7 @@ graph TD
 
     subgraph "Fase 2: Validacao"
         E --> F[po: Validar com po-master-checklist]
-        F --> G{PO encontrou problemas?}
+        F --> G[PO encontrou problemas?]
         G -->|Sim| H[Retornar ao agente para correcoes]
         H --> F
         G -->|Nao| I[po: Fragmentar documentos]
@@ -69,19 +69,19 @@ graph TD
 
     subgraph "Fase 3: Ciclo de Desenvolvimento"
         I --> J[sm: Criar story]
-        J --> K{Revisar story draft?}
+        J --> K[Revisar story draft?]
         K -->|Sim| L[analyst/pm: Revisar e aprovar story]
         K -->|Nao| M[dev: Implementar story]
         L --> M
-        M --> N{Revisao QA?}
+        M --> N[Revisao QA?]
         N -->|Sim| O[qa: Revisar implementacao]
-        N -->|Nao| P{Mais stories?}
-        O --> Q{QA encontrou issues?}
+        N -->|Nao| P[Mais stories?]
+        O --> Q[QA encontrou issues?]
         Q -->|Sim| R[dev: Corrigir feedback QA]
         Q -->|Nao| P
         R --> O
         P -->|Sim| J
-        P -->|Nao| S{Retrospectiva do Epic?}
+        P -->|Nao| S[Retrospectiva do Epic?]
     end
 
     subgraph "Fase 4: Finalizacao"
@@ -627,27 +627,27 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    D1{PO encontrou problemas?}
+    D1[PO encontrou problemas?]
     D1 -->|Sim| A1[Retornar ao agente relevante]
     D1 -->|Nao| A2[Prosseguir para fragmentacao]
 
-    D2{Revisar story draft?}
+    D2[Revisar story draft?]
     D2 -->|Sim| A3[Analyst/PM revisa story]
     D2 -->|Nao| A4[Dev inicia implementacao]
 
-    D3{Revisao QA?}
+    D3[Revisao QA?]
     D3 -->|Sim| A5[QA revisa implementacao]
     D3 -->|Nao| A6[Verificar mais stories]
 
-    D4{QA encontrou issues?}
+    D4[QA encontrou issues?]
     D4 -->|Sim| A7[Dev corrige feedback]
     D4 -->|Nao| A8[Verificar mais stories]
 
-    D5{Mais stories?}
+    D5[Mais stories?]
     D5 -->|Sim| A9[Criar proxima story]
     D5 -->|Nao| A10[Verificar retrospectiva]
 
-    D6{Epic retrospective?}
+    D6[Epic retrospective?]
     D6 -->|Sim| A11[PO executa retrospectiva]
     D6 -->|Nao| A12[Projeto completo]
 

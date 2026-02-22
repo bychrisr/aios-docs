@@ -162,7 +162,7 @@ flowchart TB
 
 ```mermaid
 flowchart TD
-    A{Project Type?} --> B[Full-Stack]
+    A[Project Type?] --> B[Full-Stack]
     A --> C[Backend/API Only]
     A --> D[Frontend Only]
 
@@ -175,8 +175,8 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    A{Know the Project?} --> |No| B[brownfield-discovery]
-    A --> |Yes| C{Type of Change?}
+    A[Know the Project?] --> |No| B[brownfield-discovery]
+    A --> |Yes| C[Type of Change?]
 
     B --> C
 

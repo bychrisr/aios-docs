@@ -417,11 +417,11 @@ flowchart TB
 
     CLI --> Runner
     Runner --> Parallel
-    Parallel --> PC & LE & RH & DE & SI
-    PC & LE & RH & DE & SI --> Cache
-    Cache --> T1 & T2 & T3
-    T1 & T2 --> Backup
-    T1 & T2 & T3 --> Report & JSON & Console
+    Parallel --> PC &amp; LE &amp; RH &amp; DE &amp; SI
+    PC &amp; LE &amp; RH &amp; DE &amp; SI --> Cache
+    Cache --> T1 &amp; T2 &amp; T3
+    T1 &amp; T2 --> Backup
+    T1 &amp; T2 &amp; T3 --> Report &amp; JSON &amp; Console
     JSON --> Dashboard
 ```
 
@@ -429,20 +429,20 @@ flowchart TB
 
 ```mermaid
 flowchart TD
-    Issue["Problema Detectado"] --> Classify{"Clasificar Severidad"}
+    Issue["Problema Detectado"] --> Classify["Clasificar Severidad"]
 
-    Classify -->|Trivial & Reversible| T1["Nivel 1: Fix Silencioso"]
+    Classify -->|Trivial &amp; Reversible| T1["Nivel 1: Fix Silencioso"]
     Classify -->|Riesgo Moderado| T2["Nivel 2: Prompt Usuario"]
     Classify -->|Alto Riesgo/Complejo| T3["Nivel 3: Guia Manual"]
 
     T1 --> Backup["Crear Backup"]
-    T2 --> Confirm{"Usuario Confirma?"}
+    T2 --> Confirm["Usuario Confirma?"]
 
     Backup --> Apply["Aplicar Fix"]
     Confirm -->|Si| Backup
     Confirm -->|No| Skip["Omitir"]
 
-    Apply --> Verify{"Fix Exitoso?"}
+    Apply --> Verify["Fix Exitoso?"]
     Verify -->|Si| Log["Log Exito"]
     Verify -->|No| Rollback["Rollback desde Backup"]
 

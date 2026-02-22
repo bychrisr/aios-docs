@@ -87,7 +87,7 @@ flowchart TB
         direction TB
         C1["@qa (Quinn)"]
         C2["Avaliar 5 dimensoes: / Accuracy, Completeness, / Consistency, Feasibility, / Alignment"]
-        C3{"Verdict"}
+        C3["Verdict"]
         C4["APPROVED"]
         C5["NEEDS_REVISION"]
         C6["BLOCKED"]
@@ -574,15 +574,15 @@ pie showData
 flowchart TB
     START["Iniciar Avaliacao"] --> EVAL["Avaliar 5 Dimensoes"]
 
-    EVAL --> CHECK1{"HIGH severity / issues?"}
+    EVAL --> CHECK1["HIGH severity / issues?"]
     CHECK1 -->|Sim| BLOCKED["BLOCKED"]
-    CHECK1 -->|Nao| CHECK2{"Average / score >= 4.0?"}
+    CHECK1 -->|Nao| CHECK2["Average / score >= 4.0?"]
 
-    CHECK2 -->|Sim| CHECK3{"Todas dimensoes / >= 3?"}
+    CHECK2 -->|Sim| CHECK3["Todas dimensoes / >= 3?"]
     CHECK3 -->|Sim| APPROVED["APPROVED"]
     CHECK3 -->|Nao| NEEDS["NEEDS_REVISION"]
 
-    CHECK2 -->|Nao| CHECK4{"Average / score >= 3.0?"}
+    CHECK2 -->|Nao| CHECK4["Average / score >= 3.0?"]
     CHECK4 -->|Sim| NEEDS
     CHECK4 -->|Nao| BLOCKED
 
@@ -801,8 +801,8 @@ flowchart LR
     end
 
     subgraph LOCATION["Localizacao"]
-        L["docs/stories/{storyId}/spec/"]
-        LP["docs/stories/{storyId}/plan/"]
+        L["docs/stories/[storyId]/spec/"]
+        LP["docs/stories/[storyId]/plan/"]
     end
 
     O1 --> L
@@ -830,7 +830,7 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    D1{"source === 'simple' / OR / overrideComplexity === 'SIMPLE'?"}
+    D1["source === 'simple' / OR / overrideComplexity === 'SIMPLE'?"]
     D1 -->|Sim| SKIP["Pular para Spec / (assume SIMPLE)"]
     D1 -->|Nao| RUN["Executar Assess"]
 ```
@@ -839,7 +839,7 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-    D2{"complexity.result === 'SIMPLE' / OR / no external dependencies?"}
+    D2["complexity.result === 'SIMPLE' / OR / no external dependencies?"]
     D2 -->|Sim| SKIP["Pular Research / Gerar minimal research.json"]
     D2 -->|Nao| RUN["Executar Research"]
 ```
@@ -848,13 +848,13 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-    START["Critique Complete"] --> C1{"HIGH issues?"}
+    START["Critique Complete"] --> C1["HIGH issues?"]
     C1 -->|Sim| BLOCKED["BLOCKED"]
-    C1 -->|Nao| C2{"avg >= 4.0?"}
-    C2 -->|Sim| C3{"all dims >= 3?"}
+    C1 -->|Nao| C2["avg >= 4.0?"]
+    C2 -->|Sim| C3["all dims >= 3?"]
     C3 -->|Sim| APPROVED["APPROVED"]
     C3 -->|Nao| NEEDS["NEEDS_REVISION"]
-    C2 -->|Nao| C4{"avg >= 3.0?"}
+    C2 -->|Nao| C4["avg >= 3.0?"]
     C4 -->|Sim| NEEDS
     C4 -->|Nao| BLOCKED
 ```
@@ -863,7 +863,7 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-    D4{"complexity === 'COMPLEX' / OR / verdict === 'NEEDS_REVISION'?"}
+    D4["complexity === 'COMPLEX' / OR / verdict === 'NEEDS_REVISION'?"]
     D4 -->|Sim| RUN["Executar Revise / (Fase 5b)"]
     D4 -->|Nao| SKIP["Pular Revise"]
 ```
@@ -872,7 +872,7 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-    D5{"complexity === 'COMPLEX'?"}
+    D5["complexity === 'COMPLEX'?"]
     D5 -->|Sim| RUN["Executar Critique 2 / (Fase 5c)"]
     D5 -->|Nao| SKIP["Pular Segunda Critique"]
 ```
@@ -919,7 +919,7 @@ resume:
 
 ```mermaid
 flowchart TB
-    E["Erro no Pipeline"] --> E1{"Qual fase?"}
+    E["Erro no Pipeline"] --> E1["Qual fase?"]
 
     E1 -->|Gather| G["Verificar elicitacao"]
     G --> G1["Usuario respondeu todas perguntas?"]

@@ -391,21 +391,21 @@ flowchart TD
     NEW["First prompt"] --> CREATE["Create session JSON / (schema_version: 2.0)"]
     CREATE --> UPDATE["Per-prompt update: / prompt_count++ / last_activity / context bracket"]
 
-    UPDATE --> AGENT{"@agent / command?"}
+    UPDATE --> AGENT["@agent / command?"]
     AGENT -->|"Yes"| SET_AGENT["Set active_agent"]
     AGENT -->|"No"| WF
 
-    SET_AGENT --> WF{"Workflow / detected?"}
+    SET_AGENT --> WF["Workflow / detected?"]
     WF -->|"Yes"| SET_WF["Set active_workflow"]
     WF -->|"No"| TASK
 
-    SET_WF --> TASK{"Task / active?"}
+    SET_WF --> TASK["Task / active?"]
     TASK -->|"Yes"| SET_TASK["Set active_task"]
     TASK -->|"No"| CONT
 
     SET_TASK --> CONT["Continue"]
 
-    CONT --> CHECK{"Stale? / (>24h inactive)"}
+    CONT --> CHECK["Stale? / (>24h inactive)"]
     CHECK -->|"Yes"| DELETE["Auto-delete session"]
     CHECK -->|"No"| UPDATE
 ```
@@ -733,20 +733,20 @@ CONSTITUTION_RULE_ART6_0=Absolute Imports (SHOULD): Always use @/ alias imports 
 ```mermaid
 flowchart TD
     subgraph LAYER_FALLBACK["Per-Layer Fallback"]
-        TRY["Try process()"] --> CHECK{"Success?"}
+        TRY["Try process()"] --> CHECK["Success?"]
         CHECK -->|"Yes"| RETURN["Return rules"]
         CHECK -->|"Timeout"| SKIP["Return null (skip layer)"]
         CHECK -->|"Error"| LOG["Log error + Return null"]
     end
 
     subgraph PIPELINE_FALLBACK["Pipeline Fallback"]
-        P1["All layers processed"] --> P2{"Total > 100ms?"}
+        P1["All layers processed"] --> P2["Total > 100ms?"]
         P2 -->|"Yes"| P3["Early exit: return L0+L1 only"]
         P2 -->|"No"| P4["Return all layer results"]
     end
 
     subgraph STARTUP_FALLBACK["Startup Fallback"]
-        S1["Find .synapse/"] --> S2{"Found?"}
+        S1["Find .synapse/"] --> S2["Found?"]
         S2 -->|"Yes"| S3["Normal processing"]
         S2 -->|"No"| S4["Exit silently (no output)"]
     end

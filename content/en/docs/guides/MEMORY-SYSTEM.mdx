@@ -63,8 +63,8 @@ flowchart TB
         RULES["Rules/*.md / 5 arquivos de regras"]
         AUTO_MEM["Auto Memory / ~/.claude/projects/.../memory/MEMORY.md / Primeiras 200 linhas no system prompt"]
         COMPOUND["Compound Analysis / memory/compound-analysis/ / 11 arquivos (9 conteudo + manifest + summary)"]
-        AGENT_MEM["Agent Memory / .claude/agent-memory/{agent}/MEMORY.md / 6 agentes com memoria"]
-        TRANSCRIPTS["Session Transcripts / ~/.claude/projects/.../{session}.jsonl"]
+        AGENT_MEM["Agent Memory / .claude/agent-memory/[agent]/MEMORY.md / 6 agentes com memoria"]
+        TRANSCRIPTS["Session Transcripts / ~/.claude/projects/.../[session].jsonl"]
         SESSIONS_IDX["Sessions Index / sessions-index.json"]
     end
 
@@ -199,7 +199,7 @@ flowchart TD
 flowchart TD
     subgraph READ_FLOW["Leitura (Automatica — Toda Sessao)"]
         R1([Sessao Inicia]) --> R2["Claude Code le MEMORY.md"]
-        R2 --> R3{"Mais de 200 linhas?"}
+        R2 --> R3["Mais de 200 linhas?"]
         R3 -->|"Sim"| R4["Trunca no limite / Linhas 201+ ignoradas"]
         R3 -->|"Nao"| R5["Carrega completo"]
         R4 --> R6["Injeta no system prompt"]
@@ -207,7 +207,7 @@ flowchart TD
     end
 
     subgraph WRITE_FLOW["Escrita (Durante Sessao — Decisao do Claude)"]
-        W1["Claude encontra padrão, / erro ou insight"] --> W2{"Claude decide / salvar na memoria?"}
+        W1["Claude encontra padrão, / erro ou insight"] --> W2["Claude decide / salvar na memoria?"]
         W2 -->|"Sim"| W3["Usa Write/Edit tool / para atualizar MEMORY.md"]
         W2 -->|"Nao"| W4["Conhecimento perdido / ao fim da sessao"]
         W3 --> W5["Opcionalmente cria / arquivo topico em / memory/compound-analysis/"]
@@ -257,7 +257,7 @@ flowchart LR
 flowchart TD
     subgraph GOTCHAS["gotchas-memory.js — Epic 9, Story 9.4"]
         G1["Auto-capture: erro 3x = gotcha"]
-        G2["Manual: *gotcha {desc}"]
+        G2["Manual: *gotcha [desc]"]
         G3["Consulta: *gotchas"]
         G4["Injecao: getContextForTask()"]
         G5[("Persiste em: / .aios/gotchas.json / .aios/gotchas.md / .aios/error-tracking.json")]
@@ -268,7 +268,7 @@ flowchart TD
         S2["restore(): recupera snapshot"]
         S3["list(): lista snapshots"]
         S4["cleanup(): max 50, 7 dias"]
-        S5[("Persiste em: / .aios/snapshots/{id}.json")]
+        S5[("Persiste em: / .aios/snapshots/[id].json")]
     end
 
     subgraph FILE_EVO["file-evolution-tracker.js"]
@@ -300,11 +300,11 @@ flowchart TD
 flowchart TD
     subgraph CTX_DETECT["context-detector.js"]
         CD1["detectSessionType()"]
-        CD2{"Conversation / history?"}
+        CD2["Conversation / history?"]
         CD3["Analisa comandos recentes"]
         CD4["Le .aios/session-state.json"]
         CD5["Retorna: new | existing | workflow"]
-        CD6{"TTL expirado? / (1 hora)"}
+        CD6["TTL expirado? / (1 hora)"]
 
         CD1 --> CD2
         CD2 -->|"Sim"| CD3
@@ -393,10 +393,10 @@ sequenceDiagram
         Note over UAP,GCD: Tier 2 — Alto (120ms, paralelo)
         par
             UAP->>PM: load() + getBadge()
-            PM-->>UAP: {mode, badge}
+            PM-->>UAP: [mode, badge]
         and
             UAP->>GCD: get()
-            GCD-->>UAP: {branch, type}
+            GCD-->>UAP: [branch, type]
         end
     end
 
@@ -406,10 +406,10 @@ sequenceDiagram
             UAP->>SCL: loadContext(agentId)
             SCL->>CD: detectSessionType()
             CD-->>SCL: new | existing | workflow
-            SCL-->>UAP: {sessionType, previousAgent, lastCommands, workflow}
+            SCL-->>UAP: [sessionType, previousAgent, lastCommands, workflow]
         and
             UAP->>PSL: loadProjectStatus()
-            PSL-->>UAP: {branch, modifiedFiles, activeStory}
+            PSL-->>UAP: [branch, modifiedFiles, activeStory]
         end
     end
 
@@ -423,7 +423,7 @@ sequenceDiagram
     SS-->>GB: Estado do epic/story
     GB-->>UAP: greeting formatado
 
-    UAP-->>CC: {greeting, quality: full|partial|fallback}
+    UAP-->>CC: [greeting, quality: full|partial|fallback]
 
     Note over CC: NENHUMA memoria AIOS / e carregada automaticamente / no system prompt. / Apenas contexto de sessao / aparece no greeting.
 ```
@@ -442,7 +442,7 @@ flowchart TD
         T3["Task completada"]
         T4["Erro ocorre"]
         T5["Erro repete 3x"]
-        T6["*gotcha {desc}"]
+        T6["*gotcha [desc]"]
         T7["Phase muda"]
         T8["Story completada"]
         T9["Snapshot manual"]
@@ -456,7 +456,7 @@ flowchart TD
         S4[".aios/gotchas.json / Gotcha manual adicionada"]
         S5["docs/stories/.session-state.yaml / Phase atualizada"]
         S6["docs/stories/.session-state.yaml / Story marcada done"]
-        S7[".aios/snapshots/{id}.json / Contexto capturado"]
+        S7[".aios/snapshots/[id].json / Contexto capturado"]
         S8[".aios/file-evolution/ / Evolucao registrada"]
     end
 
@@ -495,7 +495,7 @@ sequenceDiagram
     CL->>FS: Escreve .aios/session-state.json
     FS-->>CL: OK
 
-    Note over Agent,FS: Inferencia de workflow: / 36 mapeamentos task→state / Ex: validate-next-story → / {workflow: story_development, / state: validated}
+    Note over Agent,FS: Inferencia de workflow: / 36 mapeamentos task→state / Ex: validate-next-story → / [workflow: story_development, / state: validated]
 
     Agent->>CL: onTaskComplete(taskName, result)
     CL->>CL: Adiciona a taskHistory (max 20)
@@ -513,25 +513,25 @@ sequenceDiagram
 stateDiagram-v2
     [*] --> SessionStart: Claude Code abre
 
-    state SessionStart {
+    state SessionStart [
         [*] --> LoadCLAUDE: Carrega CLAUDE.md (3 niveis)
         LoadCLAUDE --> LoadRules: Carrega rules/*.md
         LoadRules --> LoadMemory: Carrega MEMORY.md (200 linhas)
         LoadMemory --> Ready: System prompt montado
-    }
+    ]
 
     SessionStart --> AgentActivation: Usuario ativa @agente
 
-    state AgentActivation {
+    state AgentActivation [
         [*] --> Tier1: AgentConfig (80ms)
         Tier1 --> Tier2: PermissionMode + Git (120ms)
         Tier2 --> Tier3: SessionContext + ProjectStatus (180ms)
         Tier3 --> Greeting: GreetingBuilder monta saudacao
-    }
+    ]
 
     AgentActivation --> Working: Agente pronto
 
-    state Working {
+    state Working [
         [*] --> ExecuteTask
         ExecuteTask --> SaveSessionState: Atualiza session-state.json
         ExecuteTask --> TrackError: Se erro ocorre
@@ -541,16 +541,16 @@ stateDiagram-v2
         SavePhase --> UpdateYAML: .session-state.yaml
         ExecuteTask --> ClaudeMemory: Claude decide salvar
         ClaudeMemory --> WriteMEMORY: MEMORY.md atualizado
-    }
+    ]
 
     Working --> SessionEnd: Usuario fecha terminal
 
-    state SessionEnd {
+    state SessionEnd [
         [*] --> SaveTranscript: .jsonl salvo automaticamente
         SaveTranscript --> Nothing: NADA mais acontece
         Nothing --> NoDigest: Sem session-digest
         NoDigest --> NoFlush: Sem memory-flush
-    }
+    ]
 
     SessionEnd --> [*]
 
@@ -567,14 +567,14 @@ stateDiagram-v2
 ```mermaid
 flowchart TD
     START([Agente Ativado]) --> LOAD["SessionState.loadSessionState()"]
-    LOAD --> CHECK{"Estado existente / em .session-state.yaml?"}
+    LOAD --> CHECK["Estado existente / em .session-state.yaml?"]
 
     CHECK -->|"Nao"| FRESH["Sessao nova / Sem recovery necessario"]
     CHECK -->|"Sim"| DETECT["SessionState.detectCrash()"]
 
-    DETECT --> THRESHOLD{"Ultima atividade / > 30 minutos atras?"}
+    DETECT --> THRESHOLD["Ultima atividade / > 30 minutos atras?"]
     THRESHOLD -->|"Nao"| NORMAL["Sessao normal / Continua de onde parou"]
-    THRESHOLD -->|"Sim"| LAST_ACTION{"Ultima acao foi / PAUSE, COMPLETED, / ou ABORT?"}
+    THRESHOLD -->|"Sim"| LAST_ACTION["Ultima acao foi / PAUSE, COMPLETED, / ou ABORT?"]
 
     LAST_ACTION -->|"Sim"| NORMAL_END["Encerramento normal / Nao e crash"]
     LAST_ACTION -->|"Nao"| CRASH["CRASH DETECTADO"]
@@ -606,15 +606,15 @@ flowchart TD
         READ_ET --> NORMALIZE["Normaliza mensagem do erro"]
         NORMALIZE --> HASH["Gera hash da mensagem"]
         HASH --> INCREMENT["Incrementa contador"]
-        INCREMENT --> CHECK{"Contador >= 3? / (repeatThreshold)"}
+        INCREMENT --> CHECK["Contador >= 3? / (repeatThreshold)"]
 
         CHECK -->|"Nao"| SAVE_ET["Salva error-tracking.json / Aguarda proxima ocorrencia"]
-        CHECK -->|"Sim"| WINDOW{"Dentro da janela / de 24 horas?"}
+        CHECK -->|"Sim"| WINDOW["Dentro da janela / de 24 horas?"]
 
         WINDOW -->|"Nao"| RESET["Reset contador / Recomeça contagem"]
         WINDOW -->|"Sim"| AUTO_CAPTURE["_autoCaptureGotcha()"]
 
-        AUTO_CAPTURE --> CREATE["Cria gotcha com: / - id: gotcha-{hash} / - source: auto_detected / - category: inferida / - severity: inferida"]
+        AUTO_CAPTURE --> CREATE["Cria gotcha com: / - id: gotcha-[hash] / - source: auto_detected / - category: inferida / - severity: inferida"]
 
         CREATE --> SAVE_JSON["Salva .aios/gotchas.json"]
         SAVE_JSON --> SAVE_MD["Gera .aios/gotchas.md"]
@@ -622,7 +622,7 @@ flowchart TD
     end
 
     subgraph MANUAL_FLOW["Fluxo Manual"]
-        CMD(["*gotcha {desc}"]) --> ADD["gotchasMemory.addGotcha()"]
+        CMD(["*gotcha [desc]"]) --> ADD["gotchasMemory.addGotcha()"]
         ADD --> CREATE
     end
 
@@ -642,16 +642,16 @@ flowchart TD
 
 ```mermaid
 classDiagram
-    class GotchasStore {
+    class GotchasStore [
         +string schema = "aios-gotchas-memory-v1"
         +string version = "1.0.0"
         +string projectId
         +string lastUpdated
         +Statistics statistics
         +Gotcha[] gotchas
-    }
+    ]
 
-    class Gotcha {
+    class Gotcha [
         +string id
         +string title
         +string description
@@ -662,18 +662,18 @@ classDiagram
         +Trigger trigger
         +Source source
         +boolean resolved
-    }
+    ]
 
-    class Trigger {
+    class Trigger [
         +string errorPattern
-    }
+    ]
 
-    class Source {
+    class Source [
         +string type : manual | auto_detected
         +number occurrences
         +string firstSeen
         +string lastSeen
-    }
+    ]
 
     GotchasStore --> Gotcha
     Gotcha --> Trigger
@@ -690,13 +690,13 @@ flowchart TD
         C1(["snapshot.capture(context)"]) --> C2["Gera ID unico (crypto)"]
         C2 --> C3["Captura estado git: / branch, commit, dirty files"]
         C3 --> C4["Registra: / storyId, agent, subtask, / working directory"]
-        C4 --> C5["Salva .aios/snapshots/{id}.json"]
-        C5 --> C6{"autoCleanup?"}
+        C4 --> C5["Salva .aios/snapshots/[id].json"]
+        C5 --> C6["autoCleanup?"]
         C6 -->|"Sim"| C7["Remove snapshots: / - > 50 existentes / - > 7 dias de idade"]
     end
 
     subgraph RESTORE["Restore — Recuperacao"]
-        R1(["snapshot.restore(id)"]) --> R2["Le .aios/snapshots/{id}.json"]
+        R1(["snapshot.restore(id)"]) --> R2["Le .aios/snapshots/[id].json"]
         R2 --> R3["Retorna contexto completo"]
         R3 --> R4["Agente pode retomar / de onde parou"]
     end
@@ -815,10 +815,10 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    Q{"sessionStart no / Claude Code?"} -->|"NAO — claude: null"| GAP["NAO EXISTE evento / nativo no Claude Code / para session start"]
+    Q["sessionStart no / Claude Code?"] -->|"NAO — claude: null"| GAP["NAO EXISTE evento / nativo no Claude Code / para session start"]
     GAP --> WORKAROUND["Workaround atual: / Pipeline de ativacao substitui / parcialmente via Tier 3 / (SessionContextLoader)"]
 
-    Q2{"sessionEnd no / Claude Code?"} -->|"Mapeado para Stop"| STOP["Stop event existe / mas hook NAO esta / configurado no / .claude/settings.json"]
+    Q2["sessionEnd no / Claude Code?"] -->|"Mapeado para Stop"| STOP["Stop event existe / mas hook NAO esta / configurado no / .claude/settings.json"]
     STOP --> NOT_WIRED["session-end.js nunca / executa no Claude Code"]
 
     style GAP fill:#FFCDD2,stroke:#C62828

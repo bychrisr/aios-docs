@@ -45,7 +45,7 @@ flowchart TD
 
     subgraph PHASE_2["Fase 2: Story Validation"]
         SM_CREATE --> PO_VALIDATE["@po: Validar story / Task: validate-next-story / 10 Checks"]
-        PO_VALIDATE --> VALID_DECISION{Validacao OK?}
+        PO_VALIDATE --> VALID_DECISION[Validacao OK?]
         VALID_DECISION -->|Nao| FEEDBACK_SM["Feedback para SM / Story retorna para ajustes"]
         FEEDBACK_SM --> SM_CREATE
         VALID_DECISION -->|Sim| DEV_IMPLEMENT
@@ -57,7 +57,7 @@ flowchart TD
 
     subgraph PHASE_4["Fase 4: QA Review"]
         DEV_IMPLEMENT --> QA_REVIEW["@qa: Review + Quality Gate / Task: qa-gate"]
-        QA_REVIEW --> QA_DECISION{Quality Gate OK?}
+        QA_REVIEW --> QA_DECISION[Quality Gate OK?]
         QA_DECISION -->|Nao| FEEDBACK_DEV["Feedback para Dev / Checklist de fixes"]
         FEEDBACK_DEV --> DEV_IMPLEMENT
         QA_DECISION -->|Sim| STORY_DONE
@@ -65,7 +65,7 @@ flowchart TD
 
     subgraph COMPLETION["Conclusao"]
         STORY_DONE([Story Done!])
-        STORY_DONE --> MORE_STORIES{Mais stories?}
+        STORY_DONE --> MORE_STORIES[Mais stories?]
         MORE_STORIES -->|Sim| SM_CREATE
         MORE_STORIES -->|Nao| CYCLE_COMPLETE([Ciclo Completo])
     end
@@ -319,11 +319,11 @@ flowchart LR
     A[Ler task] --> B[Implementar task + subtasks]
     B --> C[Escrever testes]
     C --> D[Executar validacoes]
-    D --> E{Todas passaram?}
+    D --> E[Todas passaram?]
     E -->|Sim| F[Marcar checkbox [x]]
     E -->|Nao| B
     F --> G[Atualizar File List]
-    G --> H{Mais tasks?}
+    G --> H[Mais tasks?]
     H -->|Sim| A
     H -->|Nao| I[CodeRabbit Self-Healing]
     I --> J[Story DOD Checklist]
@@ -336,10 +336,10 @@ flowchart LR
 flowchart TD
     START[Iniciar Self-Healing] --> RUN[Executar CodeRabbit CLI]
     RUN --> PARSE[Analisar resultados]
-    PARSE --> CHECK{Issues CRITICAL?}
+    PARSE --> CHECK[Issues CRITICAL?]
     CHECK -->|Nao| DOC[Documentar HIGH issues]
     DOC --> PASS[PASSED - Prosseguir]
-    CHECK -->|Sim| ITER{iteration < 2?}
+    CHECK -->|Sim| ITER[iteration < 2?]
     ITER -->|Sim| FIX[Tentar auto-fix]
     FIX --> INCREMENT[iteration++]
     INCREMENT --> RUN
@@ -615,17 +615,17 @@ graph TD
 
 ```mermaid
 graph TD
-    D1{Validacao PO / 10 checks passaram?}
+    D1[Validacao PO / 10 checks passaram?]
     D1 -->|Sim| CONTINUE1[Prosseguir para Dev]
     D1 -->|Nao| RETURN1[Retornar para SM]
 
-    D2{Quality Gate / Issues CRITICAL/HIGH?}
+    D2[Quality Gate / Issues CRITICAL/HIGH?]
     D2 -->|Nao| CONTINUE2[Aprovar Story]
     D2 -->|Sim| RETURN2[Retornar para Dev]
 
-    D3{Self-Healing / Issues CRITICAL?}
+    D3[Self-Healing / Issues CRITICAL?]
     D3 -->|Nao| CONTINUE3[Prosseguir para DOD]
-    D3 -->|Sim| D4{iteration < 2?}
+    D3 -->|Sim| D4[iteration < 2?]
     D4 -->|Sim| FIX[Tentar auto-fix]
     D4 -->|Nao| HALT[HALT - Manual]
 ```

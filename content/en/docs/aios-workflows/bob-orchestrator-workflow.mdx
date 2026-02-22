@@ -59,14 +59,14 @@ CLI First → Observability Second → UI Third
 flowchart TB
     subgraph STARTUP["1. STARTUP"]
         A1[("@pm ativado")] --> A2["resolveConfig() / L1→L2→L3→L4→L5"]
-        A2 --> A3{"user_profile / == 'bob'?"}
+        A2 --> A3["user_profile / == 'bob'?"]
         A3 -->|Não| PM_TRAD["PM Tradicional / STOP"]
         A3 -->|Sim| A4["CLEANUP automático / (locks, sessions, snapshots)"]
         A4 --> A5["sessionStateExists()?"]
     end
 
     subgraph SESSION["2. SESSION CHECK"]
-        A5 --> S1{"Existe / .session-state.yaml?"}
+        A5 --> S1["Existe / .session-state.yaml?"]
         S1 -->|Sim + Crash| S2["CRASH RECOVERY"]
         S1 -->|Sim + Normal| S3["SESSION RESUME"]
         S1 -->|Não| S4["DECISION TREE"]
@@ -82,9 +82,9 @@ flowchart TB
     end
 
     subgraph TREE["3. DECISION TREE"]
-        S4 --> T1{"Tem config?"}
+        S4 --> T1["Tem config?"]
         T1 -->|Não| PA["PATH A: / ONBOARDING"]
-        T1 -->|Sim| T2{"Tem docs AIOS?"}
+        T1 -->|Sim| T2["Tem docs AIOS?"]
         T2 -->|Não| PB["PATH B: / BROWNFIELD"]
         T2 -->|Sim| PC["PATH C: / ENHANCEMENT"]
         T1 -->|Projeto vazio| PD["PATH D: / GREENFIELD"]
@@ -98,7 +98,7 @@ flowchart TB
     end
 
     subgraph ENHANCEMENT["5. ENHANCEMENT WORKFLOW"]
-        E1["Classificar pedido"] --> E2{"Precisa PRD?"}
+        E1["Classificar pedido"] --> E2["Precisa PRD?"]
         E2 -->|Sim| E3["spawn @pm / create-prd"]
         E2 -->|Não| E4
         E3 --> E4["spawn @pm / create-epic"]
@@ -117,7 +117,7 @@ flowchart TB
     end
 
     subgraph CHECKPOINT["7. CHECKPOINT"]
-        D6 --> C1{"Opção?"}
+        D6 --> C1["Opção?"]
         C1 -->|GO| C2["Próxima story"] --> D1
         C1 -->|PAUSE| C3["Salvar estado / FIM"]
         C1 -->|REVIEW| C4["Mostrar changes"] --> D6
@@ -274,7 +274,7 @@ flowchart LR
     E --> F["L3: App / apps/*/aios-app.config.yaml"]
     F --> G["L4: Local / .aios-core/local-config.yaml"]
     G --> H["L5: User / ~/.aios/user-config.yaml"]
-    H --> I{"user_profile / == 'bob'?"}
+    H --> I["user_profile / == 'bob'?"]
     I -->|Não| J["PM Tradicional"]
     I -->|Sim| K["BOB Mode"]
 ```
@@ -338,7 +338,7 @@ Cleanup: 2 locks, 1 session, 0 snapshots removed
 
 ```mermaid
 flowchart TB
-    A["Ler .session-state.yaml"] --> B{"last_updated / > 30min?"}
+    A["Ler .session-state.yaml"] --> B["last_updated / > 30min?"]
     B -->|Sim| C["CRASH detectado"]
     B -->|Não| D["PAUSE normal"]
     C --> E["Mostrar contexto / + opções de recovery"]
@@ -368,9 +368,9 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-    START["Analisar projeto"] --> Q1{"Tem config / resolvido?"}
+    START["Analisar projeto"] --> Q1["Tem config / resolvido?"]
     Q1 -->|Não| PA["PATH A: / ONBOARDING"]
-    Q1 -->|Sim| Q2{"Tem docs AIOS? / (architecture.md, stories/)"}
+    Q1 -->|Sim| Q2["Tem docs AIOS? / (architecture.md, stories/)"]
     Q2 -->|Não| PB["PATH B: / BROWNFIELD DISCOVERY"]
     Q2 -->|Sim| PC["PATH C: / ENHANCEMENT"]
     Q1 -->|Diretório vazio| PD["PATH D: / GREENFIELD"]
@@ -514,7 +514,7 @@ sequenceDiagram
 flowchart TB
     subgraph CLASSIFY["Classificação"]
         A["Usuário descreve pedido"] --> B["Bob classifica"]
-        B --> C{"Tipo?"}
+        B --> C["Tipo?"]
         C -->|new_feature| D1["Enhancement Workflow"]
         C -->|bug_fix| D2["Bug Fix Flow"]
         C -->|refactoring| D3["Refactoring Flow"]
@@ -522,9 +522,9 @@ flowchart TB
     end
 
     subgraph SURFACE["Surface Check"]
-        D1 --> S1{"Custo > $5?"}
+        D1 --> S1["Custo > $5?"]
         S1 -->|Sim| S2["Bob: 'Isso vai consumir ~$X. Confirma?'"]
-        S1 -->|Não| S3{"Risco HIGH?"}
+        S1 -->|Não| S3["Risco HIGH?"]
         S3 -->|Sim| S4["Bob: 'Risco alto. GO/NO-GO?'"]
         S3 -->|Não| PRD
     end
@@ -563,7 +563,7 @@ Dentro do Epic, cada story recebe:
 ```mermaid
 flowchart TB
     subgraph DETECT["Detecção"]
-        A["Bob detecta Greenfield"] --> B{"Nenhum package.json / nem .git nem docs/?"}
+        A["Bob detecta Greenfield"] --> B["Nenhum package.json / nem .git nem docs/?"]
         B -->|Sim| C["Acionar greenfield-fullstack.yaml"]
     end
 
@@ -572,7 +572,7 @@ flowchart TB
         D --> E["Setup: git, npm, estrutura"]
     end
 
-    subgraph PHASE1["Phase 1: Discovery & Planning"]
+    subgraph PHASE1["Phase 1: Discovery &amp; Planning"]
         E --> F["spawn @analyst / 'market-research'"]
         F --> G["spawn @pm / 'create-prd'"]
         G --> H["spawn @ux-design-expert / 'user-journeys'"]
@@ -764,9 +764,9 @@ flowchart TB
 flowchart TB
     A["CodeRabbit CLI scan"] --> B["Parse output"]
     B --> C["Filtrar: apenas CRITICAL e HIGH"]
-    C --> D{"Issues / encontrados?"}
+    C --> D["Issues / encontrados?"]
     D -->|Não| E["✓ Código limpo! / → Phase 4"]
-    D -->|Sim| F{"iteration < 3?"}
+    D -->|Sim| F["iteration < 3?"]
     F -->|Sim| G["attemptAutoFix()"]
     G --> H["iteration++"]
     H --> A
@@ -1315,9 +1315,9 @@ mindmap
 
 ```mermaid
 flowchart TB
-    Q1{"Config existe?"}
+    Q1["Config existe?"]
     Q1 -->|Não| PA["PATH A: Onboarding"]
-    Q1 -->|Sim| Q2{"Docs AIOS existem?"}
+    Q1 -->|Sim| Q2["Docs AIOS existem?"]
     Q2 -->|Não| PB["PATH B: Brownfield"]
     Q2 -->|Sim| PC["PATH C: Enhancement"]
     Q1 -->|Vazio| PD["PATH D: Greenfield"]

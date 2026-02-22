@@ -163,14 +163,14 @@ Antes do desenvolvimento começar, o AIOS segue um workflow de planejamento estr
 
 ```mermaid
 graph TD
-    A["Início: Ideia do Projeto"] --> B{"Opcional: Brainstorming com Analista"}
+    A["Início: Ideia do Projeto"] --> B["Opcional: Brainstorming com Analista"]
     B -->|Sim| C["Analista: Pesquisa de Mercado e Análise"]
     B -->|Não| D["Criar Brief do Projeto"]
     C --> D["Analista: Criar Brief do Projeto"]
     D --> E["PM: Criar PRD a partir do Brief"]
     E --> F["Arquiteto: Criar Arquitetura a partir do PRD"]
     F --> G["PO: Executar Master Checklist"]
-    G --> H{"Documentos Alinhados?"}
+    G --> H["Documentos Alinhados?"]
     H -->|Sim| I["Planejamento Completo"]
     H -->|Não| J["PO: Atualizar Epics e Stories"]
     J --> K["Atualizar PRD/Arquitetura conforme necessário"]
@@ -208,15 +208,15 @@ graph TD
     B --> C["PO: Fragmentar Arquitetura"]
     C --> D["Fase de Desenvolvimento"]
     D --> E["Scrum Master: Elabora próxima story do epic fragmentado"]
-    E --> F{"Aprovação do Usuário"}
+    E --> F["Aprovação do Usuário"]
     F -->|Aprovada| G["Dev: Implementar Story"]
     F -->|Precisa de Mudanças| E
     G --> H["Dev: Completar Tarefas da Story"]
     H --> I["Dev: Marcar Pronto para Revisão"]
-    I --> J{"Verificação do Usuário"}
+    I --> J["Verificação do Usuário"]
     J -->|Solicitar Revisão QA| K["QA: Executar task review-story"]
     J -->|Aprovar Sem QA| M["Marcar Story como Concluída"]
-    K --> L{"Resultados da Revisão QA"}
+    K --> L["Resultados da Revisão QA"]
     L -->|Precisa de Trabalho| G
     L -->|Aprovada| M["Marcar Story como Concluída"]
     J -->|Precisa de Correções| G
