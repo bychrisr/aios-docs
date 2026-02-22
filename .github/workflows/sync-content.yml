@@ -12,6 +12,7 @@ concurrency:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   sync:
@@ -43,8 +44,20 @@ jobs:
       - name: Run content sync
         run: bash scripts/sync-content.sh /tmp/aios-core
 
-      - name: Fix broken internal links
-        run: node scripts/check-links.mjs --fix
+      - name: Check broken internal links
+        id: check_links
+        run: node scripts/check-links.mjs 2>&1 | tee /tmp/broken-links.txt
+        continue-on-error: true
+
+      - name: Open issue if links broken
+        if: steps.check_links.outcome == 'failure'
+        run: |
+          gh issue create \
+            --title "Links quebrados detectados no sync de $(date -u +%Y-%m-%d)" \
+            --body "$(cat /tmp/broken-links.txt)" \
+            --label "broken-links"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Stage changes and detect diff
         id: changes
