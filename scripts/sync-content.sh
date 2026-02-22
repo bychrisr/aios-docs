@@ -45,7 +45,6 @@ EXCLUDE_PATTERNS=(
   "*/guides/workflows/xref-*"
   "*/guides/workflows/AIOS-COMPLETE-CROSS-REFERENCE-ANALYSIS.md"
   "*/guides/workflows/WORKFLOW-TASK-AGENT-ANALYSIS.md"
-  "*/00-shared-activation-pipeline.md"
   "*/aios-agent-flows/README.md"
   "*/aios-workflows/README.md"
 )
@@ -155,8 +154,6 @@ done < <(find "$EN_SRC" -type f -name "*.md" \
   -not -path "*/guides/workflows/xref-*" \
   -not -path "*/guides/workflows/AIOS-COMPLETE-CROSS-REFERENCE-ANALYSIS.md" \
   -not -path "*/guides/workflows/WORKFLOW-TASK-AGENT-ANALYSIS.md" \
-  -not -name "00-shared-activation-pipeline*" \
-  -not -name "00-shared-activation-pipeline.v1-act8.md" \
   | sort)
 
 echo "  Fonte: $EN_COUNT arquivos"

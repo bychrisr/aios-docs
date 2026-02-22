@@ -41,6 +41,10 @@ function sanitizeMermaidBlock(blockContent) {
   // Escapar & literal que pode confundir o parser MDX (ex: "A & B" em labels)
   blockContent = blockContent.replace(/&(?!(?:amp|lt|gt|quot|apos);)/g, '&amp;');
 
+  // Converter sintaxe de losango {text} para retângulo [text]
+  // MDX/Acorn interpreta {} como expressão JS — shape visual muda mas conteúdo é preservado
+  blockContent = blockContent.replace(/\{([^}]+)\}/g, '[$1]');
+
   return blockContent;
 }
 
