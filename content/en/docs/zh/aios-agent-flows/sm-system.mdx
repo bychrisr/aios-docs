@@ -203,23 +203,23 @@ flowchart TD
 
 ### 分支管理图
 
-```text
+```mermaid
 flowchart LR
     subgraph SM_SCOPE["@sm - 本地范围"]
-        CREATE_BRANCH["git checkout -b<br/>feature/X.Y-story-name"]
-        LIST_BRANCH["git branch<br/>列出分支"]
-        SWITCH_BRANCH["git checkout<br/>切换分支"]
-        DELETE_LOCAL["git branch -d<br/>删除本地"]
-        MERGE_LOCAL["git merge<br/>本地合并"]
+        CREATE_BRANCH["git checkout -b / feature/X.Y-story-name"]
+        LIST_BRANCH["git branch / 列出分支"]
+        SWITCH_BRANCH["git checkout / 切换分支"]
+        DELETE_LOCAL["git branch -d / 删除本地"]
+        MERGE_LOCAL["git merge / 本地合并"]
     end
 
     subgraph DEVOPS_SCOPE["@github-devops - 远程范围"]
-        PUSH["git push<br/>发送到 origin"]
-        CREATE_PR["gh pr create<br/>创建 Pull Request"]
-        DELETE_REMOTE["git push origin --delete<br/>删除远程分支"]
+        PUSH["git push / 发送到 origin"]
+        CREATE_PR["gh pr create / 创建 Pull Request"]
+        DELETE_REMOTE["git push origin --delete / 删除远程分支"]
     end
 
-    SM_SCOPE -->|"故事完成<br/>通知"| DEVOPS_SCOPE
+    SM_SCOPE -->|"故事完成 / 通知"| DEVOPS_SCOPE
 
     style SM_SCOPE fill:#e3f2fd
     style DEVOPS_SCOPE fill:#fff3e0
@@ -245,24 +245,24 @@ flowchart LR
 
 ### 集成流程
 
-```text
+```mermaid
 flowchart TB
     subgraph UPSTREAM["上游 - 提供给 @sm"]
-        PM_UP["@pm (Morgan)<br/>创建史诗结构"]
-        PO_UP["@po (Pax)<br/>优先排序待办"]
-        ANALYST_UP["@analyst (Sage)<br/>研究和见解"]
+        PM_UP["@pm (Morgan) / 创建史诗结构"]
+        PO_UP["@po (Pax) / 优先排序待办"]
+        ANALYST_UP["@analyst (Sage) / 研究和见解"]
     end
 
-    SM_CENTRAL["@sm (River)<br/>Scrum Master"]
+    SM_CENTRAL["@sm (River) / Scrum Master"]
 
     subgraph DOWNSTREAM["下游 - 从 @sm 接收"]
-        DEV_DOWN["@dev (Dex)<br/>实现故事"]
-        PO_DOWN["@po (Pax)<br/>验证故事"]
-        QA_DOWN["@qa (Quinn)<br/>风险分析"]
+        DEV_DOWN["@dev (Dex) / 实现故事"]
+        PO_DOWN["@po (Pax) / 验证故事"]
+        QA_DOWN["@qa (Quinn) / 风险分析"]
     end
 
     subgraph LATERAL["横向 - 与 @sm 协调"]
-        DEVOPS_LAT["@github-devops (Gage)<br/>Push/PR 工作流"]
+        DEVOPS_LAT["@github-devops (Gage) / Push/PR 工作流"]
     end
 
     PM_UP -->|"史诗结构"| SM_CENTRAL
@@ -297,13 +297,11 @@ flowchart TB
 @sm 只管理本地 Git 操作。远程操作**始终**委派给 @github-devops：
 
 **@sm 允许的操作：**
-```text
-- git checkout -b feature/X.Y-story-name - 创建本地分支
-- git branch - 列出分支
-- git branch -d branch-name - 删除本地分支
-- git checkout branch-name - 切换分支
-- git merge branch-name - 本地合并
-```
+- `git checkout -b feature/X.Y-story-name` - 创建本地分支
+- `git branch` - 列出分支
+- `git branch -d branch-name` - 删除本地分支
+- `git checkout branch-name` - 切换分支
+- `git merge branch-name` - 本地合并
 
 **禁止的操作（使用 @github-devops）：**
 - `git push` - 发送到远程
@@ -369,12 +367,10 @@ dependencies:
 
 ### 分支管理
 
-```text
-1. 使用命名约定 - feature/X.Y-story-name（X.Y = 史诗.故事）
-2. 开始故事时创建分支 - 隔离开发
-3. 不要尝试 push - 始终委派给 @github-devops
-4. 本地解决冲突 - 在请求 push 之前
-```
+1. **使用命名约定** - `feature/X.Y-story-name`（X.Y = 史诗.故事）
+2. **开始故事时创建分支** - 隔离开发
+3. **不要尝试 push** - 始终委派给 @github-devops
+4. **本地解决冲突** - 在请求 push 之前
 
 ### 与其他代理的协作
 
@@ -403,7 +399,7 @@ dependencies:
 2. 确认标签：`epic`、`epic-[epicNum]`
 3. 状态应为"规划中"或"进行中"
 4. 必要时手动创建史诗：
-   ```text
+   ```
    名称：'史诗 {epicNum}：{史诗标题}'
    列表：待办
    标签：['epic', 'epic-{epicNum}']
@@ -473,9 +469,7 @@ dependencies:
 - [核心配置](../.aios-core/core-config.yaml)
 
 ### 相关文档
-```yaml
-- 待办管理系统: ../BACKLOG-MANAGEMENT-SYSTEM.md
-```
+- [待办管理系统](../BACKLOG-MANAGEMENT-SYSTEM.md)
 
 ---
 
