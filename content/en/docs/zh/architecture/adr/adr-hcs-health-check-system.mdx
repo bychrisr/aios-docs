@@ -17,7 +17,7 @@ title: "Adr Hcs Health Check System"
 
 ## 背景
 
-AIOS 需要一个全面的健康检查系统，用于：
+AIOX 需要一个全面的健康检查系统，用于：
 
 1. **诊断问题** - 项目配置、环境和集成
 2. **启用自动修复** - 无需手动干预修复常见问题
@@ -90,7 +90,7 @@ AIOS 需要一个全面的健康检查系统，用于：
 **结构:**
 
 ```
-.aios-core/core/health-check/
+.aiox-core/core/health-check/
 ├── checks/           # JavaScript 核心检查（33 个检查）
 │   ├── project/
 │   ├── local/
@@ -99,7 +99,7 @@ AIOS 需要一个全面的健康检查系统，用于：
 │   └── services/
 └── ...
 
-.aios/
+.aiox/
 └── custom-checks.yaml  # 项目特定 YAML 检查
 ```
 
@@ -330,11 +330,11 @@ tools/
 
 **缺点:**
 
-- 无 AIOS 特定检查
+- 无 AIOX 特定检查
 - 有限的自动修复能力
 - 对外部项目的依赖
 
-**结论:** 拒绝 - 不满足 AIOS 特定需求
+**结论:** 拒绝 - 不满足 AIOX 特定需求
 
 ---
 
