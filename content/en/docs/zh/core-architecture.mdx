@@ -73,7 +73,7 @@ graph TD
 
 `aiox-core` 目录包含赋予代理能力的所有定义和资源。
 
-### 3.1. 代理 (`aiox-core/agents/`)
+### 3.1. 代理 (`.aiox-core/development/agents/`)
 
 - **目的**：这些是系统的基础构建块。每个 markdown 文件（例如 `aiox-master.md`、`pm.md`、`dev.md`）定义单个 AI 代理的角色、能力和依赖项。
 - **结构**：代理文件包含一个 YAML 头部，指定其角色、角色设定、依赖项和启动指令。这些依赖项是代理被允许使用的任务、模板、检查清单和数据文件列表。
@@ -81,12 +81,12 @@ graph TD
 - **文档集成**：代理可以引用和加载项目 `docs/` 文件夹中的文档，作为任务、工作流或启动序列的一部分。用户也可以直接将文档拖入聊天界面以提供额外上下文。
 - **示例**：`aiox-master` 代理列出其依赖项，这告诉构建工具要在 web 包中包含哪些文件，并告知代理其自身的能力。
 
-### 3.2. 代理团队 (`aiox-core/agent-teams/`)
+### 3.2. 代理团队 (`.aiox-core/development/agent-teams/`)
 
 - **目的**：团队文件（例如 `team-all.yaml`）定义为特定目的（如"全栈开发"或"仅后端"）捆绑在一起的代理和工作流集合。这为 web UI 环境创建了一个更大的预打包上下文。
 - **结构**：团队文件列出要包含的代理。它可以使用通配符，例如 `"*"` 包含所有代理。这允许创建像 `team-all` 这样的综合包。
 
-### 3.3. 工作流 (`aiox-core/workflows/`)
+### 3.3. 工作流 (`.aiox-core/development/workflows/`)
 
 - **目的**：工作流是 YAML 文件（例如 `greenfield-fullstack.yaml`），为特定项目类型定义规定的步骤序列和代理交互。它们充当用户和 `aiox-orchestrator` 代理的战略指南。
 - **结构**：工作流为复杂和简单项目定义序列，列出每个步骤涉及的代理、它们创建的工件以及从一个步骤移动到下一个步骤的条件。它通常包含一个用于可视化的 Mermaid 图。
@@ -107,15 +107,15 @@ AIOX 框架采用由三个关键组件编排的复杂模板处理系统：
 
 - **`template-format.md`** (`aiox-core/utils/`)：定义整个 AIOX 模板中使用的基础标记语言。此规范建立了变量替换（`[{placeholders]}`）、仅 AI 处理指令（`[[LLM: instructions]]`）和条件逻辑块的语法规则。模板遵循此格式以确保整个系统的一致处理。
 
-- **`create-doc.md`** (`aiox-core/tasks/`)：充当管理整个文档生成工作流的编排引擎。此任务协调模板选择、管理用户交互模式（增量与快速生成）、强制执行模板格式处理规则并处理验证。它充当用户和模板系统之间的主要接口。
+- **`create-doc.md`** (`.aiox-core/development/tasks/`)：充当管理整个文档生成工作流的编排引擎。此任务协调模板选择、管理用户交互模式（增量与快速生成）、强制执行模板格式处理规则并处理验证。它充当用户和模板系统之间的主要接口。
 
-- **`advanced-elicitation.md`** (`aiox-core/tasks/`)：提供可通过 `[[LLM: instructions]]` 块嵌入模板的交互式细化层。此组件提供 10 种结构化头脑风暴操作、逐节审查功能和迭代改进工作流以提高内容质量。
+- **`advanced-elicitation.md`** (`.aiox-core/development/tasks/`)：提供可通过 `[[LLM: instructions]]` 块嵌入模板的交互式细化层。此组件提供 10 种结构化头脑风暴操作、逐节审查功能和迭代改进工作流以提高内容质量。
 
 该系统保持关注点分离：模板标记由 AI 代理内部处理但从不暴露给用户，同时通过模板本身嵌入的智能提供复杂的 AI 处理能力。
 
 #### 3.4.2. 技术偏好系统
 
-AIOX 通过 `aiox-core/data/` 中的 `technical-preferences.md` 文件包含个性化层。此文件作为影响所有项目中代理行为的持久技术配置文件。
+AIOX 通过 `.aiox-core/data/` 中的 `technical-preferences.md` 文件包含个性化层。此文件作为影响所有项目中代理行为的持久技术配置文件。
 
 **目的和好处：**
 
@@ -152,7 +152,7 @@ AIOX 通过 `aiox-core/data/` 中的 `technical-preferences.md` 文件包含个�
 
 ### 4.2. 特定环境使用
 
-- **对于 IDE**：用户通过 `aiox-core/agents/` 中的 markdown 文件直接与代理交互。IDE 集成（用于 Cursor、Claude Code 等）知道如何调用这些代理。
+- **对于 IDE**：用户通过 `.aiox-core/development/agents/` 中的 markdown 文件直接与代理交互。IDE 集成（用于 Cursor、Claude Code 等）知道如何调用这些代理。
 - **对于 Web UI**：用户从 `dist` 上传预构建的包。这个单一文件为 AI 提供整个团队及其所有所需工具和知识的上下文。
 
 ## 5. AIOX 工作流
